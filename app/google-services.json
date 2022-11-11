@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "62103400682",
+    "project_id": "tpamobilegmlv",
+    "storage_bucket": "tpamobilegmlv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62103400682:android:50dfb0d4831d87b038a793",
+        "android_client_info": {
+          "package_name": "com.example.tpamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62103400682-mv1nkvjudfg6ok88bucuq5p029lt7daj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tpamobile",
+            "certificate_hash": "1f82c59374ddae8f24a0f5798e6653b3e3ef1c55"
+          }
+        },
+        {
+          "client_id": "62103400682-28gu7s1rehikb89qrjlfs37ndj5fho3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9VH9D7Lv8WeSVnveq8obCedBW8JtwIFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62103400682-28gu7s1rehikb89qrjlfs37ndj5fho3m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
