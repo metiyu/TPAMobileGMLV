@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void signInUser(String email, String password){
         mAuth = FirebaseAuth.getInstance();
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         progressDialog.show();
 
         mAuth.signInWithEmailAndPassword(email, password)
