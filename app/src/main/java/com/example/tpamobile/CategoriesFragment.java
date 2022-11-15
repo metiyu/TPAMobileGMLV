@@ -1,7 +1,9 @@
 package com.example.tpamobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,14 @@ import android.widget.TextView;
 import com.example.tpamobile.databinding.FragmentCategoriesBinding;
 import com.example.tpamobile.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +44,7 @@ public class CategoriesFragment extends Fragment {
     String s1[];
     int images[] = {R.drawable.ic_baseline_home_24,R.drawable.ic_baseline_person_24,R.drawable.ic_baseline_list_alt_24};
     Button btn_add_category;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,8 +97,30 @@ public class CategoriesFragment extends Fragment {
 
         btn_add_category = binding.btnAddCategory;
         btn_add_category.setOnClickListener(x -> {
-
+            startActivity(new Intent(CategoriesFragment.this.getActivity(), AddCategoryActivity.class));
         });
+
+        db.collection("categories")
+                .whereEqualTo("state", "CA")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.w("GET DATA FROM CATEGORIES", "Listen failed.", error);
+                            return;
+                        }
+
+                        List<String> categories = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.d("GET DATA FROM CATEGORIES", "doc: " + doc.getId());
+                            if (doc.get("categoryName") != null) {
+                                categories.add(doc.getString("categoryName"));
+                            }
+                        }
+                        Log.d("GET DATA FROM CATEGORIES", "Current cites in CA: " + categories);
+
+                    }
+                });
 
         rv_categories = binding.rvCategories;
         CategoryAdapter categoryAdapter = new CategoryAdapter(this.getContext(), s1, images);
