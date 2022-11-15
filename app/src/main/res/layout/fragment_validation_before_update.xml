@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".ValidationBeforeUpdateFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -11,17 +11,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp">
+
         <TextView
-            android:id="@+id/current_user_email_tv"
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text="Input your old password" />
+
+        <EditText
+            android:id="@+id/old_password_tf"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/btn_edit_profile"
+            android:id="@+id/btn_submit_validation_old_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Profile" />
+            android:text="Submit" />
     </LinearLayout>
+
 
 </FrameLayout>
