@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="home"
+    <item android:title="Home"
         android:icon="@drawable/ic_baseline_home_24"
         android:id="@+id/homee"/>
     <item android:title="profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/profilee"/>
-    <item android:title="transaction"
+    <item android:title="Transaction"
         android:icon="@drawable/ic_baseline_list_alt_24"
         android:id="@+id/transactionn"/>
+    <item
+        android:title="Plan"
+        android:icon="@drawable/ic_baseline_app_registration_24"
+        android:id="@+id/plann"/>
 
 
 </menu>

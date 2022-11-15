@@ -36,6 +36,9 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.profilee:
                     replaceFragment(new ProfileFragment());
                     break;
+                case R.id.plann:
+                    replaceFragment(new PlanningFragment());
+                    break;
 
 
             }
