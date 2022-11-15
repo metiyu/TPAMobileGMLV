@@ -9,16 +9,16 @@
     android:id="@+id/profile">
 
 
-    <TextView
-        android:id="@+id/current_user_email_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+<!--    <TextView-->
+<!--        android:id="@+id/current_user_email_tv"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="" />-->
 
-    <Button
-        android:id="@+id/btn_edit_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit Profile" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_edit_profile"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Edit Profile" />-->
 
 </LinearLayout>

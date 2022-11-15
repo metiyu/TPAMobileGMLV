@@ -14,7 +14,10 @@
         <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/activity_profile.xml" value="0.2" />
         <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/activity_sign_in.xml" value="0.23143115942028986" />
         <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/activity_sign_up.xml" value="0.20572916666666666" />
-        <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/activity_validation_before_update.xml" value="0.264" />
+        <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/activity_validation_before_update.xml" value="0.1" />
+        <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/fragment_edit_profile.xml" value="0.16799999999999998" />
+        <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/fragment_profile.xml" value="0.10092592592592593" />
+        <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/layout/fragment_validation_before_update.xml" value="0.264" />
         <entry key="..\:/Users/asus/Documents/GitHub/TPAMobileGMLV/app/src/main/res/menu/bottom_navmenu.xml" value="0.25416666666666665" />
       </map>
     </option>
