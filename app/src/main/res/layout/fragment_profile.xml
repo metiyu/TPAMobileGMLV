@@ -22,6 +22,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Edit Profile" />
+
+        <Button
+            android:id="@+id/btn_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Categories" />
+
+        <Button
+            android:id="@+id/btn_my_wallets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Wallets" />
     </LinearLayout>
 
 </FrameLayout>
