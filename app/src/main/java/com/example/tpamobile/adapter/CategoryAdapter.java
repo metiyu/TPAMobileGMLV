@@ -1,6 +1,9 @@
 package com.example.tpamobile.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tpamobile.R;
+import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.model.Category;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> implements Serializable {
 
     private Context c;
     private List<Category> categoryList;
@@ -47,6 +52,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
         holder.tv_category_name.setText(categoryList.get(position).getName());
+        holder.itemView.setOnClickListener(x->{
+            Intent intent = new Intent(c, CategoryDetailActivity.class);
+            intent.putExtra("currCategory", (Serializable) categoryList.get(position));
+            c.startActivity(intent);
+        });
     }
 
     @Override
@@ -64,9 +74,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (dialog != null){
-                        dialog.onClick(getLayoutPosition());
-                    }
+//                    if (dialog != null){
+//                        dialog.onClick(getLayoutPosition());
+//                    }
                 }
             });
         }

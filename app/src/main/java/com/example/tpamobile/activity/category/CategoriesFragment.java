@@ -162,6 +162,7 @@ public class CategoriesFragment extends Fragment {
                             }
                             categoryAdapter.notifyDataSetChanged();
                         }
+                        progressDialog.dismiss();
                     }
                 });
     }

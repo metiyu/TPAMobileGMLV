@@ -14,6 +14,12 @@
         android:theme="@style/Theme.TPAMobile"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.category.EditCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.category.CategoryDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.category.AddCategoryActivity"
             android:exported="false" />
         <activity
