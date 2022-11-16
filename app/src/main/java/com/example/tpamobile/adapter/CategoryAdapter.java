@@ -1,4 +1,4 @@
-package com.example.tpamobile;
+package com.example.tpamobile.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,22 +11,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tpamobile.R;
+import com.example.tpamobile.model.Category;
+
+import java.util.List;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-    Context c;
-    String data1[];
-    int images[];
+    private Context c;
+    private List<Category> categoryList;
+    private Dialog dialog;
 
-    public CategoryAdapter(Context c, String s[], int img[]){
+    public interface Dialog{
+        void onClick(int pos);
+    }
+
+    public void setDialog(Dialog dialog){
+        this.dialog = dialog;
+    }
+
+    public CategoryAdapter(Context c, List<Category> categoryList){
         this.c = c;
-        this.data1 = s;
-        this.images = img;
+        this.categoryList = categoryList;
     }
 
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(c);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.card_category, parent, false);
         return new CategoryViewHolder(view);
     }
@@ -34,24 +46,29 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
-        holder.tv_category_name.setText(data1[position]);
-        holder.iv_category_name.setImageResource(images[position]);
+        holder.tv_category_name.setText(categoryList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        return categoryList.size();
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
-
         TextView tv_category_name;
-        ImageView iv_category_name;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_category_name = itemView.findViewById(R.id.tv_category_name);
-            iv_category_name = itemView.findViewById(R.id.iv_category_image);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (dialog != null){
+                        dialog.onClick(getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 }
