@@ -54,7 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.tv_category_name.setText(categoryList.get(position).getName());
         holder.itemView.setOnClickListener(x->{
             Intent intent = new Intent(c, CategoryDetailActivity.class);
-            intent.putExtra("currCategory", (Serializable) categoryList.get(position));
+            intent.putExtra("currCategory", categoryList.get(position));
             c.startActivity(intent);
         });
     }
