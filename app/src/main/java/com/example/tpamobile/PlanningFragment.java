@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.example.tpamobile.databinding.FragmentPlanningBinding;
 import com.example.tpamobile.databinding.FragmentProfileBinding;
@@ -26,7 +27,7 @@ public class PlanningFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private FragmentPlanningBinding binding;
-    private Button btn_to_bills;
+    private LinearLayout btn_to_bills;
 
     // TODO: Rename and change types of parameters
     private String mParam1;

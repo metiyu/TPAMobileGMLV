@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tpamobile.activity.category.CategoriesFragment;
@@ -31,7 +32,7 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private FirebaseUser user;
     private String email;
-    private Button btn_edit_profile, btn_categories, btn_my_wallets;
+    private LinearLayout btn_categories,btn_edit_profile,btn_my_wallets;
     private FragmentProfileBinding binding;
 
     // TODO: Rename and change types of parameters

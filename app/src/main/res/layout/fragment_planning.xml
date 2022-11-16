@@ -3,18 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlanningFragment">
+    tools:context=".PlanningFragment"
+    android:background="@color/gray_200">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="@string/hello_blank_fragment" />-->
 
-    <Button
-        android:id="@+id/btn_gotobills"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Bills" />
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_gotobills">
+        <TextView
+            android:layout_width="350dp"
+            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:text="Bills"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="488dp"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text=">"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+<!--    <Button-->
+<!--        android:id="@+id/btn_gotobills"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="View Bills" />-->
 
 </FrameLayout>

@@ -10,30 +10,103 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp">
-        <TextView
-            android:id="@+id/current_user_email_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="" />
+        android:background="@color/gray_200">
+<!--        <Button-->
 
-        <Button
-            android:id="@+id/btn_edit_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile" />
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Edit Profile"/>-->
 
-        <Button
-            android:id="@+id/btn_categories"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Categories" />
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:background="@color/white">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_edit_profile"
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Account"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/current_user_email_tv"
+                    android:layout_width="wrap_content"
+                    android:textSize="12dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_my_wallets"
+            <TextView
+                android:layout_width="488dp"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:text=">"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Wallets" />
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_categories">
+            <TextView
+                android:layout_width="350dp"
+                android:textSize="14dp"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="488dp"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:text=">"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/btn_categories"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Categories" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_my_wallets">
+            <TextView
+                android:layout_width="350dp"
+                android:textSize="14dp"
+                android:layout_height="wrap_content"
+                android:text="My Wallet"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="488dp"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:text=">"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+<!--        <Button-->
+<!--            -->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="My Wallets" />-->
     </LinearLayout>
 
 </FrameLayout>
