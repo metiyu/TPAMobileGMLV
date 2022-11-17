@@ -19,12 +19,15 @@ import com.example.tpamobile.activity.wallet.AddWalletActivity;
 import com.example.tpamobile.model.Category;
 import com.example.tpamobile.model.Transaction;
 import com.example.tpamobile.model.Wallet;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -147,12 +150,15 @@ public class AddTransactionActivity extends AppCompatActivity {
     }
 
     private void saveData(Integer transactionAmount, Category transactionCategory, String transactionNote, Date transactionDate, Wallet transactionWallet){
+        Log.d(TAG, "saveData: " + transactionCategory.getId());
+        Log.d(TAG, "saveData: " + transactionWallet.getId());
+
         Map<String, Object> transaction = new HashMap<>();
         transaction.put("transactionAmount", transactionAmount);
-        transaction.put("transactionCategory", transactionCategory);
+        transaction.put("transactionCategory", transactionCategory.getId());
         transaction.put("transactionNote", transactionNote);
         transaction.put("transactionDate", transactionDate);
-        transaction.put("transactionWallet", transactionWallet);
+        transaction.put("transactionWallet", transactionWallet.getId());
 
         progressDialog = new ProgressDialog(AddTransactionActivity.this);
         progressDialog.show();
@@ -166,6 +172,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        updateWallet(transactionWallet, transactionAmount);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -173,6 +180,27 @@ public class AddTransactionActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void updateWallet(Wallet currWallet, Integer transactionAmount){
+        progressDialog.show();
+
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .document(currWallet.getId())
+                .update("walletAmount", FieldValue.increment(-transactionAmount))
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                        }
+                        progressDialog.dismiss();
                     }
                 });
     }
