@@ -1,6 +1,8 @@
 package com.example.tpamobile.model;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
     String id, name, type;
 
     public Category(String id, String name, String type) {

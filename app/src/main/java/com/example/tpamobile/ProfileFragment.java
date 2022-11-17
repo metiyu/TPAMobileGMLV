@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tpamobile.activity.category.CategoriesFragment;
+import com.example.tpamobile.activity.wallet.WalletsFragment;
 import com.example.tpamobile.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -101,6 +102,9 @@ public class ProfileFragment extends Fragment {
         });
 
         btn_my_wallets = binding.btnMyWallets;
+        btn_my_wallets.setOnClickListener(x -> {
+            replaceFragment(new WalletsFragment());
+        });
 
 
         return binding.getRoot();

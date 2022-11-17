@@ -127,27 +127,27 @@ public class CategoriesFragment extends Fragment {
 
         rv_categories = binding.rvCategories;
         categoryAdapter = new CategoryAdapter(CategoriesFragment.this.getContext(), categoryList);
-        categoryAdapter.setDialog(new CategoryAdapter.Dialog() {
-            @Override
-            public void onClick(int pos) {
-                final CharSequence[] dialogItem = {"Edit", "Delete"};
-                AlertDialog.Builder dialog = new AlertDialog.Builder(CategoriesFragment.this.getContext());
-                dialog.setItems(dialogItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i){
-                            case 0:
-
-                                break;
-                            case 1:
-                                deleteData(categoryList.get(pos).getId());
-                                break;
-                        }
-                    }
-                });
-                dialog.show();
-            }
-        });
+//        categoryAdapter.setDialog(new CategoryAdapter.Dialog() {
+//            @Override
+//            public void onClick(int pos) {
+//                final CharSequence[] dialogItem = {"Edit", "Delete"};
+//                AlertDialog.Builder dialog = new AlertDialog.Builder(CategoriesFragment.this.getContext());
+//                dialog.setItems(dialogItem, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        switch (i){
+//                            case 0:
+//
+//                                break;
+//                            case 1:
+//                                deleteData(categoryList.get(pos).getId());
+//                                break;
+//                        }
+//                    }
+//                });
+//                dialog.show();
+//            }
+//        });
 
         progressDialog = new ProgressDialog(CategoriesFragment.this.getContext());
         progressDialog.setTitle("Loading");
