@@ -2,6 +2,7 @@ package com.example.tpamobile;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,6 +73,9 @@ public class BillsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentBillsBinding.inflate(
                 inflater,  container, false);
+        ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Bills");
         rv_bills = binding.rvBills;
         BillsAdapter billsAdapter = new BillsAdapter(this.getContext(), s1, s2, s3);
         rv_bills.setAdapter(billsAdapter);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -90,6 +91,9 @@ public class EditProfileFragment extends Fragment {
         binding = FragmentEditProfileBinding.inflate(
                 inflater,  container, false);
         btn_update_profile = binding.btnUpdateProfile;
+        ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Edit Profile");
         Log.d("check log", "test log");
         user = FirebaseAuth.getInstance().getCurrentUser();
         Bundle extras = getArguments();

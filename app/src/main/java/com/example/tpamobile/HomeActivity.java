@@ -1,14 +1,20 @@
 package com.example.tpamobile;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.example.tpamobile.activity.category.CategoriesFragment;
+import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
@@ -19,7 +25,35 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String fragmentToGo = extras.getString("fragmentToGo");
+            if(fragmentToGo != null){
+                if(fragmentToGo.equals("category")){
+                    replaceFragment(new CategoriesFragment());
+                }
+                else if(fragmentToGo.equals("profile")){
+                    replaceFragment(new ProfileFragment());
+                }
+                else if(fragmentToGo.equals("home")){
+                    replaceFragment(new HomeFragment());
+                }
+                else if(fragmentToGo.equals("plan")){
+                    replaceFragment(new PlanningFragment());
+                }
+            }
+        }
+        else{
+            replaceFragment(new HomeFragment());
+        }
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if(currentFragment instanceof HomeFragment){
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
 
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -53,5 +87,37 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        Intent intent  = new Intent(HomeActivity.this, HomeActivity.class);
+        if(currentFragment instanceof CategoriesFragment){
+            intent.putExtra("fragmentToGo","profile");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof ProfileFragment){
+            intent.putExtra("fragmentToGo","home");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof PlanningFragment){
+            intent.putExtra("fragmentToGo","home");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof BillsFragment){
+            intent.putExtra("fragmentToGo","plan");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof ValidationBeforeUpdateFragment){
+            intent.putExtra("fragmentToGo","profile");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof EditProfileFragment){
+            intent.putExtra("fragmentToGo","profile");
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

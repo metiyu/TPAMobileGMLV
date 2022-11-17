@@ -29,6 +29,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="68dp"
+                android:textColor="@color/black"
                 android:text="category"/>
 
             <TextView
@@ -37,6 +38,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:textColor="@color/black"
                 android:text="finished"
                 android:gravity="end|center_vertical"/>
 
@@ -53,6 +55,8 @@
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:gravity="top"
                 android:text="Rp50000"/>
 

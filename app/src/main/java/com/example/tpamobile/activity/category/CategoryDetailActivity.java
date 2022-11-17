@@ -1,15 +1,18 @@
 package com.example.tpamobile.activity.category;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
 import com.example.tpamobile.model.Category;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +36,10 @@ public class CategoryDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Category");
 
         category = (Category) getIntent().getSerializableExtra("currCategory");
         et_category_name = findViewById(R.id.et_category_name);
@@ -79,6 +86,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         progressDialog.dismiss();
+<<<<<<< Updated upstream
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -90,4 +98,20 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     }
                 });
     }
+=======
+                        Intent intent = new Intent(CategoryDetailActivity.this, HomeActivity.class);
+                        intent.putExtra("fragmentToGo","category");
+                        startActivity(intent);
+                    }
+                });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent  = new Intent(CategoryDetailActivity.this, HomeActivity.class);
+        intent.putExtra("fragmentToGo","category");
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
+>>>>>>> Stashed changes
 }
