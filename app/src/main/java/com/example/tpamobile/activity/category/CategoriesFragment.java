@@ -7,19 +7,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.tpamobile.BillsFragment;
+import com.example.tpamobile.HomeActivity;
+import com.example.tpamobile.MainActivity;
+import com.example.tpamobile.PlanningFragment;
+import com.example.tpamobile.ProfileFragment;
+import com.example.tpamobile.R;
 import com.example.tpamobile.adapter.CategoryAdapter;
 import com.example.tpamobile.databinding.FragmentCategoriesBinding;
 import com.example.tpamobile.model.Category;
@@ -86,6 +97,13 @@ public class CategoriesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                replaceFragment(new ProfileFragment());
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -93,6 +111,9 @@ public class CategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentCategoriesBinding.inflate(
                 inflater,  container, false);
+        ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Category");
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -140,6 +161,8 @@ public class CategoriesFragment extends Fragment {
 
         getData();
 
+
+
         return binding.getRoot();
     }
 
@@ -183,5 +206,18 @@ public class CategoriesFragment extends Fragment {
                         progressDialog.dismiss();
                     }
                 });
+    }
+
+//    @Override
+//    public boolean onContextItemSelected(@NonNull MenuItem item) {
+//        replaceFragment(new PlanningFragment());
+//        return super.onContextItemSelected(item);
+//    }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.commit();
     }
 }

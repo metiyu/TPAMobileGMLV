@@ -1,23 +1,53 @@
 package com.example.tpamobile.activity.category;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
+import android.view.MenuItem;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+
+import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
+
 import com.example.tpamobile.model.Category;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -36,6 +66,11 @@ public class EditCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_category);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Category");
 
         category = (Category) getIntent().getSerializableExtra("currCategory");
         et_category_name = findViewById(R.id.et_category_name);
@@ -77,7 +112,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         progressDialog.show();
 
         db.collection("categories")
-                .document(this.category.getId())
+        .document(this.category.getId())
                 .set(category)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -88,6 +123,37 @@ public class EditCategoryActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
+                        getData();
+                    }
+                });
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent  = new Intent(EditCategoryActivity.this, CategoryDetailActivity.class);
+        intent.putExtra("currCategory", category);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
+    private void getData(){
+        progressDialog.show();
+        db.collection("categories")
+                .document(category.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            Intent intent  = new Intent(EditCategoryActivity.this, CategoryDetailActivity.class);
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d("document", "DocumentSnapshot data: " + document.getData());
+                                Category category = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
+                                intent.putExtra("currCategory", (Serializable) category);
+                                startActivity(intent);
+                            }
+
+                        }
                     }
                 });
     }

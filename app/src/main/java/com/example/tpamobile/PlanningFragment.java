@@ -2,6 +2,7 @@ package com.example.tpamobile;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -71,6 +72,9 @@ public class PlanningFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentPlanningBinding.inflate(
                 inflater,  container, false);
+        ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Plan");
         btn_to_bills = binding.btnGotobills;
         btn_to_bills.setOnClickListener(x->{
             replaceFragment(new BillsFragment());
