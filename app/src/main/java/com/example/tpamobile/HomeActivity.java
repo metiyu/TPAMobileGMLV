@@ -9,12 +9,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.tpamobile.activity.category.CategoriesFragment;
-import com.example.tpamobile.activity.category.CategoryDetailActivity;
+import com.example.tpamobile.activity.transaction.AddTransactionActivity;
+import com.example.tpamobile.activity.transaction.TransactionFragment;
 import com.example.tpamobile.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
@@ -62,7 +61,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.homee:
                     replaceFragment(new HomeFragment());
-
                     break;
                 case R.id.transactionn:
                     replaceFragment(new TransactionFragment());
@@ -73,8 +71,10 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.plann:
                     replaceFragment(new PlanningFragment());
                     break;
-
-
+                case R.id.add_transaction:
+                    Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
+                    startActivity(intent);
+                    break;
             }
 
 

@@ -104,7 +104,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         });
     }
 
-    private void saveData(String categoryName, String categoryType){
+    private void saveData(String categoryName, String categoryType) {
         Map<String, Object> category = new HashMap<>();
         category.put("categoryName", categoryName);
         category.put("categoryType", categoryType);
@@ -112,12 +112,12 @@ public class EditCategoryActivity extends AppCompatActivity {
         progressDialog.show();
 
         db.collection("categories")
-        .document(this.category.getId())
+                .document(this.category.getId())
                 .set(category)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
@@ -126,6 +126,7 @@ public class EditCategoryActivity extends AppCompatActivity {
                         getData();
                     }
                 });
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -134,6 +135,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
+
     private void getData(){
         progressDialog.show();
         db.collection("categories")
