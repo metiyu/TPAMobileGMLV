@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.AddCategoryActivity;
 import com.example.tpamobile.activity.category.CategoriesFragment;
@@ -102,6 +104,10 @@ public class WalletsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Wallet");
 
         btn_add_wallet = binding.btnAddWallet;
         btn_add_wallet.setOnClickListener(x -> {

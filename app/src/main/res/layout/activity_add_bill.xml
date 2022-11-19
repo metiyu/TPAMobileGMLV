@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.bill.AddBillActivity"
+    android:orientation="vertical"
+    android:background="@color/gray_200">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_bill_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:background="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_bill_description"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Bill Description" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_bill_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:background="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_bill_amount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Bill Amount"
+            android:inputType="number"
+            tools:ignore="Autofill"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/spinner_repeat_value"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:background="@color/white"
+        android:layout_centerHorizontal="true"
+        android:hint="Select Date..."
+        android:padding="15dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_repeat_until_occurrences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:background="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_repeat_until_occurrences"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Repeat until n occurrence(s)"
+            android:inputType="number"
+            tools:ignore="Autofill"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_add_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
+
+
+</LinearLayout>

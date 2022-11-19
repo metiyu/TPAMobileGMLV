@@ -1,16 +1,19 @@
 package com.example.tpamobile.activity.wallet;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.activity.category.EditCategoryActivity;
@@ -35,6 +38,9 @@ public class WalletDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet_detail);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Wallet");
 
         wallet = (Wallet) getIntent().getSerializableExtra("currWallet");
         et_wallet_name = findViewById(R.id.et_wallet_name);
@@ -79,7 +85,17 @@ public class WalletDetailActivity extends AppCompatActivity {
                             Toast.makeText(WalletDetailActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
+                        Intent intent = new Intent(WalletDetailActivity.this, HomeActivity.class);
+                        intent.putExtra("fragmentToGo","wallet");
+                        startActivity(intent);
                     }
                 });
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent  = new Intent(WalletDetailActivity.this, HomeActivity.class);
+        intent.putExtra("fragmentToGo","wallet");
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }

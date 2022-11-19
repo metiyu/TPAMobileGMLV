@@ -1,17 +1,21 @@
 package com.example.tpamobile.activity.wallet;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.AddCategoryActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,7 +42,9 @@ public class AddWalletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_wallet);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Wallet");
         et_wallet_name = findViewById(R.id.et_wallet_name);
         et_wallet_amount = findViewById(R.id.et_wallet_amount);
         btn_save_wallet = findViewById(R.id.btn_save_wallet);
@@ -109,6 +115,9 @@ public class AddWalletActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Intent intent  = new Intent(AddWalletActivity.this, HomeActivity.class);
+                        intent.putExtra("fragmentToGo","wallet");
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -116,7 +125,17 @@ public class AddWalletActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Intent intent  = new Intent(AddWalletActivity.this, HomeActivity.class);
+                        intent.putExtra("fragmentToGo","wallet");
+                        startActivity(intent);
                     }
                 });
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent  = new Intent(AddWalletActivity.this, HomeActivity.class);
+        intent.putExtra("fragmentToGo","wallet");
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }
