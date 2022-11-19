@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.CategoryDetailActivity;
+import com.example.tpamobile.activity.transaction.AddTransactionActivity;
 import com.example.tpamobile.model.Category;
+import com.example.tpamobile.model.Transaction;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,19 +27,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private Context c;
     private List<Category> categoryList;
-    private Dialog dialog;
-
-    public interface Dialog{
-        void onClick(int pos);
-    }
-
-    public void setDialog(Dialog dialog){
-        this.dialog = dialog;
-    }
+    private Transaction transaction;
 
     public CategoryAdapter(Context c, List<Category> categoryList){
         this.c = c;
         this.categoryList = categoryList;
+    }
+
+    public CategoryAdapter(Context c, List<Category> categoryList, Transaction transaction){
+        this.c = c;
+        this.categoryList = categoryList;
+        this.transaction = transaction;
     }
 
     @NonNull
@@ -50,13 +50,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
         Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
         holder.tv_category_name.setText(categoryList.get(position).getName());
-        holder.itemView.setOnClickListener(x->{
-            Intent intent = new Intent(c, CategoryDetailActivity.class);
-            intent.putExtra("currCategory", categoryList.get(position));
-            c.startActivity(intent);
-        });
+        if(c.getClass().getName().equals("com.example.tpamobile.HomeActivity")){
+            holder.itemView.setOnClickListener(x->{
+                Intent intent = new Intent(c, CategoryDetailActivity.class);
+                intent.putExtra("currCategory", categoryList.get(position));
+                c.startActivity(intent);
+            });
+        } else if (c.getClass().getName().equals("com.example.tpamobile.activity.transaction.SelectCategoryActivity")){
+            holder.itemView.setOnClickListener(x->{
+                Intent intent = new Intent(c, AddTransactionActivity.class);
+                intent.putExtra("selectedCategory", categoryList.get(position));
+                intent.putExtra("currTransaction", transaction);
+                c.startActivity(intent);
+            });
+        }
     }
 
     @Override

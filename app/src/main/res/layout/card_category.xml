@@ -12,15 +12,6 @@
     android:id="@+id/card_view"
     android:clickable="true">
 
-<!--    <TextView-->
-<!--        android:id="@+id/tv_category_name"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="14dp"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:text="TextView"-->
-<!--        android:padding="15dp"-->
-<!--        />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +32,5 @@
             android:textColor="@color/black"
             android:text=">"/>
     </LinearLayout>
-
-
 
 </androidx.cardview.widget.CardView>

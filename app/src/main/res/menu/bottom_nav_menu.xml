@@ -7,6 +7,10 @@
     <item android:title="profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/profilee"/>
+    <item
+        android:title=""
+        android:icon="@drawable/ic_baseline_add_circle_outline_24"
+        android:id="@+id/add_transaction" />
     <item android:title="Transaction"
         android:icon="@drawable/ic_baseline_list_alt_24"
         android:id="@+id/transactionn"/>
@@ -14,6 +18,5 @@
         android:title="Plan"
         android:icon="@drawable/ic_baseline_app_registration_24"
         android:id="@+id/plann"/>
-
 
 </menu>

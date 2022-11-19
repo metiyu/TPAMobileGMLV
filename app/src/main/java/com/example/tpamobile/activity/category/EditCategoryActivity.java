@@ -135,6 +135,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
+
     private void getData(){
         progressDialog.show();
         db.collection("categories")

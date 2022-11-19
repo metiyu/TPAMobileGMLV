@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tpamobile.R;
+import com.example.tpamobile.activity.category.CategoryDetailActivity;
+import com.example.tpamobile.activity.transaction.AddTransactionActivity;
 import com.example.tpamobile.activity.wallet.WalletDetailActivity;
 import com.example.tpamobile.model.Category;
+import com.example.tpamobile.model.Transaction;
 import com.example.tpamobile.model.Wallet;
 
 import java.io.Serializable;
@@ -24,10 +27,17 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
 
     private Context c;
     private List<Wallet> walletList;
+    private Transaction transaction;
 
     public WalletAdapter(Context c, List<Wallet> walletList) {
         this.c = c;
         this.walletList = walletList;
+    }
+
+    public WalletAdapter(Context c, List<Wallet> walletList, Transaction transaction) {
+        this.c = c;
+        this.walletList = walletList;
+        this.transaction = transaction;
     }
 
     @NonNull
@@ -43,11 +53,20 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
         holder.tv_wallet_name.setText(walletList.get(position).getName());
         holder.tv_wallet_amount.setText(walletList.get(position).formatRupiah());
 //        holder.tv_wallet_amount.setText(formatRupiah(Double.parseDouble(walletList.get(position).getAmount().toString())));
-        holder.itemView.setOnClickListener(x -> {
-            Intent intent = new Intent(c, WalletDetailActivity.class);
-            intent.putExtra("currWallet", walletList.get(position));
-            c.startActivity(intent);
-        });
+        if(c.getClass().getName().equals("com.example.tpamobile.HomeActivity")){
+            holder.itemView.setOnClickListener(x -> {
+                Intent intent = new Intent(c, WalletDetailActivity.class);
+                intent.putExtra("currWallet", walletList.get(position));
+                c.startActivity(intent);
+            });
+        } else if (c.getClass().getName().equals("com.example.tpamobile.activity.transaction.SelectWalletActivity")){
+            holder.itemView.setOnClickListener(x->{
+                Intent intent = new Intent(c, AddTransactionActivity.class);
+                intent.putExtra("selectedWallet", walletList.get(position));
+                intent.putExtra("currTransaction", transaction);
+                c.startActivity(intent);
+            });
+        }
     }
 
     @Override
