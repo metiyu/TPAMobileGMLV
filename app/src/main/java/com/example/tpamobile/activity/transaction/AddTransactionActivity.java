@@ -172,7 +172,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                        updateWallet(transactionWallet, transactionAmount);
+                        updateWallet(transactionWallet, transactionAmount, transactionCategory.getType());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -184,25 +184,44 @@ public class AddTransactionActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateWallet(Wallet currWallet, Integer transactionAmount){
+    private void updateWallet(Wallet currWallet, Integer transactionAmount, String transactionCategoryType){
         progressDialog.show();
 
-        db.collection("users")
-                .document(currUser.getUid())
-                .collection("wallets")
-                .document(currWallet.getId())
-                .update("walletAmount", FieldValue.increment(-transactionAmount))
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+        if (transactionCategoryType.equals("expense")){
+            db.collection("users")
+                    .document(currUser.getUid())
+                    .collection("wallets")
+                    .document(currWallet.getId())
+                    .update("walletAmount", FieldValue.increment(-transactionAmount))
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            }
+                            progressDialog.dismiss();
                         }
-                        progressDialog.dismiss();
-                    }
-                });
+                    });
+        } else if (transactionCategoryType.equals("income")){
+            db.collection("users")
+                    .document(currUser.getUid())
+                    .collection("wallets")
+                    .document(currWallet.getId())
+                    .update("walletAmount", FieldValue.increment(transactionAmount))
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            }
+                            progressDialog.dismiss();
+                        }
+                    });
+        }
     }
 
     private void formatDate(){

@@ -14,11 +14,9 @@
         android:theme="@style/Theme.TPAMobile"
         android:usesCleartextTraffic="true">
         <activity
-
             android:name=".activity.bill.AddBillActivity"
-
-            android:name=".activity.transaction.WriteNoteActivity"
             android:exported="false" />
+        <!--            android:name=".activity.transaction.WriteNoteActivity"-->
         <activity
             android:name=".activity.transaction.SelectWalletActivity"
             android:exported="false" />
