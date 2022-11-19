@@ -93,6 +93,9 @@ public class CategoryDetailActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CategoryDetailActivity.this, HomeActivity.class);
+                        intent.putExtra("fragmentToGo","category");
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -1,9 +1,7 @@
 package com.example.tpamobile.activity.category;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,16 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.tpamobile.BillsFragment;
 import com.example.tpamobile.HomeActivity;
-import com.example.tpamobile.MainActivity;
-import com.example.tpamobile.PlanningFragment;
 import com.example.tpamobile.ProfileFragment;
 import com.example.tpamobile.R;
 import com.example.tpamobile.adapter.CategoryAdapter;

@@ -8,12 +8,15 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Home"
+        android:label="GMoney.soLVer"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TPAMobile"
         android:usesCleartextTraffic="true">
         <activity
+
+            android:name=".activity.bill.AddBillActivity"
+
             android:name=".activity.transaction.WriteNoteActivity"
             android:exported="false" />
         <activity
@@ -24,6 +27,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.transaction.AddTransactionActivity"
+
             android:exported="false" />
         <activity
             android:name=".activity.wallet.EditWalletActivity"

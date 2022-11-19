@@ -11,9 +11,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.tpamobile.activity.bill.BillsFragment;
 import com.example.tpamobile.activity.category.CategoriesFragment;
+
+import com.example.tpamobile.activity.wallet.WalletsFragment;
+
 import com.example.tpamobile.activity.transaction.AddTransactionActivity;
 import com.example.tpamobile.activity.transaction.TransactionFragment;
+
 import com.example.tpamobile.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
@@ -40,6 +45,12 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(fragmentToGo.equals("plan")){
                     replaceFragment(new PlanningFragment());
+                }
+                else if(fragmentToGo.equals("wallet")){
+                    replaceFragment(new WalletsFragment());
+                }
+                else if(fragmentToGo.equals("bill")){
+                    replaceFragment(new BillsFragment());
                 }
             }
         }
@@ -115,6 +126,10 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if(currentFragment instanceof EditProfileFragment){
             intent.putExtra("fragmentToGo","profile");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof WalletsFragment){
+            intent.putExtra("fragmentToGo","home");
             startActivity(intent);
         }
 

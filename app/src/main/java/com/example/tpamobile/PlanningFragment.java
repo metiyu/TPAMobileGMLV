@@ -10,11 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.tpamobile.activity.bill.BillsFragment;
 import com.example.tpamobile.databinding.FragmentPlanningBinding;
-import com.example.tpamobile.databinding.FragmentProfileBinding;
 
 /**
  * A simple {@link Fragment} subclass.
