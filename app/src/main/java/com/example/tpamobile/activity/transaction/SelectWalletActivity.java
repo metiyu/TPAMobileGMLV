@@ -17,6 +17,7 @@ import com.example.tpamobile.R;
 import com.example.tpamobile.activity.wallet.WalletsFragment;
 import com.example.tpamobile.adapter.CategoryAdapter;
 import com.example.tpamobile.adapter.WalletAdapter;
+import com.example.tpamobile.model.Bill;
 import com.example.tpamobile.model.Transaction;
 import com.example.tpamobile.model.Wallet;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +39,8 @@ public class SelectWalletActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
     private ProgressDialog progressDialog;
+    public static Bill bill_in_select_wallet;
+    public static Transaction transaction_in_select_wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,14 @@ public class SelectWalletActivity extends AppCompatActivity {
         rv_wallets.setLayoutManager(layoutManager);
         rv_wallets.addItemDecoration(decoration);
         rv_wallets.setAdapter(walletAdapter);
+        if ((Bill) getIntent().getSerializableExtra("currBill") != null){
+            bill_in_select_wallet = (Bill) getIntent().getSerializableExtra("currBill");
+            SelectWalletActivity.transaction_in_select_wallet = null;
+        }
+        if ((Transaction) getIntent().getSerializableExtra("currTransaction") != null){
+            transaction_in_select_wallet= (Transaction) getIntent().getSerializableExtra("currTransaction");
+            bill_in_select_wallet = null;
+        }
 
         getData();
     }

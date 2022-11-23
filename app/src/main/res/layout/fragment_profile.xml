@@ -102,6 +102,23 @@
                 android:text=">"
                 android:layout_gravity="center"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_sign_out">
+            <TextView
+                android:layout_width="350dp"
+                android:textSize="14dp"
+                android:layout_height="wrap_content"
+                android:text="Sign out"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 <!--        <Button-->
 <!--            -->
 <!--            android:layout_width="match_parent"-->

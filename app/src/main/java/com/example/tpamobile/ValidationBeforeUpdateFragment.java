@@ -86,7 +86,7 @@ public class ValidationBeforeUpdateFragment extends Fragment {
                 inflater,  container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Validation For Edit");
         email = user.getEmail();
         btn_submit_old_password = binding.btnSubmitValidationOldPassword;

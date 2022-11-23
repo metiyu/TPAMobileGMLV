@@ -1,5 +1,6 @@
 package com.example.tpamobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -34,7 +35,7 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private FirebaseUser user;
     private String email;
-    private LinearLayout btn_categories,btn_edit_profile,btn_my_wallets;
+    private LinearLayout btn_categories,btn_edit_profile,btn_my_wallets, btn_sign_out;
     private FragmentProfileBinding binding;
 
     // TODO: Rename and change types of parameters
@@ -78,6 +79,7 @@ public class ProfileFragment extends Fragment {
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Profile");
+        btn_sign_out= binding.btnSignOut;
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -104,6 +106,12 @@ public class ProfileFragment extends Fragment {
         btn_my_wallets = binding.btnMyWallets;
         btn_my_wallets.setOnClickListener(x -> {
             replaceFragment(new WalletsFragment());
+        });
+
+        btn_sign_out.setOnClickListener(x->{
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getContext(), SignInActivity.class);
+            startActivity(intent);
         });
 
 

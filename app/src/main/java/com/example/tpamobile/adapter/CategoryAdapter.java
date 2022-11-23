@@ -14,9 +14,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tpamobile.EditBudgetActivity;
 import com.example.tpamobile.R;
+import com.example.tpamobile.activity.bill.AddBillActivity;
+import com.example.tpamobile.activity.budget.AddBudgetActivity;
 import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.activity.transaction.AddTransactionActivity;
+import com.example.tpamobile.activity.transaction.SelectCategoryActivity;
+import com.example.tpamobile.model.Bill;
 import com.example.tpamobile.model.Category;
 import com.example.tpamobile.model.Transaction;
 
@@ -28,6 +33,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Context c;
     private List<Category> categoryList;
     private Transaction transaction;
+    private Bill bill;
 
     public CategoryAdapter(Context c, List<Category> categoryList){
         this.c = c;
@@ -60,12 +66,42 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 c.startActivity(intent);
             });
         } else if (c.getClass().getName().equals("com.example.tpamobile.activity.transaction.SelectCategoryActivity")){
-            holder.itemView.setOnClickListener(x->{
-                Intent intent = new Intent(c, AddTransactionActivity.class);
-                intent.putExtra("selectedCategory", categoryList.get(position));
-                intent.putExtra("currTransaction", transaction);
-                c.startActivity(intent);
-            });
+            if(SelectCategoryActivity.bill_in_select_category!=null){
+                holder.itemView.setOnClickListener(x->{
+                    Intent intent = new Intent(c, AddBillActivity.class);
+                    intent.putExtra("selectedCategory", categoryList.get(position));
+                    intent.putExtra("currBill", SelectCategoryActivity.bill_in_select_category);
+                    c.startActivity(intent);
+                });
+            }
+            else if(SelectCategoryActivity.transaction_in_select_category!=null){
+                holder.itemView.setOnClickListener(x->{
+                    Intent intent = new Intent(c, AddTransactionActivity.class);
+                    intent.putExtra("selectedCategory", categoryList.get(position));
+                    intent.putExtra("currTransaction", SelectCategoryActivity.transaction_in_select_category);
+                    c.startActivity(intent);
+                });
+            }
+            else if(SelectCategoryActivity.budget_in_select_category!=null){
+                if(SelectCategoryActivity.from_edit_budget==true){
+                    holder.itemView.setOnClickListener(x->{
+                        Intent intent = new Intent(c, EditBudgetActivity.class);
+                        intent.putExtra("selectedCategory", categoryList.get(position));
+                        intent.putExtra("currBudget", SelectCategoryActivity.budget_in_select_category);
+                        c.startActivity(intent);
+                    });
+                }
+                else{
+                    holder.itemView.setOnClickListener(x->{
+                        Intent intent = new Intent(c, AddBudgetActivity.class);
+                        intent.putExtra("selectedCategory", categoryList.get(position));
+                        intent.putExtra("currBudget", SelectCategoryActivity.budget_in_select_category);
+                        c.startActivity(intent);
+                    });
+                }
+
+            }
+
         }
     }
 

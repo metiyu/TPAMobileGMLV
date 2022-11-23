@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tpamobile.R;
+import com.example.tpamobile.activity.bill.AddBillActivity;
 import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.activity.transaction.AddTransactionActivity;
+import com.example.tpamobile.activity.transaction.SelectCategoryActivity;
+import com.example.tpamobile.activity.transaction.SelectWalletActivity;
 import com.example.tpamobile.activity.wallet.WalletDetailActivity;
 import com.example.tpamobile.model.Category;
 import com.example.tpamobile.model.Transaction;
@@ -60,12 +63,28 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
                 c.startActivity(intent);
             });
         } else if (c.getClass().getName().equals("com.example.tpamobile.activity.transaction.SelectWalletActivity")){
-            holder.itemView.setOnClickListener(x->{
-                Intent intent = new Intent(c, AddTransactionActivity.class);
-                intent.putExtra("selectedWallet", walletList.get(position));
-                intent.putExtra("currTransaction", transaction);
-                c.startActivity(intent);
-            });
+//            holder.itemView.setOnClickListener(x->{
+//                Intent intent = new Intent(c, AddTransactionActivity.class);
+//                intent.putExtra("selectedWallet", walletList.get(position));
+//                intent.putExtra("currTransaction", transaction);
+//                c.startActivity(intent);
+//            });
+            if(SelectWalletActivity.bill_in_select_wallet!=null){
+                holder.itemView.setOnClickListener(x->{
+                    Intent intent = new Intent(c, AddBillActivity.class);
+                    intent.putExtra("selectedWallet", walletList.get(position));
+                    intent.putExtra("currBill", SelectWalletActivity.bill_in_select_wallet);
+                    c.startActivity(intent);
+                });
+            }
+            else if(SelectWalletActivity.transaction_in_select_wallet!=null){
+                holder.itemView.setOnClickListener(x->{
+                    Intent intent = new Intent(c, AddTransactionActivity.class);
+                    intent.putExtra("selectedWallet", walletList.get(position));
+                    intent.putExtra("currTransaction", SelectWalletActivity.transaction_in_select_wallet);
+                    c.startActivity(intent);
+                });
+            }
         }
     }
 

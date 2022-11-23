@@ -30,6 +30,7 @@ public class SimpleDatePickerDialog extends AlertDialog implements DialogInterfa
         this(context, 0, listener, year, monthOfYear);
     }
 
+
     /**
      * @param context The context the dialog is to run in.
      * @param theme   the theme to apply to this dialog

@@ -24,6 +24,7 @@ import com.example.tpamobile.databinding.FragmentValidationBeforeUpdateBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +53,7 @@ public class EditProfileFragment extends Fragment {
     private String new_password = "";
     private String confirm_new_password = "";
     private FragmentEditProfileBinding binding;
+    private FirebaseAuth mAuth;
 
     public EditProfileFragment() {
         // Required empty public constructor
@@ -118,12 +120,12 @@ public class EditProfileFragment extends Fragment {
 
             if(new_password.isEmpty()){
                 onlyUpdateEmail();
-                replaceFragment(new ProfileFragment());
+//                replaceFragment(new ProfileFragment());
             }
             else{
                 if(new_password.equals(confirm_new_password)){
                     updateEmail();
-                    replaceFragment(new ProfileFragment());
+//                    replaceFragment(new ProfileFragment());
                 }
                 else{
 
@@ -140,6 +142,8 @@ public class EditProfileFragment extends Fragment {
         confirm_new_password = confirmNewPasswordInput.getText().toString().trim();
         Log.d(TAG, new_password);
         Log.d(TAG, confirm_new_password);
+        mAuth = FirebaseAuth.getInstance();
+        Intent intent = new Intent(getContext(), HomeActivity.class);
         AuthCredential credential = EmailAuthProvider.getCredential(email, secretCode);
         user.reauthenticate(credential).addOnCompleteListener(x->{
                     user.updateEmail(new_email)
@@ -155,13 +159,25 @@ public class EditProfileFragment extends Fragment {
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
                                                             Log.d("message", "User password updated.");
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            Log.d(TAG, "onComplete: "+new_email);
+                                                            Log.d(TAG, "onComplete: "+new_password);
+                                                            mAuth.signInWithEmailAndPassword(new_email, new_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                    intent.putExtra("fragmentToGo", "profile");
+                                                                    startActivity(intent);
+                                                                }
+                                                            });
                                                         }
                                                     }
                                                 });
-                                        replaceFragment(new ProfileFragment());
+
+
                                     }
                                     else{
                                         Log.e("error","error");
+                                        startActivity(intent);
                                     }
 
                                 }
@@ -174,6 +190,7 @@ public class EditProfileFragment extends Fragment {
     protected void onlyUpdateEmail(){
         new_email = emailInput.getText().toString();
         AuthCredential credential = EmailAuthProvider.getCredential(email, secretCode);
+        Intent intent = new Intent(getContext(), HomeActivity.class);
         user.reauthenticate(credential).addOnCompleteListener(x->{
                     user.updateEmail(new_email)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -182,21 +199,30 @@ public class EditProfileFragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Log.d("message:", "User email address updated.");
+                                        mAuth.signOut();
+                                        mAuth.signInWithEmailAndPassword(new_email, new_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                intent.putExtra("fragmentToGo", "profile");
+                                                startActivity(intent);
+                                            }
+                                        });
                                     }
                                     else{
                                         Log.e("error","error");
+                                        startActivity(intent);
                                     }
-                                    replaceFragment(new ProfileFragment());
+//                                    replaceFragment(new ProfileFragment());
                                 }
                             });
                 }
         );
 
     }
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout,fragment);
-        fragmentTransaction.commit();
-    }
+//    private void replaceFragment(Fragment fragment){
+//        FragmentManager fragmentManager = getParentFragment().getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frame_layout,fragment);
+//        fragmentTransaction.commit();
+//    }
 }

@@ -1,6 +1,7 @@
-package com.example.tpamobile;
+package com.example.tpamobile.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,16 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tpamobile.HomeActivity;
+import com.example.tpamobile.R;
+import com.example.tpamobile.activity.bill.BillDetailActivity;
+import com.example.tpamobile.activity.bill.BillsFragment;
+import com.example.tpamobile.activity.transaction.AddTransactionActivity;
 import com.example.tpamobile.model.Bill;
+import com.example.tpamobile.model.Category;
+import com.example.tpamobile.model.Wallet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -28,9 +37,10 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
 
     private Context c;
     private List<Bill> billList;
+    private Bill bill;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-
+    String categoryName;
 //    public BillsAdapter(Context c, String s[], String t[],String u[]){
 //        this.c = c;
 //        this.data1 = s;
@@ -59,8 +69,12 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull BillsViewHolder holder, int position) {
-        Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
+//        Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
         holder.tv_bill_category.setText("Category");
+        if(billList.get(position).getCategory()!=null){
+
+            holder.tv_bill_category.setText(billList.get(position).getCategory().getName());
+        }
         holder.tv_bill_price.setText(billList.get(position).getBillAmount().toString());
         if(billList.get(position).getPaidStatus().toString().equals("Unpaid")){
             holder.finished_bill.setText("PAY");
@@ -74,6 +88,11 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
             updatePaidStatus(position);
         });
         holder.tv_bill_due.setText(billList.get(position).getDueDate());
+        holder.itemView.setOnClickListener(x->{
+            Intent intent = new Intent(c, BillDetailActivity.class);
+            intent.putExtra("currBill", billList.get(position));
+            c.startActivity(intent);
+        });
     }
 
     public void updatePaidStatus(int position){
@@ -84,6 +103,9 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
             bill.put("billAmount", billList.get(position).getBillAmount().intValue());
             bill.put("paidStatus", billList.get(position).getPaidStatus());
             bill.put("repeatValue", billList.get(position).getRepeatValue());
+            bill.put("billDate", billList.get(position).getBillDate());
+            bill.put("billWallet", billList.get(position).getWallet().getId());
+            bill.put("billCategory", billList.get(position).getCategory().getId());
 
             db.collection("users")
                     .document(currUser.getUid())
@@ -93,7 +115,9 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-
+                            Intent intent = new Intent(c, HomeActivity.class);
+                            intent.putExtra("fragmentToGo", "bill");
+                            c.startActivity(intent);
                         }
                     });
         }
@@ -117,5 +141,49 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
             finished_bill = itemView.findViewById(R.id.finished_status_card);
             tv_bill_due = itemView.findViewById(R.id.bill_due);
         }
+    }
+
+    public String getCategoryData(String categoryId){
+        db.collection("categories")
+                .document(categoryId)
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot document = task.getResult();
+                                    Category category = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
+                                    categoryName = document.getString("categoryName");
+                                    bill.setCategory(category);
+                                }
+
+                            }
+                        }
+                );
+        return categoryName;
+    }
+    public Bill getWalletData(String walletId, Bill bill){
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .document(walletId)
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot snapshot = task.getResult();
+                                    if (snapshot.getString("walletName") != null && snapshot.getLong("walletAmount") != null) {
+                                        Wallet wallet = new Wallet(snapshot.getId(), snapshot.getString("walletName"), snapshot.getLong("walletAmount").intValue());
+                                        bill.setWallet(wallet);
+                                    }
+
+                                }
+                            }
+                        }
+                );
+        return bill;
     }
 }
