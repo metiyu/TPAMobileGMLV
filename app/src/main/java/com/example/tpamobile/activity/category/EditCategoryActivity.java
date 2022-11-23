@@ -159,4 +159,5 @@ public class EditCategoryActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

@@ -1,14 +1,23 @@
 package com.example.tpamobile.model;
 
+import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
-public class Bill {
+public class Bill implements Serializable {
     private String id, description, repeatValue, paidStatus, dueDate;
-    private Category category;
-    private Integer billAmount;
+    private Integer billAmount, occurences;
     private Wallet wallet;
 
+
+
+    private Category category;
+
+    public Bill() {
+
+    }
     public String getDueDate() {
         return dueDate;
     }
@@ -19,7 +28,7 @@ public class Bill {
 
     private Date billDate;
 
-    public Bill(String id, String description, String repeatValue, String paidStatus, Integer billAmount, Integer year, Integer month, Integer day){
+    public Bill(String id, String description, String repeatValue, String paidStatus, Integer billAmount, Integer year, Integer month, Integer day, Date date){
         this.id = id;
         this.description = description;
         this.repeatValue = repeatValue;
@@ -39,6 +48,22 @@ public class Bill {
         else{
             this.dueDate = "Was due on "+day+"/"+month+"/"+year;
         }
+    }
+
+    public Integer getOccurences() {
+        return occurences;
+    }
+
+    public void setOccurences(Integer occurences) {
+        this.occurences = occurences;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Date getBillDate() {
@@ -81,14 +106,6 @@ public class Bill {
         this.paidStatus = paidStatus;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Integer getBillAmount() {
         return billAmount;
     }
@@ -103,5 +120,13 @@ public class Bill {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+    public String formatRupiah(){
+        Locale localeID = new Locale("IND", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        String rupiahFormatted = formatRupiah.format(Double.parseDouble(this.billAmount.toString()));
+        String[] split = rupiahFormatted.split(",");
+        int length = split[0].length();
+        return split[0].substring(0,2)+". "+split[0].substring(2,length);
     }
 }

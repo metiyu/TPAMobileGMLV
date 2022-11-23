@@ -1,13 +1,16 @@
 package com.example.tpamobile.activity.transaction;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
 import com.example.tpamobile.activity.wallet.AddWalletActivity;
 import com.example.tpamobile.model.Category;
@@ -73,6 +77,9 @@ public class AddTransactionActivity extends AppCompatActivity {
         btn_save_transaction = findViewById(R.id.btn_save_transaction);
 
         transaction = (Transaction) getIntent().getSerializableExtra("currTransaction");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Add Transaction");
         if(transaction != null){
             Log.d(TAG, "onCreate: date, " + transaction.getTransactionDate());
             if (transaction.getTransactionAmount() != null)
@@ -300,5 +307,13 @@ public class AddTransactionActivity extends AppCompatActivity {
         if(wallet != null)
             transaction.setTransactionWallet(wallet);
         return transaction;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        Intent intent  = new Intent(AddTransactionActivity.this, HomeActivity.class);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }

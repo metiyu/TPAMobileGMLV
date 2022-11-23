@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.tpamobile.activity.bill.BillsFragment;
+import com.example.tpamobile.activity.budget.BudgetFragment;
 import com.example.tpamobile.databinding.FragmentPlanningBinding;
 
 /**
@@ -27,7 +28,7 @@ public class PlanningFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private FragmentPlanningBinding binding;
-    private LinearLayout btn_to_bills;
+    private LinearLayout btn_to_bills, btn_to_budget;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,8 +76,12 @@ public class PlanningFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Plan");
         btn_to_bills = binding.btnGotobills;
+        btn_to_budget = binding.btnGotobudget;
         btn_to_bills.setOnClickListener(x->{
             replaceFragment(new BillsFragment());
+        });
+        btn_to_budget.setOnClickListener(x->{
+            replaceFragment(new BudgetFragment());
         });
         return binding.getRoot();
     }

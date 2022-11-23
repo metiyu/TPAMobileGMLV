@@ -18,8 +18,11 @@ import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.CategoriesFragment;
 import com.example.tpamobile.activity.transaction.adapter.CategoryPagerAdapter;
 import com.example.tpamobile.adapter.CategoryAdapter;
+import com.example.tpamobile.model.Bill;
+import com.example.tpamobile.model.Budget;
 import com.example.tpamobile.model.Category;
 import com.example.tpamobile.model.Transaction;
+import com.example.tpamobile.model.Wallet;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.EventListener;
@@ -41,6 +44,10 @@ public class SelectCategoryActivity extends AppCompatActivity {
     private TabLayout tl_category;
     private ViewPager2 vp_category;
     private CategoryPagerAdapter pagerAdapter;
+    public static Bill bill_in_select_category;
+    public static Transaction transaction_in_select_category;
+    public static Budget budget_in_select_category;
+    public static boolean from_edit_budget, from_add_budget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +61,42 @@ public class SelectCategoryActivity extends AppCompatActivity {
         tl_category = findViewById(R.id.tl_category);
         vp_category = findViewById(R.id.vp_category);
 
+        if ((Bill) getIntent().getSerializableExtra("currBill") != null){
+            bill_in_select_category = (Bill) getIntent().getSerializableExtra("currBill");
+            SelectCategoryActivity.transaction_in_select_category = null;
+            budget_in_select_category = null;
+            from_edit_budget=false;
+            from_add_budget=false;
+        }
+        if ((Transaction) getIntent().getSerializableExtra("currTransaction") != null){
+            transaction_in_select_category = (Transaction) getIntent().getSerializableExtra("currTransaction");
+            bill_in_select_category = null;
+            budget_in_select_category = null;
+            from_edit_budget=false;
+            from_add_budget=false;
+        }
+        if ((Budget) getIntent().getSerializableExtra("currBudget") != null){
+            budget_in_select_category = (Budget) getIntent().getSerializableExtra("currBudget");
+            bill_in_select_category = null;
+            SelectCategoryActivity.transaction_in_select_category = null;
+            if(getIntent().getExtras().getString("fromEditBudget")!=null){
+                from_edit_budget=true;
+                from_add_budget=false;
+            }
+            else{
+                from_edit_budget=false;
+                from_add_budget=true;
+            }
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         pagerAdapter = new CategoryPagerAdapter(fragmentManager, getLifecycle());
         vp_category.setAdapter(pagerAdapter);
         tl_category.addTab(tl_category.newTab().setText("Expense"));
-        tl_category.addTab(tl_category.newTab().setText("Income"));
+        if ((Bill) getIntent().getSerializableExtra("currBill") == null && (Budget) getIntent().getSerializableExtra("currBudget") == null){
+            tl_category.addTab(tl_category.newTab().setText("Income"));
+        }
+
 
         tl_category.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

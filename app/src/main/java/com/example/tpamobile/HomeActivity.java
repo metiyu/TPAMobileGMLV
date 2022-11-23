@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.tpamobile.activity.bill.BillsFragment;
+import com.example.tpamobile.activity.budget.BudgetFragment;
 import com.example.tpamobile.activity.category.CategoriesFragment;
 
 import com.example.tpamobile.activity.wallet.WalletsFragment;
@@ -53,6 +54,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(fragmentToGo.equals("bill")){
                     replaceFragment(new BillsFragment());
+                }
+                else if(fragmentToGo.equals("budget")){
+                    replaceFragment(new BudgetFragment());
                 }
             }
         }

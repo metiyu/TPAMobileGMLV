@@ -26,6 +26,9 @@ public class Wallet implements Serializable {
 //    private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 //    private final String TAG = "WALLET CLASS";
 
+    public Wallet(){
+
+    }
     public Wallet(String id, String name, Integer amount) {
         this.id = id;
         this.name = name;

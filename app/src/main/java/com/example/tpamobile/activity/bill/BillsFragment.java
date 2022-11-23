@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
@@ -19,22 +20,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tpamobile.BillsAdapter;
+import com.example.tpamobile.adapter.BillsAdapter;
 import com.example.tpamobile.HomeActivity;
 import com.example.tpamobile.R;
+import com.example.tpamobile.model.Category;
+import com.example.tpamobile.model.Wallet;
 import com.example.tpamobile.util.DateDisplayUtils;
 import com.example.tpamobile.widgets.SimpleDatePickerDialog;
 import com.example.tpamobile.widgets.SimpleDatePickerDialogFragment;
 import com.example.tpamobile.databinding.FragmentBillsBinding;
 import com.example.tpamobile.model.Bill;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,12 +68,13 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
     private Button btn_add_bill;
     private BillsAdapter billsAdapter;
     private ProgressDialog progressDialog;
-    private TextView tv_this_month_amount, tv_overdue_amount;
+    private TextView tv_this_month_amount, tv_overdue_amount, tv_today_amount;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
     private List<Bill> billList = new ArrayList<>();
     private Button mPickDateButton;
-    private Integer totalOverDue, totalThisMonth;
+    private Integer totalOverDue, totalThisMonth, totalToday;
+    public static int year,month;
     String s1[]= {"asd", "asd1", "asd2"};
     String s2[]= {"asd", "asd1", "asd3"};
     String s3[]= {"asd", "asd1", "asd4"};
@@ -117,13 +125,13 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
         btn_add_bill = binding.btnAddBill;
         tv_overdue_amount = binding.tvOverdueAmount;
         tv_this_month_amount = binding.tvThisMonthAmount;
+        tv_today_amount = binding.tvTodayAmount;
 //        MonthYearPickerDialog pd = new MonthYearPickerDialog();
 //        pd.setListener(this);
 //        pd.show(this.getFragmentManager(), "MonthYearPickerDialog");
 //        BillsAdapter billsAdapter = new BillsAdapter(this.getContext(), s1, s2, s3);
         mPickDateButton = (Button) binding.btnMonthDate;
         mPickDateButton.setOnClickListener(this);
-        int year,month;
         year = Calendar.getInstance().get(Calendar.YEAR);
         month = Calendar.getInstance().get(Calendar.MONTH);
         mPickDateButton.setText(DateDisplayUtils.formatMonthYear(year, month));
@@ -152,13 +160,14 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
         datePickerDialogFragment.setOnDateSetListener(this);
         datePickerDialogFragment.show(getChildFragmentManager(), null);
     }
-    private void getData(int year, int month){
+    public void getData(int year, int month){
         totalOverDue =0;
         totalThisMonth = 0;
-        progressDialog.show();
+        totalToday =0;
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("bills")
+                .orderBy("billDate")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
@@ -169,24 +178,39 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){
-                            if(snapshot.getDate("billDate")!=null&&snapshot.getString("billDescription") != null && snapshot.getString("paidStatus") != null && snapshot.getString("repeatValue") != null && snapshot.getLong("billAmount") != null){
+                            if(snapshot.getDate("billDate")!=null&&snapshot.getString("billDescription") != null && snapshot.getString("paidStatus") != null && snapshot.getString("repeatValue") != null
+                                    && snapshot.getLong("billAmount") != null){
                                 Calendar today_cal = Calendar.getInstance(Locale.getDefault());
                                 Calendar current_cal = dateToCalendar(snapshot.getDate("billDate"));
                                 Log.d("year", "onEvent: "+current_cal.get(Calendar.YEAR));
                                 Log.d("year", "onEvent: "+today_cal.get(Calendar.YEAR));
                                 Log.d("m", "onEvent: "+current_cal.get(Calendar.MONTH));
                                 Log.d("m", "onEvent: "+today_cal.get(Calendar.MONTH));
-                                if(snapshot.getString("paidStatus").equals("Unpaid") &&  current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)==today_cal.get(Calendar.MONTH)){
+                                if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)==today_cal.get(Calendar.MONTH)){
                                     totalThisMonth+=snapshot.getLong("billAmount").intValue();
-
                                 }
-                                if(snapshot.getString("paidStatus").equals("Unpaid") && ((current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)<today_cal.get(Calendar.MONTH)) || (current_cal.get(Calendar.YEAR)<today_cal.get(Calendar.YEAR)))){
+                                if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.before(today_cal)){
                                     totalOverDue+=snapshot.getLong("billAmount").intValue();
                                 }
+                                if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.DAY_OF_YEAR)==today_cal.get(Calendar.DAY_OF_YEAR)){
+                                    totalToday+=snapshot.getLong("billAmount").intValue();
+                                }
+                                tv_today_amount.setText("Rp"+totalToday+",00");
                                 tv_this_month_amount.setText("Rp"+totalThisMonth+",00");
                                 tv_overdue_amount.setText("Rp"+totalOverDue+",00");
                                 if(current_cal.get(Calendar.YEAR)==year && current_cal.get(Calendar.MONTH)==month){
-                                    Bill bill  = new Bill(snapshot.getId(), snapshot.getString("billDescription"), snapshot.getString("repeatValue"), snapshot.getString("paidStatus"), snapshot.getLong("billAmount").intValue(), current_cal.get(Calendar.YEAR), current_cal.get(Calendar.MONTH), current_cal.get(Calendar.DAY_OF_MONTH));
+                                    Bill bill  = new Bill(snapshot.getId(), snapshot.getString("billDescription"), snapshot.getString("repeatValue"), snapshot.getString("paidStatus"), snapshot.getLong("billAmount").intValue(), current_cal.get(Calendar.YEAR), current_cal.get(Calendar.MONTH), current_cal.get(Calendar.DAY_OF_MONTH), snapshot.getDate("billDate"));
+                                    if(snapshot.getString("billWallet")!=null){
+                                        bill.setWallet(new Wallet());
+                                        bill.getWallet().setId(snapshot.getString("billWallet"));
+                                        bill = getWalletData(bill.getWallet().getId(), bill);
+                                    }
+                                    if(snapshot.getString("billCategory")!=null){
+                                        bill.setCategory(new Category());
+                                        bill.getCategory().setId(snapshot.getString("billCategory"));
+                                        bill = getCategoryData(bill.getCategory().getId(), bill);
+                                    }
+                                    bill.setBillDate(snapshot.getDate("billDate"));
                                     billList.add(bill);
 //                                Wallet wallet = new Wallet(snapshot.getId(), snapshot.getString("walletName"), snapshot.getLong("walletAmount").intValue());
 //                                walletList.add(wallet);
@@ -224,5 +248,50 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
     //Convert Calendar to Date
     private Date calendarToDate(Calendar calendar) {
         return calendar.getTime();
+    }
+
+    public Bill getCategoryData(String categoryId, Bill bill){
+        db.collection("categories")
+                .document(categoryId)
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot document = task.getResult();
+                                    Category category = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
+                                    bill.setCategory(category);
+                                    progressDialog.dismiss();
+                                }
+                                billsAdapter.notifyDataSetChanged();
+                            }
+                        }
+                );
+        return bill;
+    }
+    public Bill getWalletData(String walletId, Bill bill){
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .document(walletId)
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot snapshot = task.getResult();
+                                    if (snapshot.getString("walletName") != null && snapshot.getLong("walletAmount") != null) {
+                                        Wallet wallet = new Wallet(snapshot.getId(), snapshot.getString("walletName"), snapshot.getLong("walletAmount").intValue());
+                                        bill.setWallet(wallet);
+                                        progressDialog.dismiss();
+                                    }
+                                    billsAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                );
+        return bill;
     }
 }

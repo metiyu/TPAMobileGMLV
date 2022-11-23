@@ -17,6 +17,18 @@
             android:name=".activity.transaction.TransactionDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".EditBudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.budget.BudgetDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.budget.AddBudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.bill.EditBillActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.bill.AddBillActivity"
             android:exported="false" /> <!-- android:name=".activity.transaction.WriteNoteActivity" -->
         <activity
@@ -45,6 +57,12 @@
             android:exported="false" />
         <activity
             android:name=".activity.category.AddCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.bill.BillDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.budget.BudgetDetailActivity"
             android:exported="false" />
         <activity
             android:name=".NewMainActivity"

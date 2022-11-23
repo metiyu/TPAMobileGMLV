@@ -5,6 +5,9 @@ import java.io.Serializable;
 public class Category implements Serializable {
     String id, name, type;
 
+    public Category(){
+
+    }
     public Category(String id, String name, String type) {
         this.id = id;
         this.name = name;
