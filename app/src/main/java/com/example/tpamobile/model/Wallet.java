@@ -13,6 +13,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -55,12 +57,13 @@ public class Wallet implements Serializable {
     }
 
     public String formatRupiah(){
-        Locale localeID = new Locale("IND", "ID");
-        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-        String rupiahFormatted = formatRupiah.format(Double.parseDouble(this.amount.toString()));
-        String[] split = rupiahFormatted.split(",");
-        int length = split[0].length();
-        return split[0].substring(0,2)+". "+split[0].substring(2,length);
+        DecimalFormat IndExcRate = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+        IndExcRate.setDecimalFormatSymbols(formatRp);
+        return IndExcRate.format(amount);
     }
 
 //    public void getCurrentAmount(){

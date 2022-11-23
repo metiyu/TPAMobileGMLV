@@ -1,6 +1,10 @@
 package com.example.tpamobile.model;
 
+import com.google.type.DateTime;
+
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 public class Transaction implements Serializable {
@@ -9,8 +13,26 @@ public class Transaction implements Serializable {
     private Category TransactionCategory;
     private Wallet TransactionWallet;
     private Date TransactionDate;
+    private DateTime createdAt;
+
+    public Transaction(String transactionID, String transactionNote, Integer transactionAmount, Category transactionCategory, Wallet transactionWallet, Date transactionDate) {
+        TransactionID = transactionID;
+        TransactionNote = transactionNote;
+        TransactionAmount = transactionAmount;
+        TransactionCategory = transactionCategory;
+        TransactionWallet = transactionWallet;
+        TransactionDate = transactionDate;
+    }
 
     public Transaction() {
+    }
+
+    public DateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(DateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getTransactionID() {
@@ -59,5 +81,15 @@ public class Transaction implements Serializable {
 
     public void setTransactionDate(Date transactionDate) {
         TransactionDate = transactionDate;
+    }
+
+    public String formatRupiah(){
+        DecimalFormat IndExcRate = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+        IndExcRate.setDecimalFormatSymbols(formatRp);
+        return IndExcRate.format(this.TransactionAmount);
     }
 }

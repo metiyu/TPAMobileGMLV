@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_category_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CATEGORY"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_transaction_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TransactionNote"
+                android:textSize="12dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_transaction_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rp. xxxxx"
+            android:textAlignment="textEnd"
+            android:layout_gravity="center"
+            tools:ignore="RtlCompat" />
+
+</LinearLayout>

@@ -99,7 +99,7 @@ public class AddWalletActivity extends AppCompatActivity {
         return split[0].substring(0,2)+". "+split[0].substring(2,length);
     }
 
-    private void saveData(String walletName, Integer walletAmount){
+    public void saveData(String walletName, Integer walletAmount){
         Map<String, Object> wallet = new HashMap<>();
         wallet.put("walletName", walletName);
         wallet.put("walletAmount", walletAmount);

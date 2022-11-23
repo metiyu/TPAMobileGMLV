@@ -176,11 +176,11 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                                 Log.d("year", "onEvent: "+today_cal.get(Calendar.YEAR));
                                 Log.d("m", "onEvent: "+current_cal.get(Calendar.MONTH));
                                 Log.d("m", "onEvent: "+today_cal.get(Calendar.MONTH));
-                                if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)==today_cal.get(Calendar.MONTH)){
+                                if(snapshot.getString("paidStatus").equals("Unpaid") &&  current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)==today_cal.get(Calendar.MONTH)){
                                     totalThisMonth+=snapshot.getLong("billAmount").intValue();
 
                                 }
-                                else if(snapshot.getString("paidStatus").equals("Unpaid") && ((current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)<today_cal.get(Calendar.MONTH)) || (current_cal.get(Calendar.YEAR)<today_cal.get(Calendar.YEAR)))){
+                                if(snapshot.getString("paidStatus").equals("Unpaid") && ((current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)<today_cal.get(Calendar.MONTH)) || (current_cal.get(Calendar.YEAR)<today_cal.get(Calendar.YEAR)))){
                                     totalOverDue+=snapshot.getLong("billAmount").intValue();
                                 }
                                 tv_this_month_amount.setText("Rp"+totalThisMonth+",00");

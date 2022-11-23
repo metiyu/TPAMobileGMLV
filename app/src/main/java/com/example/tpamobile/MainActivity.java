@@ -4,18 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.tpamobile.model.Wallet;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +28,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Existing User...\n"+email, Toast.LENGTH_SHORT).show();
                         }
 
+                        checkUser(user, MainActivity.this);
+
                         startActivity(new Intent(MainActivity.this, HomeActivity.class));
                         finish();
                     }
@@ -123,6 +141,108 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "onFailure: Loggin failed");
                         Log.d(TAG, "onFailure: " + e.getMessage());
+                    }
+                });
+    }
+
+    public void checkUser(FirebaseUser currUser, Context c){
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            QuerySnapshot doc = task.getResult();
+                            Log.d("SignInActivity", "onComplete: isEmpty, " + doc.isEmpty());
+                            if (!doc.isEmpty()){
+                                Log.d("SignInActivity", "onComplete: ada user, " + doc.size());
+                                checkWallet(currUser, c);
+                            } else {
+                                Log.d("SignInActivity", "onComplete: gaada user, " + doc.size());
+                                saveCurrUser(currUser, c);
+                            }
+                        } else {
+                            Toast.makeText(c, "Error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                });
+    }
+
+    private void checkWallet(FirebaseUser currUser, Context c){
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null){
+                            Log.d("SignInActivity", "onEvent: " + error.toString());
+                            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        for (QueryDocumentSnapshot snapshot : value){
+                            if (snapshot.getLong("walletAmount") != null && snapshot.getString("walletName") != null){
+                                Wallet wallet = new Wallet(snapshot.getId(), snapshot.getString("walletName"), snapshot.getLong("walletAmount").intValue());
+                                Gson gson = new Gson();
+                                String walletJson = gson.toJson(wallet);
+                                String userJson = gson.toJson(currUser);
+
+                                SharedPreferences sharedPreferences =  c.getSharedPreferences("app", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("wallet", walletJson);
+                                editor.putString("user", userJson);
+                                editor.commit();
+
+                                Log.d("SignInActivity", "onEvent: wallet id, " + snapshot.getId());
+                                Log.d("SignInActivity", "onEvent: wallet name, " + snapshot.getString("walletName"));
+                                Log.d("SignInActivity", "onEvent: wallet amount, " + snapshot.getLong("walletAmount").intValue());
+
+                                Log.d("SignInActivity", "onEvent: context, " + c.getClass());
+                                Log.d("SignInActivity", "onEvent: context, " + c.getApplicationContext());
+
+                                startActivity(new Intent(c, HomeActivity.class));
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void saveCurrUser(FirebaseUser currUser, Context c){
+        String walletName = "My Wallet";
+        int walletAmount = 0;
+
+        Map<String, Object> wallet = new HashMap<>();
+        wallet.put("walletName", walletName);
+        wallet.put("walletAmount", walletAmount);
+
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .add(wallet)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Wallet walletObj = new Wallet(documentReference.getId(), walletName, walletAmount);
+                        Gson gson = new Gson();
+                        String walletJson = gson.toJson(walletObj);
+                        String userJson = gson.toJson(currUser);
+
+                        SharedPreferences sharedPreferences = c.getSharedPreferences("app", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("wallet", walletJson);
+                        editor.putString("user", userJson);
+                        editor.commit();
+
+                        startActivity(new Intent(c, HomeActivity.class));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
     }

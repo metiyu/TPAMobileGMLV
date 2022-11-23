@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tpamobile.R;
@@ -50,6 +51,8 @@ public class AddTransactionActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
+    private Date dateFromET;
+
     private final String TAG = "MAKE TRANSACTION";
 
     @Override
@@ -71,7 +74,7 @@ public class AddTransactionActivity extends AppCompatActivity {
 
         transaction = (Transaction) getIntent().getSerializableExtra("currTransaction");
         if(transaction != null){
-            Log.d(TAG, "onCreate: " + transaction.getTransactionAmount());
+            Log.d(TAG, "onCreate: date, " + transaction.getTransactionDate());
             if (transaction.getTransactionAmount() != null)
                 et_transaction_amount.setText(transaction.getTransactionAmount().toString());
             if (transaction.getTransactionCategory() != null){
@@ -80,8 +83,12 @@ public class AddTransactionActivity extends AppCompatActivity {
             }
             if (transaction.getTransactionNote() != null)
                 et_transaction_note.setText(transaction.getTransactionNote());
-            if (transaction.getTransactionDate() != null)
-                et_transaction_date.setText(transaction.getTransactionDate().toString());
+            if (transaction.getTransactionDate() != null){
+                dateFromET = transaction.getTransactionDate();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(transaction.getTransactionDate());
+                formatDate(calendar);
+            }
             if (transaction.getTransactionWallet() != null) {
                 et_transaction_wallet.setText(transaction.getTransactionWallet().getName());
                 wallet = transaction.getTransactionWallet();
@@ -123,7 +130,8 @@ public class AddTransactionActivity extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, day);
-                formatDate();
+                formatDate(calendar);
+                dateFromET = calendar.getTime();
             }
         };
 
@@ -142,10 +150,9 @@ public class AddTransactionActivity extends AppCompatActivity {
             Integer transactionAmount = Integer.parseInt(et_transaction_amount.getText().toString().trim());
             Category transactionCategory = this.category;
             String transactionNote = et_transaction_note.getText().toString().trim();
-            Date transactionDate = new Date(et_transaction_date.getText().toString());
             Wallet transactionWallet = this.wallet;
 
-            saveData(transactionAmount, transactionCategory, transactionNote, transactionDate, transactionWallet);
+            saveData(transactionAmount, transactionCategory, transactionNote, dateFromET, transactionWallet);
         });
     }
 
@@ -159,6 +166,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         transaction.put("transactionNote", transactionNote);
         transaction.put("transactionDate", transactionDate);
         transaction.put("transactionWallet", transactionWallet.getId());
+        transaction.put("createdAt", new Date());
 
         progressDialog = new ProgressDialog(AddTransactionActivity.this);
         progressDialog.show();
@@ -166,6 +174,12 @@ public class AddTransactionActivity extends AppCompatActivity {
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("transactions")
+                .document(new SimpleDateFormat("yyyy").format(transactionDate))
+                .collection("monthList")
+                .document(new SimpleDateFormat("MM").format(transactionDate))
+                .collection("dateList")
+                .document(new SimpleDateFormat("dd").format(transactionDate))
+                .collection("transactionList")
                 .add(transaction)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -180,6 +194,48 @@ public class AddTransactionActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        Map<String, Object> rubbish = new HashMap<>();
+        rubbish.put("tes", "tes");
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("transactions")
+                .document(new SimpleDateFormat("yyyy").format(transactionDate))
+                .set(rubbish)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("transactions")
+                .document(new SimpleDateFormat("yyyy").format(transactionDate))
+                .collection("monthList")
+                .document(new SimpleDateFormat("MM").format(transactionDate))
+                .set(rubbish)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("transactions")
+                .document(new SimpleDateFormat("yyyy").format(transactionDate))
+                .collection("monthList")
+                .document(new SimpleDateFormat("MM").format(transactionDate))
+                .collection("dateList")
+                .document(new SimpleDateFormat("dd").format(transactionDate))
+                .set(rubbish)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
                     }
                 });
     }
@@ -224,9 +280,9 @@ public class AddTransactionActivity extends AppCompatActivity {
         }
     }
 
-    private void formatDate(){
+    private void formatDate(Calendar calendar){
         String myFormat="E, dd/MM/yy";
-        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         et_transaction_date.setText(dateFormat.format(calendar.getTime()));
     }
 
@@ -238,8 +294,9 @@ public class AddTransactionActivity extends AppCompatActivity {
             transaction.setTransactionCategory(category);
         if (!et_transaction_note.getText().toString().isEmpty())
             transaction.setTransactionNote(et_transaction_note.getText().toString().trim());
-        if (!et_transaction_date.getText().toString().isEmpty())
-            transaction.setTransactionDate(new Date(et_transaction_date.getText().toString().trim()));
+        if (!et_transaction_date.getText().toString().isEmpty()){
+            transaction.setTransactionDate(dateFromET);
+        }
         if(wallet != null)
             transaction.setTransactionWallet(wallet);
         return transaction;
