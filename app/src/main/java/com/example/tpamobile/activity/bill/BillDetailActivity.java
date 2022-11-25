@@ -50,7 +50,7 @@ public class BillDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bill_detail);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Bill");
+        actionBar.setTitle(getString(R.string.bills));
         binding = ActivityBillDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         bill = (Bill) getIntent().getSerializableExtra("currBill");
@@ -74,8 +74,8 @@ public class BillDetailActivity extends AppCompatActivity {
             unpaid_btn.setVisibility(View.INVISIBLE);
         }
         progressDialog = new ProgressDialog(BillDetailActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         edit_btn.setOnClickListener(x -> {
             Intent intent = new Intent(BillDetailActivity.this, EditBillActivity.class);

@@ -42,7 +42,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Category");
+        actionBar.setTitle(getString(R.string.category));
 
         category = (Category) getIntent().getSerializableExtra("currCategory");
         et_category_name = findViewById(R.id.et_category_name);
@@ -63,8 +63,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
         rb_income.setEnabled(false);
 
         progressDialog = new ProgressDialog(CategoryDetailActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         btn_edit_category.setOnClickListener(x -> {
             Intent intent = new Intent(CategoryDetailActivity.this, EditCategoryActivity.class);

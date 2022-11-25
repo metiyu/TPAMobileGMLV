@@ -18,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:hint="Budget Category" />
+            android:hint="@string/budget_category" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_budget_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Budget Amount"
+            android:hint="@string/budget_amount"
             android:inputType="number"
             android:focusable="false"
             tools:ignore="Autofill" />
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="Delete" />
+            android:text="@string/delete" />
     </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

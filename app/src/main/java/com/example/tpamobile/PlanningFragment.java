@@ -74,7 +74,7 @@ public class PlanningFragment extends Fragment {
                 inflater,  container, false);
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Plan");
+        actionBar.setTitle(getString(R.string.plan));
         btn_to_bills = binding.btnGotobills;
         btn_to_budget = binding.btnGotobudget;
         btn_to_bills.setOnClickListener(x->{

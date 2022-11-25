@@ -95,7 +95,7 @@ public class EditProfileFragment extends Fragment {
         btn_update_profile = binding.btnUpdateProfile;
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Edit Profile");
+        actionBar.setTitle(getString(R.string.edit_profile));
         Log.d("check log", "test log");
         user = FirebaseAuth.getInstance().getCurrentUser();
         Bundle extras = getArguments();

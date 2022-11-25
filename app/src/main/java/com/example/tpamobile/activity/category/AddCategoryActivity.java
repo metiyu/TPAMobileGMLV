@@ -45,8 +45,8 @@ public class AddCategoryActivity extends AppCompatActivity {
         btn_save_category = findViewById(R.id.btn_save_category);
 
         progressDialog = new ProgressDialog(AddCategoryActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         btn_save_category.setOnClickListener(x -> {
             String categoryName = et_category_name.getText().toString().trim();

@@ -19,7 +19,7 @@
             android:id="@+id/et_wallet_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Wallet Name" />
+            android:hint="@string/wallet_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -31,7 +31,7 @@
             android:id="@+id/et_wallet_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Wallet Amount"
+            android:hint="@string/wallet_amount"
             android:inputType="number"
             tools:ignore="Autofill"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -40,6 +40,6 @@
         android:id="@+id/btn_save_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="@string/save"/>
 
 </LinearLayout>

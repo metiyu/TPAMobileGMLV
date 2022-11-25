@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnSignIn, btnSignup;
+    Button btnSignIn, btnSignup, btnChange;
     SignInButton btnSignInGoogle;
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient googleSignInClient;

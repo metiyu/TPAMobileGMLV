@@ -49,7 +49,7 @@ public class SelectWalletActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Select Wallet");
+        actionBar.setTitle(getString(R.string.select_wallet));
 
         Transaction transaction = (Transaction) getIntent().getSerializableExtra("currTransaction");
 
@@ -57,8 +57,8 @@ public class SelectWalletActivity extends AppCompatActivity {
         walletAdapter = new WalletAdapter(SelectWalletActivity.this, walletList, transaction);
 
         progressDialog = new ProgressDialog(SelectWalletActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Fetching...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.fetching));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SelectWalletActivity.this, LinearLayoutManager.VERTICAL, false);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(SelectWalletActivity.this, DividerItemDecoration.VERTICAL);

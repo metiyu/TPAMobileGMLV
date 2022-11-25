@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Home"
+    <item android:title="@string/home"
         android:icon="@drawable/ic_baseline_home_24"
         android:id="@+id/homee"/>
-    <item android:title="profile"
+    <item android:title="@string/profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/profilee"/>
     <item
         android:title=""
         android:icon="@drawable/ic_baseline_add_circle_outline_24"
         android:id="@+id/add_transaction" />
-    <item android:title="Transaction"
+    <item android:title="@string/transaction"
         android:icon="@drawable/ic_baseline_list_alt_24"
         android:id="@+id/transactionn"/>
     <item
-        android:title="Plan"
+        android:title="@string/plan"
         android:icon="@drawable/ic_baseline_app_registration_24"
         android:id="@+id/plann"/>
 

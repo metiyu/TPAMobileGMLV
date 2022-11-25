@@ -16,7 +16,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Input your old password" />
+            android:text="@string/input_old_pass" />
 
         <EditText
             android:id="@+id/old_password_tf"
@@ -29,7 +29,7 @@
             android:id="@+id/btn_submit_validation_old_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:text="@string/submit" />
     </LinearLayout>
 
 

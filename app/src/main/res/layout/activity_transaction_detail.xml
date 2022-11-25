@@ -21,7 +21,7 @@
             android:id="@+id/tv_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/category"
             android:textSize="24dp"
             android:layout_marginLeft="10dp"/>
 
@@ -31,7 +31,7 @@
         android:id="@+id/tv_transaction_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Transaction Amount"
+        android:text="@string/transaction_amount"
         android:textSize="24dp"
         android:paddingLeft="58dp"
         android:paddingVertical="20dp"/>
@@ -50,7 +50,7 @@
             android:id="@+id/tv_transaction_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transaction Date"
+            android:text="@string/transaction_date"
             android:textSize="18dp"
             android:layout_marginLeft="10dp"/>
 
@@ -71,7 +71,7 @@
             android:id="@+id/tv_transaction_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transaction Wallet"
+            android:text="@string/transaction_wallet"
             android:textSize="18dp"
             android:layout_marginLeft="10dp"/>
 
@@ -95,7 +95,7 @@
             android:id="@+id/btn_delete_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="@string/delete"
             android:layout_margin="3dp"/>
 
     </LinearLayout>

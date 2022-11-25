@@ -19,14 +19,14 @@
             android:id="@+id/btn_gotosignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:text="@string/sign_in"
             android:layout_marginTop="15dp"/>
 
         <Button
             android:id="@+id/btn_gotosignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up"/>
+            android:text="@string/sign_up"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_sign_in_google"

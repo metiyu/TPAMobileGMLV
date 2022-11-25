@@ -18,7 +18,7 @@
             android:id="@+id/et_category_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category Name" />
+            android:hint="@string/category_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <RadioGroup
@@ -31,13 +31,13 @@
                 android:id="@+id/rb_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Income" />
+                android:text="@string/income" />
 
             <RadioButton
                 android:id="@+id/rb_expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Expense" />
+                android:text="@string/expense" />
 
     </RadioGroup>
 
@@ -45,6 +45,6 @@
         android:id="@+id/btn_save_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="@string/save"/>
 
 </LinearLayout>

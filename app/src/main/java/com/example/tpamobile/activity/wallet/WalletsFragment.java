@@ -107,7 +107,7 @@ public class WalletsFragment extends Fragment {
 
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Wallet");
+        actionBar.setTitle(R.string.wallet);
 
         btn_add_wallet = binding.btnAddWallet;
         btn_add_wallet.setOnClickListener(x -> {

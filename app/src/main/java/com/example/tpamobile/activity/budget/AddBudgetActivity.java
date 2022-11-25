@@ -55,7 +55,7 @@ public class AddBudgetActivity extends AppCompatActivity implements SimpleDatePi
         setContentView(binding.getRoot());
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Budget");
+        actionBar.setTitle(getString(R.string.budget));
         et_budget_amount = binding.etBudgetAmount;
         et_category = binding.etBudgetCategory;
         et_month = binding.etBudgetMonth;

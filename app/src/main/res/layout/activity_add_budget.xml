@@ -17,7 +17,7 @@
             android:id="@+id/et_budget_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Budget Amount"
+            android:hint="@string/budget_amount"
             android:inputType="number"
             tools:ignore="Autofill"/>
 
@@ -33,7 +33,7 @@
             android:id="@+id/et_budget_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Budget Category"
+            android:hint="@string/budget_category"
             tools:ignore="Autofill"
             android:focusable="false"/>
 
@@ -49,7 +49,7 @@
             android:id="@+id/et_budget_month"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Category"
+            android:hint="@string/select_category"
             tools:ignore="Autofill"
             android:focusable="false"/>
 
@@ -58,6 +58,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/save"
         android:id="@+id/btn_save"/>
 </LinearLayout>

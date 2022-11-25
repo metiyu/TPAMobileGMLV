@@ -244,9 +244,9 @@ public class TransactionFragment extends Fragment {
         calendar.add(Calendar.MONTH, -howManyMonthsAgo);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
         if (howManyMonthsAgo == 0)
-            return "This month";
+            return getString(R.string.this_month);
         if (howManyMonthsAgo == 1)
-            return "Last month";
+            return getString(R.string.last_month);
         return dateFormat.format(calendar.getTime());
     }
 

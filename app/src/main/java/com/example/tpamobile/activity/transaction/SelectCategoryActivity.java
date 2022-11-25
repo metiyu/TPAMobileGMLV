@@ -55,8 +55,8 @@ public class SelectCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_category);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Select Category");
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(getString(R.string.select_category));
 
         tl_category = findViewById(R.id.tl_category);
         vp_category = findViewById(R.id.vp_category);
@@ -92,9 +92,9 @@ public class SelectCategoryActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         pagerAdapter = new CategoryPagerAdapter(fragmentManager, getLifecycle());
         vp_category.setAdapter(pagerAdapter);
-        tl_category.addTab(tl_category.newTab().setText("Expense"));
+        tl_category.addTab(tl_category.newTab().setText(getString(R.string.expense)));
         if ((Bill) getIntent().getSerializableExtra("currBill") == null && (Budget) getIntent().getSerializableExtra("currBudget") == null){
-            tl_category.addTab(tl_category.newTab().setText("Income"));
+            tl_category.addTab(tl_category.newTab().setText(getString(R.string.income)));
         }
 
 

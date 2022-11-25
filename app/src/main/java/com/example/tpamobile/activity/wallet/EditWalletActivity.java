@@ -59,8 +59,8 @@ public class EditWalletActivity extends AppCompatActivity {
         et_wallet_amount.setText(wallet.getAmount().toString());
 
         progressDialog = new ProgressDialog(EditWalletActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         btn_save_wallet.setOnClickListener(x -> {
             String walletName = et_wallet_name.getText().toString().trim();

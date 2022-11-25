@@ -40,7 +40,7 @@ public class WalletDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wallet_detail);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Wallet");
+        actionBar.setTitle(getString(R.string.wallet));
 
         wallet = (Wallet) getIntent().getSerializableExtra("currWallet");
         et_wallet_name = findViewById(R.id.et_wallet_name);
@@ -55,8 +55,8 @@ public class WalletDetailActivity extends AppCompatActivity {
         et_wallet_amount.setFocusable(false);
 
         progressDialog = new ProgressDialog(WalletDetailActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         btn_edit_wallet.setOnClickListener(x -> {
             Intent intent = new Intent(WalletDetailActivity.this, EditWalletActivity.class);
