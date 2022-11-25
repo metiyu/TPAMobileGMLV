@@ -32,6 +32,8 @@ import com.example.tpamobile.adapter.BudgetAdapter;
 import com.example.tpamobile.databinding.FragmentBudgetBinding;
 import com.example.tpamobile.model.Budget;
 import com.example.tpamobile.model.Category;
+import com.example.tpamobile.model.Transaction;
+import com.example.tpamobile.model.Wallet;
 import com.example.tpamobile.util.DateDisplayUtils;
 import com.example.tpamobile.widgets.SimpleDatePickerDialog;
 import com.example.tpamobile.widgets.SimpleDatePickerDialogFragment;
@@ -39,8 +41,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -57,7 +61,7 @@ import java.util.Locale;
  * Use the {@link BudgetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.OnDateSetListener, View.OnClickListener {
+public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.OnDateSetListener, View.OnClickListener {
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -71,7 +75,8 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
     private FragmentBudgetBinding binding;
     private Button btn_add;
     private BudgetAdapter budgetAdapter;
-    private List<Budget> budgetList = new ArrayList<>();;
+    private List<Budget> budgetList = new ArrayList<>();
+    ;
     private RecyclerView rv_budgets;
     private ProgressDialog progressDialog;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -79,6 +84,10 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
     private Budget budget;
     private Button mPickDateButton;
 
+    private String TAG = "BudgetFragment";
+    private Category currCategory;
+    private Wallet currWallet;
+    private List<Transaction> transactionListForBudget = new ArrayList<>();
 
     public BudgetFragment() {
         // Required empty public constructor
@@ -116,7 +125,7 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_budget, container, false);
-        binding = FragmentBudgetBinding.inflate(inflater,  container, false);
+        binding = FragmentBudgetBinding.inflate(inflater, container, false);
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Budget");
@@ -127,7 +136,7 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
         BillsFragment.month = Calendar.getInstance().get(Calendar.MONTH);
         mPickDateButton.setText(DateDisplayUtils.formatMonthYear(BillsFragment.year, BillsFragment.month));
 
-        btn_add.setOnClickListener(x->{
+        btn_add.setOnClickListener(x -> {
             Intent intent = new Intent(BudgetFragment.this.getActivity(), AddBudgetActivity.class);
             startActivity(intent);
         });
@@ -159,7 +168,7 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
 //
 //    }
 
-    public void getData(int year, int month){
+    public void getData(int year, int month) {
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("budgets")
@@ -168,39 +177,113 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         budgetList.clear();
-                        if(error!=null){
+                        if (error != null) {
                             Toast.makeText(BudgetFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        Log.d("Size budget", "onEvent: "+value.size());
-                        for(QueryDocumentSnapshot snapshot: value){
+                        Log.d("Size budget", "onEvent: " + value.size());
+                        for (QueryDocumentSnapshot snapshot : value) {
                             int curr_month = snapshot.getLong("month").intValue();
                             int curr_year = snapshot.getLong("year").intValue();
-                            int cvt_month = month+1;
-                            if(cvt_month>12){
-                                cvt_month%=12;
+                            int cvt_month = month + 1;
+                            if (cvt_month > 12) {
+                                cvt_month %= 12;
                             }
-                            if(snapshot.getString("category")!=null && snapshot.getLong("budgetAmount")!=null && curr_month == cvt_month && curr_year==year){
+                            if (snapshot.getString("category") != null && snapshot.getLong("budgetAmount") != null && curr_month == cvt_month && curr_year == year) {
                                 budget = new Budget();
-                                if(snapshot.getString("category")!=null){
+                                if (snapshot.getString("category") != null) {
                                     budget.setCategory(new Category());
                                     budget.getCategory().setId(snapshot.getString("category"));
                                     budget = getCategoryData(budget.getCategory().getId(), budget);
-                                    Log.d("category id", "onEvent: "+budget.getCategory().getId());
+                                    Log.d("category id", "onEvent: " + budget.getCategory().getId());
+
+                                    if (snapshot.get("transactionList") != null) {
+                                        for (DocumentReference tranId : (List<DocumentReference>) snapshot.get("transactionList")) {
+                                            Log.d(TAG, "onEvent: tranid path, " + tranId.getPath());
+                                            db.document(tranId.getPath().toString())
+                                                    .get()
+                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                            if (task.isSuccessful()) {
+                                                                DocumentSnapshot doc = task.getResult();
+                                                                if (doc.exists()) {
+                                                                    if (doc.getData() != null) {
+                                                                        Transaction transaction = new Transaction();
+
+                                                                        if (doc.getLong("transactionAmount") != null &&
+                                                                                doc.getString("transactionCategory") != null &&
+                                                                                doc.getDate("transactionDate") != null &&
+                                                                                doc.getString("transactionNote") != null &&
+                                                                                doc.getString("transactionWallet") != null) {
+                                                                            Log.d(TAG, "onComplete: snapshot tran, " + doc.getId());
+                                                                            db.collection("categories")
+                                                                                    .document(doc.getString("transactionCategory"))
+                                                                                    .get()
+                                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                            if (task.isSuccessful()) {
+                                                                                                DocumentSnapshot document = task.getResult();
+                                                                                                if (document.exists()) {
+                                                                                                    currCategory = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
+                                                                                                    transaction.setTransactionCategory(currCategory);
+                                                                                                }
+                                                                                            }
+
+                                                                                            db.collection("users")
+                                                                                                    .document(currUser.getUid())
+                                                                                                    .collection("wallets")
+                                                                                                    .document(doc.getString("transactionWallet"))
+                                                                                                    .get()
+                                                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                                            if (task.isSuccessful()) {
+                                                                                                                DocumentSnapshot document = task.getResult();
+                                                                                                                if (document.exists()) {
+                                                                                                                    currWallet = new Wallet(document.getId(), document.getString("walletName"), document.getLong("walletAmount").intValue());
+                                                                                                                    transaction.setTransactionWallet(currWallet);
+                                                                                                                }
+                                                                                                            }
+                                                                                                            transaction.setTransactionID(doc.getId());
+                                                                                                            transaction.setTransactionNote(doc.getString("transactionNote"));
+                                                                                                            transaction.setTransactionAmount(doc.getLong("transactionAmount").intValue());
+                                                                                                            transaction.setTransactionDate(doc.getDate("transactionDate"));
+
+                                                                                                            transactionListForBudget.add(transaction);
+                                                                                                            budget.setTransactionList(transactionListForBudget);
+                                                                                                            Log.d(TAG, "onComplete: tran list, " + budget.getTransactionList().size());
+                                                                                                            budget.setId(snapshot.getId());
+                                                                                                            budget.setAmount(snapshot.getLong("budgetAmount").intValue());
+                                                                                                            budget.setMonth(snapshot.getLong("month").intValue());
+                                                                                                            budget.setYear(snapshot.getLong("year").intValue());
+                                                                                                            Log.d(TAG, "onEvent: budget tran list, " + budget.getTransactionList().size());
+                                                                                                            budgetList.add(budget);
+                                                                                                            budgetAdapter.notifyDataSetChanged();
+                                                                                                        }
+                                                                                                    });
+                                                                                        }
+                                                                                    });
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                Log.d(TAG, "onComplete: error task incomplete, ");
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }
                                 }
-                                budget.setId(snapshot.getId());
-                                budget.setAmount(snapshot.getLong("budgetAmount").intValue());
-                                budget.setMonth(snapshot.getLong("month").intValue());
-                                budget.setYear(snapshot.getLong("year").intValue());
-                                budgetList.add(budget);
                             }
-                            budgetAdapter.notifyDataSetChanged();
                         }
                     }
                 });
     }
 
-    public Budget getCategoryData(String categoryId, Budget budget){
+    public Budget getCategoryData(String categoryId, Budget budget) {
         db.collection("categories")
                 .document(categoryId)
                 .get()
@@ -208,7 +291,7 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
                         new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     Category category = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
                                     budget.setCategory(category);
@@ -231,8 +314,8 @@ public class BudgetFragment extends Fragment implements  SimpleDatePickerDialog.
     @Override
     public void onDateSet(int year, int monthOfYear) {
         mPickDateButton.setText(DateDisplayUtils.formatMonthYear(year, monthOfYear));
-        Log.d("year", "onDateSet: "+year);
-        Log.d("month", "onDateSet: "+monthOfYear);
+        Log.d("year", "onDateSet: " + year);
+        Log.d("month", "onDateSet: " + monthOfYear);
         getData(year, monthOfYear);
     }
 

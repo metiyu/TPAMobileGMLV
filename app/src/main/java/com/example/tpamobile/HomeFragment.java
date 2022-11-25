@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,17 @@ import com.example.tpamobile.model.Transaction;
 import com.example.tpamobile.model.TransactionGroupByDate;
 import com.example.tpamobile.model.Wallet;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +59,7 @@ import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -63,7 +79,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private TextView tv_all_balance, tv_wallet_name, tv_wallet_amount, tv_see_all_wallets, tv_see_all_spend_reports, tv_see_all_recent_transactions;
     private BarChart bc_spend_report;
-    private RecyclerView rv_recent_transactions;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
     private ProgressDialog progressDialog;
@@ -71,7 +86,16 @@ public class HomeFragment extends Fragment {
     private Category currCategory;
     private Wallet currWallet;
 
-    private Integer allBalance = 0;
+    private List<Transaction> transactionListThisMonth = new ArrayList<>();
+    private List<Transaction> transactionListLastMonth = new ArrayList<>();
+    private List<Transaction> transactionListRecent = new ArrayList<>();
+    private Integer allBalance = 0, thisMonthSpend = 0, lastMonthSpend = 0, recentTrans = 0;
+
+    final ArrayList<String> xAxisLabel = new ArrayList<>();
+    private RelativeLayout rl_top_category1, rl_top_category2, rl_top_category3;
+    private TextView tv_category_name1, tv_category_name2, tv_category_name3, tv_transaction_amount1, tv_transaction_amount2, tv_transaction_amount3, tv_transaction_date1, tv_transaction_date2, tv_transaction_date3;
+    private ImageView is_switcher_arrow;
+    private TextView tv_percent_this_last_month;
 
     private String TAG = "HOME_FRAGMENT";
 
@@ -131,7 +155,21 @@ public class HomeFragment extends Fragment {
         tv_see_all_spend_reports = binding.tvSeeAllSpendReports;
         tv_see_all_recent_transactions = binding.tvSeeAllRecentTransactions;
         bc_spend_report = binding.bcSpendReport;
-        rv_recent_transactions = binding.rvRecentTransactions;
+        is_switcher_arrow = binding.isSwitcherArrow;
+        tv_percent_this_last_month = binding.tvPercentThisLastMonth;
+
+        rl_top_category1 = binding.rlTopCategory1;
+        rl_top_category2 = binding.rlTopCategory2;
+        rl_top_category3 = binding.rlTopCategory3;
+        tv_category_name1 = binding.tvCategoryName1;
+        tv_category_name2 = binding.tvCategoryName2;
+        tv_category_name3 = binding.tvCategoryName3;
+        tv_transaction_date1 = binding.tvTransactionDate1;
+        tv_transaction_date2 = binding.tvTransactionDate2;
+        tv_transaction_date3 = binding.tvTransactionDate3;
+        tv_transaction_amount1 = binding.tvTransactionAmount1;
+        tv_transaction_amount2 = binding.tvTransactionAmount2;
+        tv_transaction_amount3 = binding.tvTransactionAmount3;
 
         getBalanceFromAllWallets();
 
@@ -148,6 +186,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        xAxisLabel.add("Last Month");
+        xAxisLabel.add("This Month");
+
+        getDataYear();
 
         return binding.getRoot();
     }
@@ -273,7 +315,107 @@ public class HomeFragment extends Fragment {
                                                                 transaction.setTransactionAmount(snapshot.getLong("transactionAmount").intValue());
                                                                 transaction.setTransactionDate(snapshot.getDate("transactionDate"));
 
+                                                                Calendar calendar = Calendar.getInstance();
 
+                                                                if (calendar.get(Calendar.MONTH) == transaction.getTransactionDate().getMonth()){
+                                                                    if (transaction.getTransactionCategory().getType().equals("expense")){
+                                                                        thisMonthSpend += transaction.getTransactionAmount();
+                                                                    }
+                                                                    transactionListThisMonth.add(transaction);
+                                                                    if (recentTrans < 3){
+                                                                        transactionListRecent.add(transaction);
+                                                                        recentTrans++;
+                                                                    }
+                                                                }
+                                                                calendar.add(Calendar.MONTH, -1);
+                                                                if (calendar.get(Calendar.MONTH) == transaction.getTransactionDate().getMonth()){
+                                                                    if (transaction.getTransactionCategory().getType().equals("expense")){
+                                                                        lastMonthSpend += transaction.getTransactionAmount();
+                                                                    }
+                                                                    transactionListLastMonth.add(transaction);
+                                                                }
+
+
+                                                                Float percent = (thisMonthSpend - lastMonthSpend)/(float)thisMonthSpend*100;
+                                                                tv_percent_this_last_month.setText(Math.abs(Math.round(percent * 100.0)/100.0) + "%");
+                                                                if (percent < 0){
+                                                                    is_switcher_arrow.setImageResource(R.drawable.ic_baseline_arrow_downward_24);
+                                                                    is_switcher_arrow.setColorFilter(getResources().getColor(R.color.incomeColor));
+                                                                    tv_percent_this_last_month.setTextColor(getContext().getColor(R.color.incomeColor));
+
+                                                                } else if (percent > 0){
+                                                                    is_switcher_arrow.setImageResource(R.drawable.ic_baseline_arrow_upward_24);
+                                                                    is_switcher_arrow.setColorFilter(getResources().getColor(R.color.expenseColor));
+                                                                    tv_percent_this_last_month.setTextColor(getContext().getColor(R.color.expenseColor));
+                                                                }
+
+                                                                //BarChart
+                                                                ArrayList<BarEntry> data = new ArrayList<>();
+                                                                data.add(new BarEntry(0, lastMonthSpend));
+                                                                data.add(new BarEntry(1, thisMonthSpend));
+
+                                                                BarDataSet barDataSet = new BarDataSet(data, "data");
+                                                                barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                                                                barDataSet.setValueTextColor(Color.BLACK);
+                                                                barDataSet.setValueTextSize(16f);
+
+                                                                BarData barData = new BarData(barDataSet);
+
+                                                                bc_spend_report.setData(barData);
+
+                                                                bc_spend_report.setDrawGridBackground(false);
+                                                                bc_spend_report.setDrawBarShadow(false);
+                                                                bc_spend_report.setDrawBorders(false);
+
+                                                                Description description = new Description();
+                                                                description.setEnabled(false);
+                                                                bc_spend_report.setDescription(description);
+
+                                                                bc_spend_report.animateY(1000);
+                                                                bc_spend_report.animateX(1000);
+
+                                                                XAxis xAxis = bc_spend_report.getXAxis();
+                                                                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                                                                xAxis.setGranularity(1f);
+                                                                xAxis.setDrawAxisLine(false);
+                                                                xAxis.setDrawGridLines(false);
+                                                                xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+
+                                                                YAxis leftAxis = bc_spend_report.getAxisLeft();
+                                                                leftAxis.setAxisMinimum(0);
+//                                                                leftAxis.setAxisMaximum(Float.intBitsToFloat(Integer.max(thisMonthSpend, lastMonthSpend)));
+                                                                leftAxis.setDrawAxisLine(false);
+
+                                                                YAxis rightAxis = bc_spend_report.getAxisRight();
+                                                                rightAxis.setDrawAxisLine(false);
+
+                                                                Legend legend = bc_spend_report.getLegend();
+                                                                legend.setEnabled(false);
+                                                                ////////////////////////////////////////////
+
+                                                                //Recent Transactions
+                                                                Log.d(TAG, "onComplete: tran recent, " + transactionListRecent.size());
+
+                                                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+
+                                                                if (transactionListRecent.size() > 0){
+                                                                    if (recentTrans == 3){
+                                                                        tv_category_name1.setText(transactionListRecent.get(recentTrans-1).getTransactionCategory().getName());
+                                                                        tv_transaction_date1.setText(dateFormat.format(transactionListRecent.get(recentTrans-1).getTransactionDate()));
+                                                                        tv_transaction_amount1.setText(transactionListRecent.get(recentTrans-1).formatRupiah());
+                                                                    }
+                                                                    else if (recentTrans == 2){
+                                                                        tv_category_name2.setText(transactionListRecent.get(recentTrans-1).getTransactionCategory().getName());
+                                                                        tv_transaction_date2.setText(dateFormat.format(transactionListRecent.get(recentTrans-1).getTransactionDate()));
+                                                                        tv_transaction_amount2.setText(transactionListRecent.get(recentTrans-1).formatRupiah());
+                                                                    }
+                                                                    else if (recentTrans == 1){
+                                                                        tv_category_name3.setText(transactionListRecent.get(recentTrans-1).getTransactionCategory().getName());
+                                                                        tv_transaction_date3.setText(dateFormat.format(transactionListRecent.get(recentTrans-1).getTransactionDate()));
+                                                                        tv_transaction_amount3.setText(transactionListRecent.get(recentTrans-1).formatRupiah());
+                                                                    }
+                                                                }
+                                                                //////////////////////////////////////////
                                                             }
                                                         });
                                             }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,8 +46,12 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
     public void onBindViewHolder(@NonNull BudgetAdapter.BudgetViewHolder holder, int position) {
         holder.tv_budget_amount.setText("Amount");
         holder.tv_budget_category.setText("category");
-        if(budgetList.get(position).getAmount()!=null){
-            holder.tv_budget_amount.setText("Rp"+budgetList.get(position).getAmount().toString().trim());
+        if(budgetList.get(position).getAmount()!=null && budgetList.get(position).getAllTransactionAmount() != null){
+            holder.tv_budget_amount.setText(budgetList.get(position).formatRupiah());
+            holder.tv_spent_budget.setText(budgetList.get(position).getAllTransactionAmountFormatted());
+            Float progress = (budgetList.get(position).getAmount() - budgetList.get(position).getAllTransactionAmount())/(float)budgetList.get(position).getAmount()*100;
+            holder.pb_budget.setProgress(progress.intValue());
+            holder.tv_percent_budget.setText(Math.round(progress) + "%");
         }
         if(budgetList.get(position).getCategory()!=null){
             holder.tv_budget_category.setText(budgetList.get(position).getCategory().getName());
@@ -63,12 +68,16 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
         return budgetList.size();
     }
     public class BudgetViewHolder extends RecyclerView.ViewHolder{
-        TextView tv_budget_category, tv_budget_amount;
+        TextView tv_budget_category, tv_budget_amount, tv_spent_budget, tv_percent_budget;
+        ProgressBar pb_budget;
 
         public BudgetViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_budget_category = itemView.findViewById(R.id.tv_category_name);
             tv_budget_amount = itemView.findViewById(R.id.tv_amount_left);
+            tv_spent_budget = itemView.findViewById(R.id.tv_spent_budget);
+            pb_budget = itemView.findViewById(R.id.pb_budget);
+            tv_percent_budget = itemView.findViewById(R.id.tv_percent_budget);
         }
     }
 }

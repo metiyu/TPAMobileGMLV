@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,8 +16,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +39,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -55,15 +62,20 @@ public class TransactionFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentTransactionBinding binding;
-    private TextView tv_transaction_wallet_balance, tv_transaction_wallet_name;
+    private TextView tv_transaction_wallet_balance;
     private TabLayout tl_transaction;
     private ViewPager2 vp_transaction;
+    private Spinner sp_wallet;
     private List<TransactionGroupByDate> transactionGroupByDateList = new ArrayList<>();
     private ProgressDialog progressDialog;
     private TransactionPagerAdapter pagerAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
     private Wallet wallet;
+    private List<Wallet> walletList= new ArrayList<>();
+    private List<String> walletNameList = new ArrayList<>();
+
+    private String TAG = "TransactionFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,7 +121,7 @@ public class TransactionFragment extends Fragment {
         tl_transaction = binding.tlTransaction;
         vp_transaction = binding.vpTransaction;
         tv_transaction_wallet_balance = binding.tvTransactionWalletBalance;
-        tv_transaction_wallet_name = binding.tvTransactionWalletName;
+        sp_wallet = binding.spWallet;
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         pagerAdapter = new TransactionPagerAdapter(fragmentManager, getLifecycle());
@@ -153,6 +165,8 @@ public class TransactionFragment extends Fragment {
         });
 
         vp_transaction.setCurrentItem(13);
+        tl_transaction.setSmoothScrollingEnabled(true);
+        tl_transaction.setScrollPosition(13, 0f, true);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -164,7 +178,65 @@ public class TransactionFragment extends Fragment {
         Log.d("transfrag", "onEvent: wallet amount, " + wallet.getAmount());
         getBalance(wallet);
 
+        getAllWallets();
+
         return binding.getRoot();
+    }
+
+    public void getAllWallets(){
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("wallets")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null){
+                            Toast.makeText(getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        for (QueryDocumentSnapshot snapshot : value){
+                            if (snapshot.getString("walletName") != null && snapshot.getLong("walletAmount") != null){
+                                Wallet wallet = new Wallet(snapshot.getId(), snapshot.getString("walletName"), snapshot.getLong("walletAmount").intValue());
+                                walletList.add(wallet);
+                                walletNameList.add(wallet.getName());
+                            }
+                        }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, walletNameList);
+//                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        sp_wallet.setAdapter(arrayAdapter);
+                        sp_wallet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+                                Gson gson = new Gson();
+                                Log.d(TAG, "onItemSelected: wallet selected, " + sp_wallet.getItemAtPosition(i));
+                                for (Wallet w : walletList){
+                                    if (w.getName().equals(sp_wallet.getItemAtPosition(i))){
+                                        String walletJson = gson.toJson(w);
+                                        Log.d(TAG, "onItemSelected: json wallet, " + walletJson);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("wallet", walletJson);
+                                        editor.commit();
+                                        getBalance(w);
+
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                        int i = 0;
+                        for (String s : walletNameList){
+                            if (s.equals(wallet.getName())){
+                                sp_wallet.setSelection(i);
+                            }
+                            i++;
+                        }
+                    }
+                });
     }
 
     public String dateFormatter(Integer howManyMonthsAgo){
@@ -194,7 +266,6 @@ public class TransactionFragment extends Fragment {
                         if (value.getString("walletName") != null && value.getLong("walletAmount") != null){
                             wallet.setAmount(value.getLong("walletAmount").intValue());
                             wallet.setName(value.getString("walletName"));
-                            tv_transaction_wallet_name.setText(wallet.getName());
                             tv_transaction_wallet_balance.setText(wallet.formatRupiah());
                         }
                     }

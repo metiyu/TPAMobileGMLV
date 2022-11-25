@@ -19,6 +19,7 @@ import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.databinding.ActivityBudgetDetailBinding;
 import com.example.tpamobile.model.Budget;
+import com.example.tpamobile.model.Transaction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +36,9 @@ public class BudgetDetailActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+
+    private String TAG = "BudgetDetailActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,13 @@ public class BudgetDetailActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(BudgetDetailActivity.this);
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Saving...");
+
+        Log.d(TAG, "onCreate: tran size, " + budget.getTransactionList().size());
+        for (Transaction t : budget.getTransactionList()){
+            Log.d(TAG, "onCreate: tran id, " + t.getTransactionID());
+            Log.d(TAG, "onCreate: tran id, " + t.getTransactionAmount());
+            Log.d(TAG, "onCreate: tran id, " + t.getTransactionCategory().getName());
+        }
     }
     public void deleteBudget(String id){
         progressDialog.show();

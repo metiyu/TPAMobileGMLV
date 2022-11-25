@@ -1,6 +1,7 @@
 package com.example.tpamobile.activity.transaction;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -32,8 +33,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -80,17 +85,17 @@ public class AddTransactionActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Add Transaction");
-        if(transaction != null){
+        if (transaction != null) {
             Log.d(TAG, "onCreate: date, " + transaction.getTransactionDate());
             if (transaction.getTransactionAmount() != null)
                 et_transaction_amount.setText(transaction.getTransactionAmount().toString());
-            if (transaction.getTransactionCategory() != null){
+            if (transaction.getTransactionCategory() != null) {
                 et_transaction_category.setText(transaction.getTransactionCategory().getName());
                 category = transaction.getTransactionCategory();
             }
             if (transaction.getTransactionNote() != null)
                 et_transaction_note.setText(transaction.getTransactionNote());
-            if (transaction.getTransactionDate() != null){
+            if (transaction.getTransactionDate() != null) {
                 dateFromET = transaction.getTransactionDate();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(transaction.getTransactionDate());
@@ -107,7 +112,7 @@ public class AddTransactionActivity extends AppCompatActivity {
             intent.putExtra("currTransaction", saveCurrentData());
             startActivity(intent);
         });
-        if ((Category) getIntent().getSerializableExtra("selectedCategory") != null){
+        if ((Category) getIntent().getSerializableExtra("selectedCategory") != null) {
             category = (Category) getIntent().getSerializableExtra("selectedCategory");
             et_transaction_category.setText(category.getName());
         }
@@ -117,7 +122,7 @@ public class AddTransactionActivity extends AppCompatActivity {
             intent.putExtra("currTransaction", saveCurrentData());
             startActivity(intent);
         });
-        if ((Wallet) getIntent().getSerializableExtra("selectedWallet") != null){
+        if ((Wallet) getIntent().getSerializableExtra("selectedWallet") != null) {
             wallet = (Wallet) getIntent().getSerializableExtra("selectedWallet");
             et_transaction_wallet.setText(wallet.getName());
         }
@@ -127,7 +132,7 @@ public class AddTransactionActivity extends AppCompatActivity {
             intent.putExtra("currTransaction", saveCurrentData());
             startActivity(intent);
         });
-        if(getIntent().getStringExtra("transactionNote") != null){
+        if (getIntent().getStringExtra("transactionNote") != null) {
             et_transaction_note.setText(getIntent().getStringExtra("transactionNote"));
         }
 
@@ -145,7 +150,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         et_transaction_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String myFormat="E, dd/MM/yy";
+                String myFormat = "E, dd/MM/yy";
                 SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
                 DatePickerDialog dialog = new DatePickerDialog(AddTransactionActivity.this, date, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 dialog.getDatePicker().setMaxDate(new Date().getTime());
@@ -163,7 +168,59 @@ public class AddTransactionActivity extends AppCompatActivity {
         });
     }
 
-    private void saveData(Integer transactionAmount, Category transactionCategory, String transactionNote, Date transactionDate, Wallet transactionWallet){
+    private void checkBudget(Integer transactionAmount, Category transactionCategory, String transactionNote, Date transactionDate, Wallet transactionWallet) {
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("budgets")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Toast.makeText(AddTransactionActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        for (QueryDocumentSnapshot snapshot : value) {
+                            if (snapshot.getString("category") != null) {
+                                if (snapshot.getString("category").equals(transactionCategory)) {
+                                    db.collection("users")
+                                            .document(currUser.getUid())
+                                            .collection("budgets")
+                                            .document(snapshot.getId())
+                                            .update("budgetAmount", FieldValue.increment(-transactionAmount))
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                    db.collection("users")
+                                            .document(currUser.getUid())
+                                            .collection("budgets")
+                                            .document(snapshot.getId())
+                                            .update("transactionList", FieldValue.arrayUnion())
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void saveData(Integer transactionAmount, Category transactionCategory, String transactionNote, Date transactionDate, Wallet transactionWallet) {
         Log.d(TAG, "saveData: " + transactionCategory.getId());
         Log.d(TAG, "saveData: " + transactionWallet.getId());
 
@@ -194,6 +251,42 @@ public class AddTransactionActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         updateWallet(transactionWallet, transactionAmount, transactionCategory.getType());
+
+                        db.collection("users")
+                                .document(currUser.getUid())
+                                .collection("budgets")
+                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                        if (error != null) {
+                                            Toast.makeText(AddTransactionActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                        for (QueryDocumentSnapshot snapshot : value) {
+                                            if (snapshot.getString("category") != null) {
+                                                if (snapshot.getString("category").equals(transactionCategory.getId())) {
+                                                    Log.d(TAG, "onEvent: id doc, " + documentReference.getId());
+                                                    db.collection("users")
+                                                            .document(currUser.getUid())
+                                                            .collection("budgets")
+                                                            .document(snapshot.getId())
+                                                            .update("transactionList", FieldValue.arrayUnion(documentReference))
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                                    } else {
+                                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -247,10 +340,10 @@ public class AddTransactionActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateWallet(Wallet currWallet, Integer transactionAmount, String transactionCategoryType){
+    private void updateWallet(Wallet currWallet, Integer transactionAmount, String transactionCategoryType) {
         progressDialog.show();
 
-        if (transactionCategoryType.equals("expense")){
+        if (transactionCategoryType.equals("expense")) {
             db.collection("users")
                     .document(currUser.getUid())
                     .collection("wallets")
@@ -267,7 +360,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                         }
                     });
-        } else if (transactionCategoryType.equals("income")){
+        } else if (transactionCategoryType.equals("income")) {
             db.collection("users")
                     .document(currUser.getUid())
                     .collection("wallets")
@@ -287,24 +380,24 @@ public class AddTransactionActivity extends AppCompatActivity {
         }
     }
 
-    private void formatDate(Calendar calendar){
-        String myFormat="E, dd/MM/yy";
+    private void formatDate(Calendar calendar) {
+        String myFormat = "E, dd/MM/yy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         et_transaction_date.setText(dateFormat.format(calendar.getTime()));
     }
 
-    private Transaction saveCurrentData(){
+    private Transaction saveCurrentData() {
         Transaction transaction = new Transaction();
-        if(!et_transaction_amount.getText().toString().isEmpty())
+        if (!et_transaction_amount.getText().toString().isEmpty())
             transaction.setTransactionAmount(Integer.parseInt(et_transaction_amount.getText().toString().trim()));
-        if(category != null)
+        if (category != null)
             transaction.setTransactionCategory(category);
         if (!et_transaction_note.getText().toString().isEmpty())
             transaction.setTransactionNote(et_transaction_note.getText().toString().trim());
-        if (!et_transaction_date.getText().toString().isEmpty()){
+        if (!et_transaction_date.getText().toString().isEmpty()) {
             transaction.setTransactionDate(dateFromET);
         }
-        if(wallet != null)
+        if (wallet != null)
             transaction.setTransactionWallet(wallet);
         return transaction;
     }
@@ -312,7 +405,7 @@ public class AddTransactionActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        Intent intent  = new Intent(AddTransactionActivity.this, HomeActivity.class);
+        Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }

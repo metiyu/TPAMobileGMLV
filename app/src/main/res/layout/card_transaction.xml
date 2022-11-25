@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="15dp"
+    android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,6 +50,8 @@
                 android:textStyle="bold"
                 android:textSize="18dp"
                 tools:ignore="RtlCompat" />
+
+
 
         </LinearLayout>
 

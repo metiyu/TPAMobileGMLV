@@ -43,6 +43,7 @@ public class TransactionGroupByDate {
     }
 
     public String getSubTotalAmountFormatted(){
+        subTotalAmount = 0;
         for(Transaction t : transactionList){
             if (t.getTransactionCategory().getType().equals("expense"))
                 subTotalAmount -= t.getTransactionAmount();

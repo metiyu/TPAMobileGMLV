@@ -1,6 +1,8 @@
 package com.example.tpamobile.activity.transaction;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import org.checkerframework.checker.units.qual.C;
 
@@ -72,6 +75,7 @@ public class TransactionPageFragment extends Fragment {
 
     private Category currCategory;
     private Wallet currWallet;
+    private Wallet sharPrefWallet;
 
     private final String TAG = "TransactionPageFragment";
 
@@ -147,6 +151,11 @@ public class TransactionPageFragment extends Fragment {
         rv_transactions.addItemDecoration(decoration);
         rv_transactions.setAdapter(adapterPerDate);
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String jsonWallet = sharedPreferences.getString("wallet", null);
+        sharPrefWallet = gson.fromJson(jsonWallet, Wallet.class);
+
         getDataYear(calendar);
 
         return binding.getRoot();
@@ -215,34 +224,41 @@ public class TransactionPageFragment extends Fragment {
                                 c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
                                 c.set(Calendar.YEAR, Integer.parseInt(year));
 
-                                getData(c, year, month, snapshotDay.getId(), transactionList);
-
-                                TransactionGroupByDate transactionGroupByDate = new TransactionGroupByDate(c.getTime(), transactionList);
-
-//                                Log.d(TAG, "onEvent: apakah tran list ada? " + db.collection("users")
-//                                        .document(currUser.getUid())
-//                                        .collection("transactions")
-//                                        .document(year)
-//                                        .collection("monthList")
-//                                        .document(month)
-//                                        .collection("dateList")
-//                                        .document(snapshotDay.getId())
-//                                        .collection("transactionList")
-//                                        .get()
-//                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                            @Override
-//                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                if (task.isSuccessful()){
-//                                                    QuerySnapshot doc = task.getResult();
-//                                                    if (doc.size() != 0){
+                                db.collection("users")
+                                        .document(currUser.getUid())
+                                        .collection("transactions")
+                                        .document(year)
+                                        .collection("monthList")
+                                        .document(month)
+                                        .collection("dateList")
+                                        .document(snapshotDay.getId())
+                                        .collection("transactionList")
+                                        .orderBy("transactionDate")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    QuerySnapshot query = task.getResult();
+                                                    Log.d(TAG, "onComplete: snapshot day, " + snapshotDay.getId());
+                                                    Log.d(TAG, "onComplete: query is empty, " + query.isEmpty());
+                                                    Log.d(TAG, "onComplete: query size, " + query.size());
+                                                    if (!query.isEmpty()) {
+                                                        getData(c, year, month, snapshotDay.getId(), transactionList);
+                                                        TransactionGroupByDate transactionGroupByDate = new TransactionGroupByDate(c.getTime(), transactionList);
+                                                        transactionGroupByDateList.add(transactionGroupByDate);
+                                                        adapterPerCategory = new TransactionPerCategoryAdapter(getContext(), transactionList);
+//                                                        TransactionGroupByDate transactionGroupByDate = new TransactionGroupByDate(c.getTime(), transactionList);
 //                                                        transactionGroupByDateList.add(transactionGroupByDate);
-//                                                    }
-//                                                }
-//                                            }
-//                                        }));
+                                                    }
+                                                }
+                                            }
+                                        });
 
-                                transactionGroupByDateList.add(transactionGroupByDate);
-                                adapterPerCategory = new TransactionPerCategoryAdapter(getContext(), transactionList);
+//                                getData(c, year, month, snapshotDay.getId(), transactionList);
+//                                TransactionGroupByDate transactionGroupByDate = new TransactionGroupByDate(c.getTime(), transactionList);
+//                                transactionGroupByDateList.add(transactionGroupByDate);
+//                                adapterPerCategory = new TransactionPerCategoryAdapter(getContext(), transactionList);
                             }
                             adapterPerDate.notifyDataSetChanged();
                         }
@@ -271,6 +287,26 @@ public class TransactionPageFragment extends Fragment {
                         for (QueryDocumentSnapshot snapshot : value) {
                             Transaction transaction = new Transaction();
 
+//                            for (TransactionGroupByDate t : transactionGroupByDateList){
+//                                Calendar c = Calendar.getInstance();
+//                                c.setTime(t.getDate());
+//                                Log.d(TAG, "onEvent: date from TransactionGroupByDate, " + c.getTime());
+//                                Log.d(TAG, "onEvent: day from TransactionGroupByDate, " + c.get(Calendar.DAY_OF_MONTH));
+//                                Log.d(TAG, "onEvent: month from TransactionGroupByDate, " + c.get(Calendar.MONTH));
+//                                Log.d(TAG, "onEvent: year from TransactionGroupByDate, " + c.get(Calendar.YEAR));
+//
+//                                Calendar c1 = Calendar.getInstance();
+//                                c1.setTime(snapshot.getDate("transactionDate"));
+//                                Log.d(TAG, "onEvent: date from snapshot, " + c1.getTime());
+//                                Log.d(TAG, "onEvent: day from snapshot, " + c1.get(Calendar.DAY_OF_MONTH));
+//                                Log.d(TAG, "onEvent: month from snapshot, " + c1.get(Calendar.MONTH));
+//                                Log.d(TAG, "onEvent: year from snapshot, " + c1.get(Calendar.YEAR));
+//
+//                                if (t.getDate().getDay() == snapshot.getDate("transactionDate").getDay()){
+//
+//                                }
+//                            }
+
                             if (snapshot.getLong("transactionAmount") != null &&
                                     snapshot.getString("transactionCategory") != null &&
                                     snapshot.getDate("transactionDate") != null &&
@@ -278,6 +314,10 @@ public class TransactionPageFragment extends Fragment {
                                     snapshot.getString("transactionWallet") != null) {
                                 Calendar snapshotCalendar = Calendar.getInstance();
                                 snapshotCalendar.setTime(snapshot.getDate("transactionDate"));
+
+                                if (!sharPrefWallet.getId().equals(snapshot.getString("transactionWallet"))) {
+                                    continue;
+                                }
 
                                 db.collection("categories")
                                         .document(snapshot.getString("transactionCategory"))
@@ -288,9 +328,7 @@ public class TransactionPageFragment extends Fragment {
                                                 if (task.isSuccessful()) {
                                                     DocumentSnapshot document = task.getResult();
                                                     if (document.exists()) {
-                                                        Log.d(TAG, "onComplete: category id dri snapshot, " + snapshot.getString("transactionCategory"));
                                                         currCategory = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
-                                                        Log.d(TAG, "onComplete: currCategory abis diambil dri snapshot, " + currCategory.getName());
                                                         transaction.setTransactionCategory(currCategory);
                                                     }
                                                 }
@@ -320,6 +358,8 @@ public class TransactionPageFragment extends Fragment {
                                                                     transactionList.add(transaction);
                                                                 }
 
+                                                                Log.d(TAG, "onComplete: tran list is empty, " + transactionList.isEmpty());
+
                                                                 adapterPerCategory.notifyDataSetChanged();
                                                                 adapterPerDate.notifyDataSetChanged();
                                                             }
@@ -328,6 +368,7 @@ public class TransactionPageFragment extends Fragment {
                                         });
                             }
                         }
+                        Log.d(TAG, "onEvent: tran list in end of loop, " + transactionList.size());
                     }
                 });
     }
