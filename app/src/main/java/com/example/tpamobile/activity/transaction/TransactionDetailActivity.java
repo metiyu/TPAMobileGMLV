@@ -47,8 +47,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         tv_category_name = findViewById(R.id.tv_category_name);
         tv_transaction_amount = findViewById(R.id.tv_transaction_amount);

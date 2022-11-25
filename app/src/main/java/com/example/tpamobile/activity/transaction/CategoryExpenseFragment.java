@@ -97,8 +97,8 @@ public class CategoryExpenseFragment extends Fragment {
         categoryAdapter = new CategoryAdapter(CategoryExpenseFragment.this.getActivity(), categoryList, transaction);
 
         progressDialog = new ProgressDialog(CategoryExpenseFragment.this.getActivity());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Fetching...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.fetching));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(CategoryExpenseFragment.this.getActivity(), LinearLayoutManager.VERTICAL, false);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(CategoryExpenseFragment.this.getActivity(), DividerItemDecoration.VERTICAL);

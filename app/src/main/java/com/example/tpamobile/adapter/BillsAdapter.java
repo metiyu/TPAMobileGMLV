@@ -77,10 +77,10 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
         }
         holder.tv_bill_price.setText(billList.get(position).getBillAmount().toString());
         if(billList.get(position).getPaidStatus().toString().equals("Unpaid")){
-            holder.finished_bill.setText("PAY");
+            holder.finished_bill.setText(R.string.pay);
         }
         else{
-            holder.finished_bill.setText("PAID");
+            holder.finished_bill.setText(R.string.paid);
             holder.finished_bill.setBackgroundColor(Color.parseColor("#b0b0b0"));
             holder.finished_bill.setClickable(false);
         }

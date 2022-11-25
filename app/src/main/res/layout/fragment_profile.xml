@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,7 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="My Account"
+                    android:text="@string/my_account"
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -65,7 +65,7 @@
                 android:layout_width="350dp"
                 android:textSize="14dp"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:textColor="@color/black"
                 android:layout_gravity="center"/>
             <TextView
@@ -92,7 +92,7 @@
                 android:layout_width="350dp"
                 android:textSize="14dp"
                 android:layout_height="wrap_content"
-                android:text="My Wallet"
+                android:text="@string/my_wallet"
                 android:textColor="@color/black"
                 android:layout_gravity="center"/>
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_width="350dp"
                 android:textSize="14dp"
                 android:layout_height="wrap_content"
-                android:text="Sign out"
+                android:text="@string/sign_out"
                 android:textColor="@color/black"
                 android:layout_gravity="center"/>
         </LinearLayout>
@@ -124,6 +124,63 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
 <!--            android:text="My Wallets" />-->
+<!--        <org.eazegraph.lib.charts.PieChart-->
+<!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--            android:id="@+id/piechart"-->
+<!--            android:layout_width="380dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="6dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginBottom="15dp"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:paddingTop="15dp"
+                android:textSize="20dp"
+                android:paddingLeft="20dp"
+                android:text="@string/expense"/>
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="380dp"
+                android:layout_height="380dp"
+                android:id="@+id/piechart"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:paddingTop="15dp"
+            android:paddingLeft="20dp"
+            android:text="@string/income"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            android:id="@+id/piechartincome"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"/>
     </LinearLayout>
 
-</FrameLayout>
+    </LinearLayout>
+
+</ScrollView>

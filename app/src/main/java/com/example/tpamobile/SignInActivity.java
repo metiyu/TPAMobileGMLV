@@ -59,8 +59,8 @@ public class SignInActivity extends AppCompatActivity {
         btn_signin = findViewById(R.id.btn_signin);
 
         progressDialog = new ProgressDialog(SignInActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Checking...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.checking));
 
         btn_signin.setOnClickListener(x -> {
 

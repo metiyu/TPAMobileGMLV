@@ -45,7 +45,7 @@ public class BudgetDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_budget_detail);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Budget");
+        actionBar.setTitle(getString(R.string.budget));
         binding = ActivityBudgetDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         budget = (Budget) getIntent().getSerializableExtra("currBudget");
@@ -64,8 +64,8 @@ public class BudgetDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
         progressDialog = new ProgressDialog(BudgetDetailActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         Log.d(TAG, "onCreate: tran size, " + budget.getTransactionList().size());
         for (Transaction t : budget.getTransactionList()){

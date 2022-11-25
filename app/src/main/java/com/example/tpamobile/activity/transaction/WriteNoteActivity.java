@@ -22,7 +22,7 @@ public class WriteNoteActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Note");
+        actionBar.setTitle(getString(R.string.note));
 
         et_transaction_note = findViewById(R.id.et_transaction_note);
         btn_save_transaction_note = findViewById(R.id.btn_save_transaction_note);

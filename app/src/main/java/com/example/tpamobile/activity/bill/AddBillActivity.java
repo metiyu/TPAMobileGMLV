@@ -49,7 +49,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
     ProgressDialog progressDialog;
     ActivityAddBillBinding binding;
     Spinner spin_repeat;
-    String[] repeatValues={"Every Week","Every Month","Every Year","Once Only"};
+    String[] repeatValues={getString(R.string.every_week),getString(R.string.every_month),getString(R.string.every_year),getString(R.string.once_only)};
     EditText date;
     DatePickerDialog datePickerDialog;
     int iCurrentSelection;
@@ -66,7 +66,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
         setContentView(binding.getRoot());
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Bill");
+        actionBar.setTitle(getString(R.string.bills));
         spin_repeat = (Spinner) binding.spinnerRepeatValue;
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,repeatValues);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,8 +78,8 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
         et_wallet = binding.etBillWallet;
         btn_save_bill = binding.btnAddBill;
         progressDialog = new ProgressDialog(AddBillActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
         date = binding.date;
         et_category.setOnClickListener(x -> {
             Intent intent = new Intent(AddBillActivity.this, SelectCategoryActivity.class);
@@ -218,7 +218,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
         bill.put("billCategory", category.getId());
 
         progressDialog.show();
-        if(repeat_value.equals("Once Only")){
+        if(repeat_value.equals("Once Only") || repeat_value.equals("Sekali Saja")){
             db.collection("users")
                     .document(currUser.getUid())
                     .collection("bills")
@@ -244,7 +244,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         }
                     });
         }
-        else if(repeat_value.equals("Every Week")){
+        else if(repeat_value.equals("Every Week") || repeat_value.equals("Setiap Minggu")){
             for (int i =0; i<occurences; i++){
                 Calendar new_cal= dateToCalendar(bill_date);
                 new_cal.add(Calendar.DATE, 7*i);
@@ -276,7 +276,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         });
             }
         }
-        else if(repeat_value.equals("Every Month")){
+        else if(repeat_value.equals("Every Month") || repeat_value.equals("Setiap Bulan")){
             for (int i =0 ; i<occurences; i++){
                 Calendar new_cal= dateToCalendar(bill_date);
                 new_cal.add(Calendar.MONTH, i);
@@ -308,7 +308,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         });
             }
         }
-        else if(repeat_value.equals("Every Year")){
+        else if(repeat_value.equals("Every Year") || repeat_value.equals("Setiap Tahun")){
             for (int i =0 ; i<occurences; i++){
                 Calendar new_cal= dateToCalendar(bill_date);
                 new_cal.add(Calendar.YEAR, i);

@@ -1,5 +1,7 @@
 package com.example.tpamobile.model;
 
+import com.example.tpamobile.R;
+
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Calendar;
@@ -40,13 +42,13 @@ public class Bill implements Serializable {
         month++;
         curr_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         if(year > curr_year || (year == curr_year && month > curr_month) ||(year == curr_year && month == curr_month && day > curr_day)){
-            this.dueDate = "Due "+day+"/"+month+"/"+year;
+            this.dueDate = R.string.due+day+"/"+month+"/"+year;
         }
         else if (year==curr_year && month==curr_month && curr_day == day){
-            this.dueDate = "Due today";
+            this.dueDate = R.string.due_today+"";
         }
         else{
-            this.dueDate = "Was due on "+day+"/"+month+"/"+year;
+            this.dueDate = R.string.was_due_on+day+"/"+month+"/"+year;
         }
     }
 

@@ -18,7 +18,7 @@
             android:id="@+id/et_bill_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Category"
+            android:hint="@string/select_category"
             tools:ignore="Autofill"
             android:focusable="false"/>
 
@@ -35,7 +35,7 @@
             android:id="@+id/et_bill_description"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Bill Description" />
+            android:hint="@string/bill_description" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -49,7 +49,7 @@
             android:id="@+id/et_bill_amount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Bill Amount"
+            android:hint="@string/bill_amount"
             android:inputType="number"
             tools:ignore="Autofill"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -69,7 +69,7 @@
         android:layout_marginBottom="4dp"
         android:background="@color/white"
         android:layout_centerHorizontal="true"
-        android:hint="Select Date..."
+        android:hint="@string/select_date"
         android:focusable="false"
         android:padding="15dp"/>
 
@@ -84,7 +84,7 @@
             android:id="@+id/et_repeat_until_occurrences"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Repeat until n occurrence(s)"
+            android:hint="@string/repeat_until"
             android:inputType="number"
             tools:ignore="Autofill"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +98,7 @@
             android:id="@+id/et_bill_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Wallet"
+            android:hint="@string/select_wallet"
             tools:ignore="Autofill"
             android:focusable="false"/>
 
@@ -107,7 +107,7 @@
         android:id="@+id/btn_add_bill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="@string/save"/>
 
 
 </LinearLayout>

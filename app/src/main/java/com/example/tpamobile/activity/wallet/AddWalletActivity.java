@@ -44,7 +44,7 @@ public class AddWalletActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_wallet);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Wallet");
+        actionBar.setTitle(getString(R.string.wallet));
         et_wallet_name = findViewById(R.id.et_wallet_name);
         et_wallet_amount = findViewById(R.id.et_wallet_amount);
         btn_save_wallet = findViewById(R.id.btn_save_wallet);
@@ -79,8 +79,8 @@ public class AddWalletActivity extends AppCompatActivity {
 //        });
 
         progressDialog = new ProgressDialog(AddWalletActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         btn_save_wallet.setOnClickListener(x -> {
             String walletName = et_wallet_name.getText().toString().trim();

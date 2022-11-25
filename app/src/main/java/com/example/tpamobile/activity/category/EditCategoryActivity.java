@@ -70,7 +70,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Category");
+        actionBar.setTitle(getString(R.string.category));
 
         category = (Category) getIntent().getSerializableExtra("currCategory");
         et_category_name = findViewById(R.id.et_category_name);

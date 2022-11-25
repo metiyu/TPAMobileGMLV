@@ -107,7 +107,7 @@ public class CategoriesFragment extends Fragment {
                 inflater,  container, false);
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Category");
+        actionBar.setTitle(getString(R.string.category));
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -144,8 +144,8 @@ public class CategoriesFragment extends Fragment {
 //        });
 
         progressDialog = new ProgressDialog(CategoriesFragment.this.getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Fetching...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.fetching));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(CategoriesFragment.this.getContext(), LinearLayoutManager.VERTICAL, false);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(CategoriesFragment.this.getContext(), DividerItemDecoration.VERTICAL);

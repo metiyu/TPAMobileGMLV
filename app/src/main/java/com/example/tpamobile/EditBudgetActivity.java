@@ -53,7 +53,7 @@ public class EditBudgetActivity extends AppCompatActivity {
         et_budget_amount.setText(budget.getAmount().toString());
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Budget");
+        actionBar.setTitle(getString(R.string.budget));
         save_btn.setOnClickListener(x->{
             saveUpdate();
         });

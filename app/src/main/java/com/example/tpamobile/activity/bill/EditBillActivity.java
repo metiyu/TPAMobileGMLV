@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.tpamobile.R;
 import com.example.tpamobile.activity.category.CategoryDetailActivity;
 import com.example.tpamobile.activity.category.EditCategoryActivity;
 import com.example.tpamobile.activity.wallet.EditWalletActivity;
@@ -59,7 +60,7 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Bill");
+        actionBar.setTitle(getString(R.string.bills));
 
         binding = ActivityEditBillBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -77,8 +78,8 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
         et_bill_date.setText(strDate);
 
         progressDialog = new ProgressDialog(EditBillActivity.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         et_bill_date.setOnClickListener(new View.OnClickListener() {
             @Override

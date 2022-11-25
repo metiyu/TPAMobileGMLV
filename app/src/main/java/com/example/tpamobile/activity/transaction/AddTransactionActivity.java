@@ -84,7 +84,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         transaction = (Transaction) getIntent().getSerializableExtra("currTransaction");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Add Transaction");
+        actionBar.setTitle(getString(R.string.add_transaction));
         if (transaction != null) {
             Log.d(TAG, "onCreate: date, " + transaction.getTransactionDate());
             if (transaction.getTransactionAmount() != null)

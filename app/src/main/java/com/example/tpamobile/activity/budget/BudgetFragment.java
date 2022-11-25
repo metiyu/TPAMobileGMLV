@@ -128,7 +128,7 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
         binding = FragmentBudgetBinding.inflate(inflater, container, false);
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Budget");
+        actionBar.setTitle(getString(R.string.budget));
         btn_add = binding.btnAddBudget;
         mPickDateButton = (Button) binding.btnMonthDate;
         mPickDateButton.setOnClickListener(this);
@@ -146,8 +146,8 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
         rv_budgets.setLayoutManager(new LinearLayoutManager((this.getContext())));
 
         progressDialog = new ProgressDialog(this.getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Fetching...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.fetching));
 
         getData(BillsFragment.year, BillsFragment.month);
 

@@ -140,13 +140,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle("Home");
+        actionBar.setTitle(getString(R.string.home));
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Saving...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.saving));
 
         tv_all_balance = binding.tvAllBalance;
         tv_wallet_name = binding.tvWalletName;

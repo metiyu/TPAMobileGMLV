@@ -120,7 +120,7 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                 inflater,  container, false);
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Bills");
+        actionBar.setTitle(getString(R.string.bills));
         rv_bills = binding.rvBills;
         btn_add_bill = binding.btnAddBill;
         tv_overdue_amount = binding.tvOverdueAmount;
@@ -145,8 +145,8 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
 
 
         progressDialog = new ProgressDialog(this.getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Fetching...");
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.fetching));
 
         getData(year, month);
 
