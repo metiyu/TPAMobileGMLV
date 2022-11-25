@@ -18,7 +18,7 @@
             android:id="@+id/et_transaction_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Transaction Amount"
+            android:hint="@string/transaction_amount"
             android:inputType="number"
             tools:ignore="Autofill"/>
 
@@ -71,7 +71,7 @@
             android:id="@+id/et_transaction_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/today"
+            android:hint="@string/select_date"
             tools:ignore="Autofill"
             android:focusable="false"/>
 

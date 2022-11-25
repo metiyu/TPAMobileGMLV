@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="My Wallets"
+                    android:text="@string/my_wallet"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="See all"
+                    android:text="@string/see_all"
                     android:textColor="@color/incomeColor"
                     android:textSize="14dp" />
 
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Spending Report"
+                    android:text="@string/spending_report"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="See reports"
+                    android:text="@string/see_reports"
                     android:textColor="@color/incomeColor"
                     android:textSize="14dp" />
 
@@ -125,7 +125,7 @@
                     android:paddingRight="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total spent this month"/>
+                    android:text="@string/total_spend_this_month"/>
 
                 <ImageView
                     android:id="@+id/is_switcher_arrow"
@@ -166,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Recent Transactions"
+                    android:text="@string/recent_transaction"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="See all"
+                    android:text="@string/see_all"
                     android:textColor="@color/incomeColor"
                     android:textSize="14dp" />
 
