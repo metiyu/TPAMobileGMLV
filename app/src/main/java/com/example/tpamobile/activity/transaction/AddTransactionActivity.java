@@ -227,6 +227,9 @@ public class AddTransactionActivity extends AppCompatActivity {
         transaction.put("transactionWallet", transactionWallet.getId());
         transaction.put("createdAt", new Date());
 
+        Map<String, Object> notification = new HashMap<>();
+        notification.put("message", "new transaction succesfully added");
+
         progressDialog = new ProgressDialog(AddTransactionActivity.this);
         progressDialog.show();
 
@@ -246,42 +249,51 @@ public class AddTransactionActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         updateWallet(transactionWallet, transactionAmount, transactionCategory.getType());
-
                         db.collection("users")
                                 .document(currUser.getUid())
-                                .collection("budgets")
-                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                .collection("notifications")
+                                .add(notification)
+                                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
-                                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                        if (error != null) {
-                                            Toast.makeText(AddTransactionActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
+                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                        db.collection("users")
+                                                .document(currUser.getUid())
+                                                .collection("budgets")
+                                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                        if (error != null) {
+                                                            Toast.makeText(AddTransactionActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                            return;
+                                                        }
 
-                                        for (QueryDocumentSnapshot snapshot : value) {
-                                            if (snapshot.getString("category") != null) {
-                                                if (snapshot.getString("category").equals(transactionCategory.getId())) {
-                                                    Log.d(TAG, "onEvent: id doc, " + documentReference.getId());
-                                                    db.collection("users")
-                                                            .document(currUser.getUid())
-                                                            .collection("budgets")
-                                                            .document(snapshot.getId())
-                                                            .update("transactionList", FieldValue.arrayUnion(documentReference))
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                                                                    } else {
-                                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
-                                                                    }
+                                                        for (QueryDocumentSnapshot snapshot : value) {
+                                                            if (snapshot.getString("category") != null) {
+                                                                if (snapshot.getString("category").equals(transactionCategory.getId())) {
+                                                                    Log.d(TAG, "onEvent: id doc, " + documentReference.getId());
+                                                                    db.collection("users")
+                                                                            .document(currUser.getUid())
+                                                                            .collection("budgets")
+                                                                            .document(snapshot.getId())
+                                                                            .update("transactionList", FieldValue.arrayUnion(documentReference))
+                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                                                    } else {
+                                                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                }
+                                                                            });
                                                                 }
-                                                            });
-                                                }
-                                            }
-                                        }
+                                                            }
+                                                        }
+                                                    }
+                                                });
                                     }
                                 });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

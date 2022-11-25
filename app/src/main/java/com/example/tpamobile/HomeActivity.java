@@ -126,6 +126,10 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("fragmentToGo","plan");
             startActivity(intent);
         }
+        else if(currentFragment instanceof BudgetFragment){
+            intent.putExtra("fragmentToGo","plan");
+            startActivity(intent);
+        }
         else if(currentFragment instanceof ValidationBeforeUpdateFragment){
             intent.putExtra("fragmentToGo","profile");
             startActivity(intent);
@@ -136,6 +140,10 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if(currentFragment instanceof WalletsFragment){
             intent.putExtra("fragmentToGo","home");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof NotificationFragment){
+            intent.putExtra("fragmentToGo","profile");
             startActivity(intent);
         }
 

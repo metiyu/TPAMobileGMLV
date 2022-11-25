@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private FirebaseUser user;
     private String email;
-    private LinearLayout btn_categories,btn_edit_profile,btn_my_wallets, btn_sign_out;
+    private LinearLayout btn_categories,btn_edit_profile,btn_my_wallets, btn_sign_out, btn_notification;
     private FragmentProfileBinding binding;
     private PieChart pieChart, pieChartIncome;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -147,6 +147,11 @@ public class ProfileFragment extends Fragment {
         btn_edit_profile = binding.btnEditProfile;
         btn_edit_profile.setOnClickListener(x->{
             replaceFragment(new ValidationBeforeUpdateFragment());
+        });
+
+        btn_notification = binding.btnNotification;
+        btn_notification.setOnClickListener(x->{
+            replaceFragment(new NotificationFragment());
         });
 
         btn_categories = binding.btnCategories;
