@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlanningFragment"
+    tools:context="edu.bluejack22_1.GMoneysoLVer.PlanningFragment"
     android:background="@color/gray_200"
     android:orientation="vertical">
 

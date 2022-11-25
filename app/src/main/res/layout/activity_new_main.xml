@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:viewBindingIgnore="true"
-    tools:context=".NewMainActivity">
+    tools:context="edu.bluejack22_1.GMoneysoLVer.NewMainActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout"

@@ -14,79 +14,79 @@
         android:theme="@style/Theme.TPAMobile"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.transaction.EditTransactionActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.EditTransactionActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.transaction.TransactionDetailActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.TransactionDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".EditBudgetActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.EditBudgetActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.budget.BudgetDetailActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.budget.AddBudgetActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.budget.AddBudgetActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.bill.EditBillActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.bill.EditBillActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.bill.AddBillActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.bill.AddBillActivity"
             android:exported="false" /> <!-- android:name=".activity.transaction.WriteNoteActivity" -->
         <activity
-            android:name=".activity.transaction.SelectWalletActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectWalletActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.transaction.SelectCategoryActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.transaction.AddTransactionActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.AddTransactionActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.wallet.EditWalletActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.wallet.EditWalletActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.wallet.WalletDetailActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.wallet.WalletDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.wallet.AddWalletActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.wallet.AddWalletActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.category.EditCategoryActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.category.EditCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.category.CategoryDetailActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.category.CategoryDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.category.AddCategoryActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.category.AddCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.bill.BillDetailActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.bill.BillDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".NewMainActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.NewMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ValidationBeforeUpdateActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.ValidationBeforeUpdateActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -96,7 +96,7 @@
         </activity>
 
         <service
-            android:name=".utilities.PushNotificationService"
+            android:name="edu.bluejack22_1.GMoneysoLVer.utilities.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

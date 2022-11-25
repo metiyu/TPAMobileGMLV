@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.transaction.TransactionFragment"
+    tools:context="edu.bluejack22_1.GMoneysoLVer.activity.transaction.TransactionFragment"
     android:background="@color/gray_200"
     android:orientation="vertical">
 
