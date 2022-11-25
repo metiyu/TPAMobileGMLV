@@ -10,7 +10,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.tpamobile.model.Wallet;
@@ -35,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSignIn, btnSignup, btnChange;
     SignInButton btnSignInGoogle;
+    private EditText et_fcm_token;
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
@@ -85,6 +89,25 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = googleSignInClient.getSignInIntent();
             startActivityForResult(intent, RC_SIGN_IN);
         });
+
+        et_fcm_token = findViewById(R.id.et_fcm_token);
+        et_fcm_token.setVisibility(View.GONE);
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+//                        et_fcm_token.setText(token);
+                    }
+                });
     }
 
     @Override

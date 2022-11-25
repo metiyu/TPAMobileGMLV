@@ -39,9 +39,9 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout til_email, til_pass;
     private Button btn_signup;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private InputValidation inputValidation;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
+    private InputValidation inputValidation = new InputValidation(SignUpActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +61,18 @@ public class SignUpActivity extends AppCompatActivity {
         btn_signup.setOnClickListener(x -> {
             String userEmail = et_email.getText().toString().trim();
             String userPass = et_pass.getText().toString().trim();
-//            if(!inputValidation.isEmpty(et_email, til_email, "Email must be filled!")){
-//                Log.d("error nih", "ketemu");
-//                return;
-//            }
-//            if(!inputValidation.emailValidation(et_email, til_email, "Email invalid")){
-//                return;
-//            }
-//            if(!inputValidation.isEmpty(et_pass, til_pass, "Password must be filled!")){
-//                return;
-//            }
+            if(!inputValidation.isEmpty(et_email, til_email, "Email must be filled!")){
+                return;
+            }
+            if(!inputValidation.emailValidation(et_email, til_email, "Email invalid")){
+                return;
+            }
+            if(!inputValidation.isEmpty(et_pass, til_pass, "Password must be filled!")){
+                return;
+            }
+            if (!inputValidation.passwordValidation(et_pass, til_pass, "Password length must more than 8, contains uppercase, lowercase and number!")){
+                return;
+            }
             regisUser(userEmail, userPass);
         });
     }
@@ -92,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

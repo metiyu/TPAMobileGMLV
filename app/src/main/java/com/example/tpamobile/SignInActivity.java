@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.tpamobile.activity.wallet.AddWalletActivity;
 import com.example.tpamobile.model.Wallet;
+import com.example.tpamobile.utilities.InputValidation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +47,7 @@ public class SignInActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+    private InputValidation inputValidation = new InputValidation(SignInActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +68,16 @@ public class SignInActivity extends AppCompatActivity {
 
             String emailInp = et_email_login.getText().toString().trim();
             String passInp = et_pass_login.getText().toString().trim();
+            if(!inputValidation.isEmpty(et_email_login, til_email_login, "Email must be filled!")){
+                return;
+            }
+            if(!inputValidation.emailValidation(et_email_login, til_email_login, "Email invalid")){
+                return;
+            }
+            if(!inputValidation.isEmpty(et_pass_login, til_pass_login, "Password must be filled!")){
+                return;
+            }
             signInUser(emailInp, passInp);
-//            if(!inputValidation.isEmpty(et_email_login, til_email_login, "Email must be filled!")){
-//                return;
-//            }
-//            if(!inputValidation.isEmpty(et_pass_login, til_pass_login, "Password must be filled!")){
-//                return;
-//            }
-//            if(!inputValidation.emailValidation(et_email_login, til_email_login, "Email invalid")){
-//                return;
-//            }
 
 
 
@@ -107,7 +109,8 @@ public class SignInActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Log.d("SignInActivity", "onComplete: task error, " + task.getException().getMessage());
+                            Toast.makeText(SignInActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }

@@ -15,6 +15,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:ignore="MissingConstraints">
 
+        <EditText
+            android:id="@+id/et_fcm_token"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/btn_gotosignin"
             android:layout_width="match_parent"

@@ -70,6 +70,12 @@ public class TransactionDetailActivity extends AppCompatActivity {
         else
             tv_transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.incomeColor));
 
+        btn_edit_transaction.setOnClickListener(x -> {
+            Intent intent = new Intent(this, EditTransactionActivity.class);
+            intent.putExtra("currTransaction", transaction);
+            startActivity(intent);
+        });
+
         btn_delete_transaction.setOnClickListener(x -> {
             deleteData(transaction.getTransactionID(), transaction.getTransactionDate());
         });

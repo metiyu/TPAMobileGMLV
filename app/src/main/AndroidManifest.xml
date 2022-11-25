@@ -14,6 +14,9 @@
         android:theme="@style/Theme.TPAMobile"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.transaction.EditTransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.transaction.TransactionDetailActivity"
             android:exported="false" />
         <activity
@@ -62,9 +65,6 @@
             android:name=".activity.bill.BillDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.budget.BudgetDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".NewMainActivity"
             android:exported="false" />
         <activity
@@ -94,6 +94,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".utilities.PushNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
