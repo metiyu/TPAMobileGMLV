@@ -92,4 +92,5 @@
     <string name="sign_out">Sign Out</string>
     <string name="due_today">Due today</string>
     <string name="was_due_on">Was due on </string>
+    <string name="total_spend_this_month">Total spend this month</string>
 </resources>

@@ -73,5 +73,5 @@
     <string name="due">Jatuh tempo </string>
     <string name="due_today">Jatuh tempo hari ini</string>
     <string name="was_due_on">Jatuh tempo </string>
-
+    <string name="total_spend_this_month">Total pengeluaran bulan ini</string>
 </resources>
