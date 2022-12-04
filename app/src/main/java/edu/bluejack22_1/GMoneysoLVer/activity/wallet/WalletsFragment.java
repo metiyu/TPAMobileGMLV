@@ -19,10 +19,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 
-import edu.bluejack22_1.GMoneysoLVer.adapter.WalletAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.wallet.adapter.WalletAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
 import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentWalletBinding;

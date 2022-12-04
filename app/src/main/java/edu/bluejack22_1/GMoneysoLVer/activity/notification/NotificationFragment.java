@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.notification;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.adapter.NotificationAdapter;

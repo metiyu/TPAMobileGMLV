@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import edu.bluejack22_1.GMoneysoLVer.activity.transaction.CategoryExpenseFragment;
-import edu.bluejack22_1.GMoneysoLVer.activity.transaction.CategoryIncomeFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.transaction.category.CategoryExpenseFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.transaction.category.CategoryIncomeFragment;
 
 public class CategoryPagerAdapter extends FragmentStateAdapter {
 

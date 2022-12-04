@@ -20,7 +20,7 @@
             android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.TransactionDetailActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.EditBudgetActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.budget.EditBudgetActivity"
             android:exported="false" />
         <activity
             android:name="edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetDetailActivity"
@@ -42,7 +42,8 @@
             android:exported="false" />
         <activity
             android:name="edu.bluejack22_1.GMoneysoLVer.activity.transaction.AddTransactionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name="edu.bluejack22_1.GMoneysoLVer.activity.wallet.EditWalletActivity"
             android:exported="false" />
@@ -65,28 +66,25 @@
             android:name="edu.bluejack22_1.GMoneysoLVer.activity.bill.BillDetailActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.NewMainActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.utilities.ValidationBeforeUpdateActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.ValidationBeforeUpdateActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.ProfileActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.profile.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.EditProfileActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.HomeActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.main.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.SignUpActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.main.SignInActivity"
             android:exported="false" />
         <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.SignInActivity"
-            android:exported="false" />
-        <activity
-            android:name="edu.bluejack22_1.GMoneysoLVer.MainActivity"
+            android:name="edu.bluejack22_1.GMoneysoLVer.activity.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

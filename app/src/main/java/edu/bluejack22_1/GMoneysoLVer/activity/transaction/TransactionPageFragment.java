@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionPerCategoryAdapter;
-import edu.bluejack22_1.GMoneysoLVer.adapter.TransactionAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;

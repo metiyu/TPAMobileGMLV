@@ -15,7 +15,7 @@ import android.widget.Toast;
 import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.CategoryPagerAdapter;
-import edu.bluejack22_1.GMoneysoLVer.adapter.CategoryAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.category.adapter.CategoryAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;

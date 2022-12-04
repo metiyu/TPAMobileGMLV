@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.planning;
 
 import android.os.Bundle;
 
@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
-import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentPlanningBinding;
+import edu.bluejack22_1.GMoneysoLVer.activity.profile.ProfileFragment;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillsFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetFragment;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentPlanningBinding;
 
 /**
  * A simple {@link Fragment} subclass.

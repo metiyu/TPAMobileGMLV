@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.bluejack22_1.GMoneysoLVer.activity.transaction.CategoryIncomeFragment">
+    tools:context="edu.bluejack22_1.GMoneysoLVer.activity.transaction.category.CategoryIncomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_categories"

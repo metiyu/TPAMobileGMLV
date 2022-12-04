@@ -13,8 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.EditBudgetActivity;
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityBudgetDetailBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
@@ -37,6 +36,12 @@ public class BudgetDetailActivity extends AppCompatActivity {
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
     private String TAG = "BudgetDetailActivity";
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

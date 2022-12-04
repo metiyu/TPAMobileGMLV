@@ -22,13 +22,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import edu.bluejack22_1.GMoneysoLVer.ProfileFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.profile.ProfileFragment;
 import edu.bluejack22_1.GMoneysoLVer.R;
-import edu.bluejack22_1.GMoneysoLVer.adapter.CategoryAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.category.adapter.CategoryAdapter;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentCategoriesBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 
-import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentCategoriesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.EventListener;

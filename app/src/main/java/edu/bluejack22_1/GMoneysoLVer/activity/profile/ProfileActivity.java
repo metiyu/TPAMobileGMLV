@@ -1,15 +1,16 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
+import edu.bluejack22_1.GMoneysoLVer.utilities.ValidationBeforeUpdateActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

@@ -20,12 +20,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.adapter.BillsAdapter;
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.bill.adapter.BillsAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
-import edu.bluejack22_1.GMoneysoLVer.util.DateDisplayUtils;
+import edu.bluejack22_1.GMoneysoLVer.utilities.DateDisplayUtils;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialog;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialogFragment;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;

@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,13 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
-
 import edu.bluejack22_1.GMoneysoLVer.activity.wallet.WalletsFragment;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentHomeBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
-import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -166,6 +165,11 @@ public class HomeFragment extends Fragment {
         tv_transaction_amount2 = binding.tvTransactionAmount2;
         tv_transaction_amount3 = binding.tvTransactionAmount3;
 
+        tv_percent_this_last_month.setText("0%");
+        rl_top_category1.setVisibility(View.GONE);
+        rl_top_category2.setVisibility(View.GONE);
+        rl_top_category3.setVisibility(View.GONE);
+
         getBalanceFromAllWallets();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
@@ -187,35 +191,6 @@ public class HomeFragment extends Fragment {
         getDataYear();
 
         return binding.getRoot();
-    }
-
-    public void testBug(){
-        db.collection("users")
-                .document(currUser.getUid())
-                .collection("transactions")
-                .document("2022")
-                .collection("monthList")
-                .document("12")
-                .collection("dateList")
-                .document("2")
-                .collection("transactionList")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Toast.makeText(HomeFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        for (QueryDocumentSnapshot snapshot : value) {
-                            if (snapshot.getLong("transactionAmount") != null &&
-                                    snapshot.getString("transactionCategory") != null &&
-                                    snapshot.getDate("transactionDate") != null &&
-                                    snapshot.getString("transactionWallet") != null) {
-                                Log.d(TAG, "onEvent: tran id, " + snapshot.getId());
-                            }
-                        }
-                    }
-                });
     }
 
     public void getDataYear() {
@@ -436,16 +411,19 @@ public class HomeFragment extends Fragment {
 
                                                                 if (transactionListRecent.size() > 0){
                                                                     if (recentTrans == 3){
+                                                                        rl_top_category1.setVisibility(View.VISIBLE);
                                                                         tv_category_name1.setText(transactionListRecent.get(recentTrans-1).getTransactionCategory().getName());
                                                                         tv_transaction_date1.setText(dateFormat.format(transactionListRecent.get(recentTrans-1).getTransactionDate()));
                                                                         tv_transaction_amount1.setText(transactionListRecent.get(recentTrans-1).formatRupiah());
                                                                     }
                                                                     else if (recentTrans == 2){
+                                                                        rl_top_category2.setVisibility(View.VISIBLE);
                                                                         tv_category_name2.setText(transactionListRecent.get(recentTrans-1).getTransactionCategory().getName());
                                                                         tv_transaction_date2.setText(dateFormat.format(transactionListRecent.get(recentTrans-1).getTransactionDate()));
                                                                         tv_transaction_amount2.setText(transactionListRecent.get(recentTrans-1).formatRupiah());
                                                                     }
                                                                     else if (recentTrans == 1){
+                                                                        rl_top_category3.setVisibility(View.VISIBLE);
                                                                         tv_category_name3.setText(transactionListRecent.get(recentTrans-1).getTransactionCategory().getName());
                                                                         tv_transaction_date3.setText(dateFormat.format(transactionListRecent.get(recentTrans-1).getTransactionDate()));
                                                                         tv_transaction_amount3.setText(transactionListRecent.get(recentTrans-1).formatRupiah());

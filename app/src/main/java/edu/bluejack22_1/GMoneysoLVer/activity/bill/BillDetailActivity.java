@@ -13,12 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 
+import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityBillDetailBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 
-import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityBillDetailBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

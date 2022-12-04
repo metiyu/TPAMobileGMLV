@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer.util;
+package edu.bluejack22_1.GMoneysoLVer.utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

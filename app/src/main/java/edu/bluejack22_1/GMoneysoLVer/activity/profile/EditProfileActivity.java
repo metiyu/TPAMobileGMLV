@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.profile;
 
 import static android.content.ContentValues.TAG;
 
@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.bluejack22_1.GMoneysoLVer.activity.main.MainActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.SignInActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;

@@ -1,5 +1,6 @@
-package edu.bluejack22_1.GMoneysoLVer.adapter;
+package edu.bluejack22_1.GMoneysoLVer.activity.category.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import edu.bluejack22_1.GMoneysoLVer.EditBudgetActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.budget.EditBudgetActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.AddBillActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.budget.AddBudgetActivity;
@@ -56,12 +57,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
         Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
         holder.tv_category_name.setText(categoryList.get(position).getName());
-        if(c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.HomeActivity")){
+        if(c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity")){
             holder.itemView.setOnClickListener(x->{
                 Log.d("CATEGORY ADAPTER", "onBindViewHolder: click dri home");
                 Intent intent = new Intent(c, CategoryDetailActivity.class);
                 intent.putExtra("currCategory", categoryList.get(position));
                 c.startActivity(intent);
+                ((Activity)c).finish();
             });
         } else if (c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity")){
             if(SelectCategoryActivity.bill_in_select_category!=null){
@@ -70,14 +72,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     intent.putExtra("selectedCategory", categoryList.get(position));
                     intent.putExtra("currBill", SelectCategoryActivity.bill_in_select_category);
                     c.startActivity(intent);
+                    ((Activity)c).finish();
                 });
             }
             else if(SelectCategoryActivity.transaction_in_select_category!=null){
                 holder.itemView.setOnClickListener(x->{
+                    Log.d("CATEGORY ADAPTER", "onBindViewHolder: activity, " + ((Activity)c).getClass().getName());
                     Intent intent = new Intent(c, AddTransactionActivity.class);
                     intent.putExtra("selectedCategory", categoryList.get(position));
                     intent.putExtra("currTransaction", SelectCategoryActivity.transaction_in_select_category);
                     c.startActivity(intent);
+                    ((Activity)c).finish();
                 });
             }
             else if(SelectCategoryActivity.budget_in_select_category!=null){
@@ -87,6 +92,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                         intent.putExtra("selectedCategory", categoryList.get(position));
                         intent.putExtra("currBudget", SelectCategoryActivity.budget_in_select_category);
                         c.startActivity(intent);
+                        ((Activity)c).finish();
                     });
                 }
                 else{
@@ -95,6 +101,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                         intent.putExtra("selectedCategory", categoryList.get(position));
                         intent.putExtra("currBudget", SelectCategoryActivity.budget_in_select_category);
                         c.startActivity(intent);
+                        ((Activity)c).finish();
                     });
                 }
 

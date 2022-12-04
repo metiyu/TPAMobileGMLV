@@ -11,7 +11,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import edu.bluejack22_1.GMoneysoLVer.MainActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.MainActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer.activity.transaction;
+package edu.bluejack22_1.GMoneysoLVer.activity.transaction.category;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
-import edu.bluejack22_1.GMoneysoLVer.adapter.CategoryAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.category.adapter.CategoryAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 

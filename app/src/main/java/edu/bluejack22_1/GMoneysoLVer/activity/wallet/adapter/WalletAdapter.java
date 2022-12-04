@@ -1,5 +1,6 @@
-package edu.bluejack22_1.GMoneysoLVer.adapter;
+package edu.bluejack22_1.GMoneysoLVer.activity.wallet.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -52,25 +53,21 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
         holder.tv_wallet_name.setText(walletList.get(position).getName());
         holder.tv_wallet_amount.setText(walletList.get(position).formatRupiah());
 //        holder.tv_wallet_amount.setText(formatRupiah(Double.parseDouble(walletList.get(position).getAmount().toString())));
-        if(c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.HomeActivity")){
+        if(c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity")){
             holder.itemView.setOnClickListener(x -> {
                 Intent intent = new Intent(c, WalletDetailActivity.class);
                 intent.putExtra("currWallet", walletList.get(position));
                 c.startActivity(intent);
+                ((Activity)c).finish();
             });
         } else if (c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectWalletActivity")){
-//            holder.itemView.setOnClickListener(x->{
-//                Intent intent = new Intent(c, AddTransactionActivity.class);
-//                intent.putExtra("selectedWallet", walletList.get(position));
-//                intent.putExtra("currTransaction", transaction);
-//                c.startActivity(intent);
-//            });
             if(SelectWalletActivity.bill_in_select_wallet!=null){
                 holder.itemView.setOnClickListener(x->{
                     Intent intent = new Intent(c, AddBillActivity.class);
                     intent.putExtra("selectedWallet", walletList.get(position));
                     intent.putExtra("currBill", SelectWalletActivity.bill_in_select_wallet);
                     c.startActivity(intent);
+                    ((Activity)c).finish();
                 });
             }
             else if(SelectWalletActivity.transaction_in_select_wallet!=null){
@@ -79,6 +76,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
                     intent.putExtra("selectedWallet", walletList.get(position));
                     intent.putExtra("currTransaction", SelectWalletActivity.transaction_in_select_wallet);
                     c.startActivity(intent);
+                    ((Activity)c).finish();
                 });
             }
         }

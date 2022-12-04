@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer.adapter;
+package edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
-import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionPerCategoryAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.profile;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,15 +19,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.MainActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.notification.NotificationFragment;
 import edu.bluejack22_1.GMoneysoLVer.R;
-
 import edu.bluejack22_1.GMoneysoLVer.activity.category.CategoriesFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.wallet.WalletsFragment;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentProfileBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.CategoryTotal;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 
-import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentProfileBinding;
+import edu.bluejack22_1.GMoneysoLVer.utilities.ValidationBeforeUpdateFragment;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;

@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer.adapter;
+package edu.bluejack22_1.GMoneysoLVer.activity.bill.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillDetailActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;

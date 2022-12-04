@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
 
-import edu.bluejack22_1.GMoneysoLVer.adapter.WalletAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.wallet.adapter.WalletAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;

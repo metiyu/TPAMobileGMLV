@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +11,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillsFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.category.CategoriesFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.notification.NotificationFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.planning.PlanningFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.profile.EditProfileFragment;
+import edu.bluejack22_1.GMoneysoLVer.activity.profile.ProfileFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.AddTransactionActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.TransactionFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.wallet.WalletsFragment;
 import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityHomeBinding;
+import edu.bluejack22_1.GMoneysoLVer.utilities.ValidationBeforeUpdateFragment;
 
 public class HomeActivity extends AppCompatActivity {
 

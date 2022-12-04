@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer.adapter;
+package edu.bluejack22_1.GMoneysoLVer.activity.budget.adapter;
 
 import android.content.Context;
 import android.content.Intent;

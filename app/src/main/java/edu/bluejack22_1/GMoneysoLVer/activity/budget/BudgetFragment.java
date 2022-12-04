@@ -19,20 +19,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillsFragment;
-import edu.bluejack22_1.GMoneysoLVer.adapter.BudgetAdapter;
+import edu.bluejack22_1.GMoneysoLVer.activity.budget.adapter.BudgetAdapter;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentBudgetBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
-import edu.bluejack22_1.GMoneysoLVer.util.DateDisplayUtils;
+import edu.bluejack22_1.GMoneysoLVer.utilities.DateDisplayUtils;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialog;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialogFragment;
 
-import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentBudgetBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -268,6 +268,13 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
                                                         }
                                                     });
                                         }
+                                    } else {
+                                        budget.setId(snapshot.getId());
+                                        budget.setAmount(snapshot.getLong("budgetAmount").intValue());
+                                        budget.setMonth(snapshot.getLong("month").intValue());
+                                        budget.setYear(snapshot.getLong("year").intValue());
+                                        budgetList.add(budget);
+                                        budgetAdapter.notifyDataSetChanged();
                                     }
                                 }
                             }

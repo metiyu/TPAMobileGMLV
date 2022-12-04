@@ -1,4 +1,4 @@
-package edu.bluejack22_1.GMoneysoLVer;
+package edu.bluejack22_1.GMoneysoLVer.activity.budget;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
 
-import edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetDetailActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;

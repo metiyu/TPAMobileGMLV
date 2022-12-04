@@ -1,6 +1,7 @@
 package edu.bluejack22_1.GMoneysoLVer.activity.category;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,12 +14,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,8 +64,30 @@ public class AddCategoryActivity extends AppCompatActivity {
                 return;
             }
 
-            saveData(categoryName, categoryType);
+            checkCategory(categoryName, categoryType);
         });
+    }
+
+    private void checkCategory(String categoryName, String categoryType){
+        db.collection("categories")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null){
+                            Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                        }
+                        for (QueryDocumentSnapshot snapshot : value){
+                            if (snapshot.getString("categoryName") != null){
+                                if (categoryName.equalsIgnoreCase(snapshot.getString("categoryName"))){
+                                    Toast.makeText(getApplicationContext(), "Category name must be unique", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else {
+                                    saveData(categoryName, categoryType);
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     private void saveData(String categoryName, String categoryType){
