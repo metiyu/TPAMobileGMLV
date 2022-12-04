@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -395,6 +396,12 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
         if(wallet != null)
             bill.setWallet(wallet);
         return bill;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        this.finish();
+        return true;
     }
 
 }

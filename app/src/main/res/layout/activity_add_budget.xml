@@ -49,7 +49,7 @@
             android:id="@+id/et_budget_month"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/select_category"
+            android:hint="@string/select_date"
             tools:ignore="Autofill"
             android:focusable="false"/>
 
