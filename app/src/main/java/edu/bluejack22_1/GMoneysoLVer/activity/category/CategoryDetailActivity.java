@@ -81,13 +81,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(CategoryDetailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CategoryDetailActivity.this, getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(CategoryDetailActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CategoryDetailActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
 
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(CategoryDetailActivity.this, HomeActivity.class);
                         intent.putExtra("fragmentToGo","category");
                         startActivity(intent);
@@ -97,7 +97,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(CategoryDetailActivity.this, HomeActivity.class);
                         intent.putExtra("fragmentToGo","category");
                         startActivity(intent);

@@ -19,63 +19,69 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:text="@string/total_overdue"
                 android:textColor="@color/gray_800"
                 android:textSize="17dp"
-                android:textStyle="bold"
-                android:layout_alignParentLeft="true" />
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tv_overdue_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount"
                 android:layout_alignParentRight="true"
-                android:id="@+id/tv_overdue_amount"
-                android:textColor="@color/gray_800"/>
+                android:text="@string/amount"
+                android:textColor="@color/gray_800" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:text="@string/this_month"
                 android:textColor="@color/gray_800"
                 android:textSize="17dp"
-                android:textStyle="bold"
-                android:layout_alignParentLeft="true" />
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tv_this_month_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount"
                 android:layout_alignParentRight="true"
-                android:id="@+id/tv_this_month_amount"
-                android:textColor="@color/gray_800"/>
+                android:text="@string/amount"
+                android:textColor="@color/gray_800" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:text="@string/today"
                 android:textColor="@color/gray_800"
                 android:textSize="17dp"
-                android:textStyle="bold"
-                android:layout_alignParentLeft="true" />
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tv_today_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount"
                 android:layout_alignParentRight="true"
-                android:id="@+id/tv_today_amount"
-                android:textColor="@color/gray_800"/>
+                android:text="@string/amount"
+                android:textColor="@color/gray_800" />
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -103,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
-                android:text="select month"
+                android:text="@string/select_month"
                 android:textColor="@color/gray_800"
                 android:layout_marginLeft="20dp"/>
         </LinearLayout>

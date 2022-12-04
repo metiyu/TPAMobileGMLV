@@ -77,9 +77,9 @@ public class WalletDetailActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(WalletDetailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WalletDetailActivity.this, getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(WalletDetailActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WalletDetailActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
                         Intent intent = new Intent(WalletDetailActivity.this, HomeActivity.class);

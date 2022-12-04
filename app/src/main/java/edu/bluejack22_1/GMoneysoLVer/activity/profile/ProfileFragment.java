@@ -38,6 +38,9 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,20 +69,22 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private FirebaseUser user;
     private String email;
-    private LinearLayout btn_categories,btn_edit_profile,btn_my_wallets, btn_sign_out, btn_notification;
+    private LinearLayout btn_categories, btn_edit_profile, btn_my_wallets, btn_sign_out, btn_notification;
     private FragmentProfileBinding binding;
     private PieChart pieChart, pieChartIncome;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+    private GoogleSignInClient googleSignInClient;
     private List<String> yearList = new ArrayList<>();
     private List<String> monthList = new ArrayList<>();
     private List<String> dayList = new ArrayList<>();
-    private List<CategoryTotal> categoryList= new ArrayList<>();
-    private List<CategoryTotal> categoryListIncome= new ArrayList<>();
+    private List<CategoryTotal> categoryListExpense = new ArrayList<>();
+    private List<CategoryTotal> categoryListIncome = new ArrayList<>();
+    private List<CategoryTotal> categoryList = new ArrayList<>();
     private CategoryTotal currCategory;
     private List<TransactionGroupByDate> transactionGroupByDateList = new ArrayList<>();
     private Integer sumExpense, sumIncome;
-    private ArrayList<PieEntry> entries = new ArrayList<>();
+    private ArrayList<PieEntry> entriesExpense = new ArrayList<>();
     private ArrayList<PieEntry> entriesIncome = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
@@ -118,15 +123,15 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         binding = FragmentProfileBinding.inflate(
-                inflater,  container, false);
+        binding = FragmentProfileBinding.inflate(
+                inflater, container, false);
         ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(getString(R.string.profile));
         sumIncome = 0;
         sumExpense = 0;
-        btn_sign_out= binding.btnSignOut;
-        pieChart=binding.piechart;
+        btn_sign_out = binding.btnSignOut;
+        pieChart = binding.piechart;
         pieChartIncome = binding.piechartincome;
         Calendar calendar = Calendar.getInstance();
         getDataYear(calendar);
@@ -145,12 +150,12 @@ public class ProfileFragment extends Fragment {
         }
 
         btn_edit_profile = binding.btnEditProfile;
-        btn_edit_profile.setOnClickListener(x->{
+        btn_edit_profile.setOnClickListener(x -> {
             replaceFragment(new ValidationBeforeUpdateFragment());
         });
 
         btn_notification = binding.btnNotification;
-        btn_notification.setOnClickListener(x->{
+        btn_notification.setOnClickListener(x -> {
             replaceFragment(new NotificationFragment());
         });
 
@@ -164,8 +169,15 @@ public class ProfileFragment extends Fragment {
             replaceFragment(new WalletsFragment());
         });
 
-        btn_sign_out.setOnClickListener(x->{
+        btn_sign_out.setOnClickListener(x -> {
+            GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                    .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            googleSignInClient = GoogleSignIn.getClient(getActivity(), googleSignInOptions);
             FirebaseAuth.getInstance().signOut();
+            googleSignInClient.signOut();
             Intent intent = new Intent(getContext(), MainActivity.class);
             startActivity(intent);
             getActivity().finish();
@@ -174,10 +186,10 @@ public class ProfileFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
 
@@ -189,7 +201,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot valueYear, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(ProfileFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotYear : valueYear) {
@@ -209,7 +221,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot valueMonth, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(ProfileFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotMonth : valueMonth) {
@@ -232,7 +244,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot valueDay, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(ProfileFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotDay : valueDay) {
@@ -267,12 +279,11 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(ProfileFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value) {
                             Transaction transaction = new Transaction();
-
                             if (snapshot.getLong("transactionAmount") != null &&
                                     snapshot.getString("transactionCategory") != null &&
                                     snapshot.getDate("transactionDate") != null &&
@@ -287,16 +298,41 @@ public class ProfileFragment extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 if (task.isSuccessful()) {
-                                                    categoryList.clear();
-                                                    categoryListIncome.clear();
                                                     DocumentSnapshot document = task.getResult();
                                                     if (document.exists()) {
-                                                        boolean added=false;
+//                                                        categoryListExpense.clear();
+//                                                        categoryListIncome.clear();
+                                                        boolean added = false;
                                                         if (document.getString("categoryType").equals("expense")) {
                                                             sumExpense += lastAmount;
-                                                            if (categoryList.size() == 0) {
+                                                            if (categoryListExpense.size() == 0) {
                                                                 currCategory = new CategoryTotal(document.getId(), document.getString("categoryName"), document.getString("categoryType"), lastAmount);
+                                                                categoryListExpense.add(currCategory);
                                                                 categoryList.add(currCategory);
+                                                                entriesExpense.add(new PieEntry(currCategory.getTotal() / (float) sumExpense, currCategory.getName()));
+                                                            } else {
+                                                                for (CategoryTotal cat : categoryList) {
+                                                                    if (cat.getId().equals(document.getId())) {
+                                                                        cat.setTotal(cat.getTotal() + lastAmount);
+                                                                        added = true;
+                                                                        Log.d("PROFILE FRAGMENT", "onComplete: ada category yg sama");
+                                                                        break;
+                                                                    }
+                                                                }
+                                                                if (!added) {
+                                                                    currCategory = new CategoryTotal(document.getId(), document.getString("categoryName"), document.getString("categoryType"), lastAmount);
+                                                                    categoryListExpense.add(currCategory);
+                                                                    categoryList.add(currCategory);
+                                                                    entriesExpense.add(new PieEntry(currCategory.getTotal() / (float) sumExpense, currCategory.getName()));
+                                                                }
+                                                            }
+                                                        } else {
+                                                            sumIncome += lastAmount;
+                                                            if (categoryListIncome.size() == 0) {
+                                                                currCategory = new CategoryTotal(document.getId(), document.getString("categoryName"), document.getString("categoryType"), lastAmount);
+                                                                categoryListIncome.add(currCategory);
+                                                                categoryList.add(currCategory);
+                                                                entriesIncome.add(new PieEntry(currCategory.getTotal() / (float) sumIncome, currCategory.getName()));
                                                             } else {
                                                                 for (CategoryTotal cat : categoryList) {
                                                                     if (cat.getId().equals(document.getId())) {
@@ -305,38 +341,22 @@ public class ProfileFragment extends Fragment {
                                                                         break;
                                                                     }
                                                                 }
-                                                                if(added==false){
-                                                                    currCategory = new CategoryTotal(document.getId(), document.getString("categoryName"), document.getString("categoryType"), lastAmount);
-                                                                    categoryList.add(currCategory);
-                                                                }
-                                                            }
-                                                        } else {
-                                                            sumIncome += lastAmount;
-                                                            if (categoryListIncome.size() == 0) {
-                                                                currCategory = new CategoryTotal(document.getId(), document.getString("categoryName"), document.getString("categoryType"), lastAmount);
-                                                                categoryListIncome.add(currCategory);
-                                                            } else {
-                                                                for (CategoryTotal cat : categoryListIncome) {
-                                                                    if (cat.getId().equals(document.getId())) {
-                                                                        cat.setTotal(cat.getTotal() + lastAmount);
-                                                                        added = true;
-                                                                        break;
-                                                                    }
-                                                                }
-                                                                if(added==false){
+                                                                if (!added) {
                                                                     currCategory = new CategoryTotal(document.getId(), document.getString("categoryName"), document.getString("categoryType"), lastAmount);
                                                                     categoryListIncome.add(currCategory);
+                                                                    categoryList.add(currCategory);
+                                                                    entriesIncome.add(new PieEntry(currCategory.getTotal() / (float) sumIncome, currCategory.getName()));
                                                                 }
                                                             }
                                                         }
 
                                                     }
-                                                    for (CategoryTotal cat : categoryList) {
-                                                        entries.add(new PieEntry(cat.getTotal() / (float) sumExpense, cat.getName()));
-                                                    }
-                                                    for (CategoryTotal cat : categoryListIncome) {
-                                                        entriesIncome.add(new PieEntry(cat.getTotal() / (float) sumIncome, cat.getName()));
-                                                    }
+//                                                    for (CategoryTotal cat : categoryListExpense) {
+//                                                        entriesExpense.add(new PieEntry(cat.getTotal() / (float) sumExpense, cat.getName()));
+//                                                    }
+//                                                    for (CategoryTotal cat : categoryListIncome) {
+//                                                        entriesIncome.add(new PieEntry(cat.getTotal() / (float) sumIncome, cat.getName()));
+//                                                    }
                                                     ArrayList<Integer> colors = new ArrayList<>();
                                                     for (int color : ColorTemplate.MATERIAL_COLORS) {
                                                         colors.add(color);
@@ -344,7 +364,7 @@ public class ProfileFragment extends Fragment {
                                                     for (int color : ColorTemplate.VORDIPLOM_COLORS) {
                                                         colors.add(color);
                                                     }
-                                                    PieDataSet dataSet = new PieDataSet(entries, "");
+                                                    PieDataSet dataSet = new PieDataSet(entriesExpense, "");
                                                     PieDataSet dataSetIncome = new PieDataSet(entriesIncome, "");
                                                     dataSet.setColors(colors);
                                                     dataSetIncome.setColors(colors);

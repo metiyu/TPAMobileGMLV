@@ -170,7 +170,7 @@ public class CategoriesFragment extends Fragment {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         categoryList.clear();
                         if(error != null){
-                            Toast.makeText(CategoriesFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CategoriesFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){
@@ -194,9 +194,9 @@ public class CategoriesFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(CategoriesFragment.this.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CategoriesFragment.this.getContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(CategoriesFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CategoriesFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
                     }

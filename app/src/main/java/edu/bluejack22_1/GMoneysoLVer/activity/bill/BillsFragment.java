@@ -178,7 +178,7 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         billList.clear();
                         if(error != null){
-                            Toast.makeText(BillsFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BillsFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){

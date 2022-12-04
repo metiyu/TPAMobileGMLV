@@ -173,7 +173,7 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         budgetList.clear();
                         if (error != null) {
-                            Toast.makeText(BudgetFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BudgetFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         Log.d("Size budget", "onEvent: " + value.size());
@@ -245,14 +245,28 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
                                                                                                             transaction.setTransactionDate(doc.getDate("transactionDate"));
 
                                                                                                             transactionListForBudget.add(transaction);
-                                                                                                            budget.setTransactionList(transactionListForBudget);
-                                                                                                            Log.d(TAG, "onComplete: tran list, " + budget.getTransactionList().size());
-                                                                                                            budget.setId(snapshot.getId());
-                                                                                                            budget.setAmount(snapshot.getLong("budgetAmount").intValue());
-                                                                                                            budget.setMonth(snapshot.getLong("month").intValue());
-                                                                                                            budget.setYear(snapshot.getLong("year").intValue());
-                                                                                                            Log.d(TAG, "onEvent: budget tran list, " + budget.getTransactionList().size());
-                                                                                                            budgetList.add(budget);
+
+                                                                                                            int flag = 0;
+                                                                                                            for (Budget b : budgetList){
+                                                                                                                if (b.getId().equals(snapshot.getId())){
+                                                                                                                    b.setTransactionList(transactionListForBudget);
+                                                                                                                    flag = 1;
+                                                                                                                } else {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                            }
+
+                                                                                                            if (flag == 0){
+                                                                                                                budget.setTransactionList(transactionListForBudget);
+                                                                                                                Log.d(TAG, "onComplete: tran list, " + budget.getTransactionList().size());
+                                                                                                                budget.setId(snapshot.getId());
+                                                                                                                budget.setAmount(snapshot.getLong("budgetAmount").intValue());
+                                                                                                                budget.setMonth(snapshot.getLong("month").intValue());
+                                                                                                                budget.setYear(snapshot.getLong("year").intValue());
+                                                                                                                Log.d(TAG, "onEvent: budget tran list, " + budget.getTransactionList().size());
+                                                                                                                budgetList.add(budget);
+                                                                                                            }
+
                                                                                                             budgetAdapter.notifyDataSetChanged();
                                                                                                         }
                                                                                                     });
@@ -316,6 +330,9 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
         mPickDateButton.setText(DateDisplayUtils.formatMonthYear(year, monthOfYear));
         Log.d("year", "onDateSet: " + year);
         Log.d("month", "onDateSet: " + monthOfYear);
+        transactionListForBudget.clear();
+        budgetList.clear();
+        budgetAdapter.notifyDataSetChanged();
         getData(year, monthOfYear);
     }
 

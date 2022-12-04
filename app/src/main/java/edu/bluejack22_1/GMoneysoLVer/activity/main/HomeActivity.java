@@ -59,6 +59,9 @@ public class HomeActivity extends AppCompatActivity {
                 else if(fragmentToGo.equals("budget")){
                     replaceFragment(new BudgetFragment());
                 }
+                else if(fragmentToGo.equals("transaction")){
+                    replaceFragment(new HomeFragment());
+                }
             }
         }
         else{
@@ -145,6 +148,10 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if(currentFragment instanceof NotificationFragment){
             intent.putExtra("fragmentToGo","profile");
+            startActivity(intent);
+        }
+        else if(currentFragment instanceof TransactionFragment){
+            intent.putExtra("fragmentToGo","transaction");
             startActivity(intent);
         }
 

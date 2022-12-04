@@ -15,7 +15,7 @@
                 android:id="@+id/tv_category_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CATEGORY"
+                android:text="@string/category"
                 android:textStyle="bold"/>
 
         </LinearLayout>

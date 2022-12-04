@@ -108,7 +108,7 @@ public class AddBudgetActivity extends AppCompatActivity implements SimpleDatePi
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(AddBudgetActivity.this, HomeActivity.class);
                         intent.putExtra("fragmentToGo", "budget");
                         startActivity(intent);

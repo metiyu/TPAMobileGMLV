@@ -241,7 +241,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                             Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                             intent.putExtra("fragmentToGo","bill");
                             startActivity(intent);
@@ -251,7 +251,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                             Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                             intent.putExtra("fragmentToGo","bill");
                             startActivity(intent);
@@ -272,7 +272,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
 //                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
                                 startActivity(intent);
@@ -282,7 +282,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onFailure(@NonNull Exception e) {
 //                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
                                 startActivity(intent);
@@ -304,7 +304,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
 //                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
                                 startActivity(intent);
@@ -314,7 +314,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onFailure(@NonNull Exception e) {
 //                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
                                 startActivity(intent);
@@ -336,7 +336,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
 //                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
                                 startActivity(intent);
@@ -346,7 +346,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onFailure(@NonNull Exception e) {
 //                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
                                 startActivity(intent);

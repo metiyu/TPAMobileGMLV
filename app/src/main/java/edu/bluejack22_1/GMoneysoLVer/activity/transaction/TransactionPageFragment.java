@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionPerCategoryAdapter;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
@@ -162,7 +163,7 @@ public class TransactionPageFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot valueYear, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(TransactionPageFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TransactionPageFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotYear : valueYear) {
@@ -182,7 +183,7 @@ public class TransactionPageFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot valueMonth, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(TransactionPageFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TransactionPageFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotMonth : valueMonth) {
@@ -205,7 +206,7 @@ public class TransactionPageFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot valueDay, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(TransactionPageFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TransactionPageFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotDay : valueDay) {
@@ -277,7 +278,7 @@ public class TransactionPageFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(TransactionPageFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TransactionPageFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value) {
@@ -383,7 +384,7 @@ public class TransactionPageFragment extends Fragment {
 //                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 //                        transactionGroupByDateList.clear();
 //                        if (error != null) {
-//                            Toast.makeText(TransactionPageFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(TransactionPageFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
 //                            return;
 //                        }
 //                        for (QueryDocumentSnapshot snapshot : value) {

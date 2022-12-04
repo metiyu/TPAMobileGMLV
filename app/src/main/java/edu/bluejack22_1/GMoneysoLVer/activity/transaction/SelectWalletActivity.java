@@ -87,7 +87,7 @@ public class SelectWalletActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         walletList.clear();
                         if(error != null){
-                            Toast.makeText(SelectWalletActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectWalletActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){

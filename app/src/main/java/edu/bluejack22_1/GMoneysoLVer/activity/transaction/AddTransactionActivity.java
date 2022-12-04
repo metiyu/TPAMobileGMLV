@@ -171,7 +171,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
-                            Toast.makeText(AddTransactionActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddTransactionActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -187,9 +187,9 @@ public class AddTransactionActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
@@ -202,9 +202,9 @@ public class AddTransactionActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
@@ -246,7 +246,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                         updateWallet(transactionWallet, transactionAmount, transactionCategory.getType());
                         db.collection("users")
                                 .document(currUser.getUid())
@@ -262,7 +262,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                                                         if (error != null) {
-                                                            Toast.makeText(AddTransactionActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(AddTransactionActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                                                             return;
                                                         }
 
@@ -279,14 +279,14 @@ public class AddTransactionActivity extends AppCompatActivity {
                                                                                 @Override
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     if (task.isSuccessful()) {
-                                                                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                                                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                                                                                         startActivity(new Intent(AddTransactionActivity.this, HomeActivity.class));
                                                                                         finish();
                                                                                     } else {
-                                                                                        Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                                                                        Toast.makeText(getApplicationContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                                                                                     }
                                                                                     startActivity(new Intent(AddTransactionActivity.this, HomeActivity.class));
-                                                                                    finish();
+//                                                                                    finish();
 
                                                                                 }
                                                                             });
@@ -306,7 +306,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -366,9 +366,9 @@ public class AddTransactionActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             }
                             progressDialog.dismiss();
                         }
@@ -383,9 +383,9 @@ public class AddTransactionActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             }
                             progressDialog.dismiss();
                         }

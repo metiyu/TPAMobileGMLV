@@ -120,7 +120,7 @@ public class CategoryExpenseFragment extends Fragment {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         categoryList.clear();
                         if(error != null){
-                            Toast.makeText(CategoryExpenseFragment.this.getActivity(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CategoryExpenseFragment.this.getActivity(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){

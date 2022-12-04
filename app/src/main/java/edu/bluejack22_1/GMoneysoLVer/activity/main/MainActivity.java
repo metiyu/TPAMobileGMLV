@@ -163,10 +163,10 @@ public class MainActivity extends AppCompatActivity {
                         //check if user new or existing
                         if(authResult.getAdditionalUserInfo().isNewUser()){
                             Log.d(TAG, "onSuccess: Account Created");
-                            Toast.makeText(MainActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.account_created) +email, Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(TAG, "onSuccess: Existing User");
-                            Toast.makeText(MainActivity.this, "Existing User...\n"+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.existing_user) +email, Toast.LENGTH_SHORT).show();
                         }
 
                         checkUser(user, MainActivity.this);

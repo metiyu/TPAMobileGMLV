@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
 
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionPagerAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
@@ -118,6 +120,10 @@ public class TransactionFragment extends Fragment {
         tv_transaction_wallet_balance = binding.tvTransactionWalletBalance;
         sp_wallet = binding.spWallet;
 
+        ActionBar actionBar = ((HomeActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(getString(R.string.transaction));
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         pagerAdapter = new TransactionPagerAdapter(fragmentManager, getLifecycle());
         vp_transaction.setAdapter(pagerAdapter);
@@ -186,7 +192,7 @@ public class TransactionFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null){
-                            Toast.makeText(getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){

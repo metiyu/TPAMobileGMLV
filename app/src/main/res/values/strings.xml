@@ -58,6 +58,7 @@
     <string name="update_profile">Update profile</string>
     <string name="category">Category</string>
     <string name="transaction_amount">Transaction Amount</string>
+    <string name="amount">Amount</string>
     <string name="transaction_date">Transaction Date</string>
     <string name="transaction_wallet">Transaction Wallet</string>
     <string name="total_overdue">Total overdue</string>
@@ -94,6 +95,14 @@
     <string name="was_due_on">Was due on </string>
     <string name="total_spend_this_month">Total spend this month</string>
     <string name="notification">Notification</string>
+    <string name="failed_to_fetch">Failed to fetch</string>
+    <string name="success">Success</string>
+    <string name="account_created">Account Created...</string>
+    <string name="existing_user">Existing User...</string>
+    <string name="deleted">Deleted</string>
+    <string name="old_password">Old Password</string>
+    <string name="edit">Edit</string>
+    <string name="mark_as_unpaid">Mark as unpaid</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 <!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->

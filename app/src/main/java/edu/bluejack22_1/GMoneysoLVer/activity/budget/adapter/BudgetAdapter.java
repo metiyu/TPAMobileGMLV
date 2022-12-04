@@ -44,8 +44,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
 
     @Override
     public void onBindViewHolder(@NonNull BudgetAdapter.BudgetViewHolder holder, int position) {
-        holder.tv_budget_amount.setText("Amount");
-        holder.tv_budget_category.setText("category");
+        holder.tv_budget_amount.setText(c.getString(R.string.amount));
+        holder.tv_budget_category.setText(c.getString(R.string.category));
         if(budgetList.get(position).getAmount()!=null && budgetList.get(position).getAllTransactionAmount() != null){
             holder.tv_budget_amount.setText(budgetList.get(position).formatRupiah());
             holder.tv_spent_budget.setText(budgetList.get(position).getAllTransactionAmountFormatted());

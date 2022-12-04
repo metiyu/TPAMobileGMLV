@@ -88,7 +88,7 @@
             android:id="@+id/btn_edit_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"
+            android:text="@string/edit"
             android:layout_margin="3dp"/>
 
         <Button

@@ -66,9 +66,8 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.BillsViewHol
     @Override
     public void onBindViewHolder(@NonNull BillsViewHolder holder, int position) {
 //        Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
-        holder.tv_bill_category.setText("Category");
+        holder.tv_bill_category.setText(c.getString(R.string.category));
         if(billList.get(position).getCategory()!=null){
-
             holder.tv_bill_category.setText(billList.get(position).getCategory().getName());
         }
         holder.tv_bill_price.setText(billList.get(position).getBillAmount().toString());

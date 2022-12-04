@@ -146,7 +146,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         categoryList.clear();
                         if(error != null){
-                            Toast.makeText(SelectCategoryActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectCategoryActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         for (QueryDocumentSnapshot snapshot : value){

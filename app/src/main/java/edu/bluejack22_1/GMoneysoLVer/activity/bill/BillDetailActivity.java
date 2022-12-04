@@ -95,9 +95,9 @@ public class BillDetailActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(BillDetailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BillDetailActivity.this, getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(BillDetailActivity.this, "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BillDetailActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
                         Intent intent = new Intent(BillDetailActivity.this, HomeActivity.class);
