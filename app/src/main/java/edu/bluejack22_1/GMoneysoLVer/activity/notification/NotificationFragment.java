@@ -2,6 +2,7 @@ package edu.bluejack22_1.GMoneysoLVer.activity.notification;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
@@ -20,8 +21,12 @@ import edu.bluejack22_1.GMoneysoLVer.adapter.NotificationAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Notification;
 
 import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentNotificationBinding;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -104,21 +109,29 @@ public class NotificationFragment extends Fragment {
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("notifications")
-                .addSnapshotListener(
-                        new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                for (QueryDocumentSnapshot snapshot : value){
-                                    if(snapshot.getString("message") != null ){
-                                        Notification notif= new Notification(snapshot.getId(),snapshot.getString("message"));
-                                        notifList.add(notif);
-                                    }
-
-                                    notificationAdapter.notifyDataSetChanged();
-                                }
+                .get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        QuerySnapshot document = task.getResult();
+                        for (QueryDocumentSnapshot snapshot : document){
+                            if(snapshot.getString("message") != null ){
+                                Notification notif= new Notification(snapshot.getId(),snapshot.getString("message"));
+                                notifList.add(notif);
                             }
+
+                            notificationAdapter.notifyDataSetChanged();
                         }
-                );
+                    }
+                }
+        );
+//                        new EventListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                            }
+//                        }
+
 
 
         return binding.getRoot();
