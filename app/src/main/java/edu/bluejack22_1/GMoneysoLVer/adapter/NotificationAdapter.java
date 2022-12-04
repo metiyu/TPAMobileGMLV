@@ -45,7 +45,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHo
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
       /*  Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
         Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);*/
-        holder.tv_notif.setText(notificationList.get(position).getMessage());
+        holder.tv_notif.setText(c.getString(R.string.message));
         holder.delete_notif.setOnClickListener(x->{
             db.collection("users")
                     .document(currUser.getUid())
