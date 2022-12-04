@@ -193,7 +193,7 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                                 if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.MONTH)==today_cal.get(Calendar.MONTH)){
                                     totalThisMonth+=snapshot.getLong("billAmount").intValue();
                                 }
-                                if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.before(today_cal)){
+                                if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.before(today_cal) && (current_cal.get(Calendar.YEAR)!=today_cal.get(Calendar.YEAR) || current_cal.get(Calendar.MONTH)!=today_cal.get(Calendar.MONTH)|| current_cal.get(Calendar.DAY_OF_YEAR)!=today_cal.get(Calendar.DAY_OF_YEAR))){
                                     totalOverDue+=snapshot.getLong("billAmount").intValue();
                                 }
                                 if(snapshot.getString("paidStatus").equals("Unpaid") && current_cal.get(Calendar.YEAR)==today_cal.get(Calendar.YEAR) && current_cal.get(Calendar.DAY_OF_YEAR)==today_cal.get(Calendar.DAY_OF_YEAR)){

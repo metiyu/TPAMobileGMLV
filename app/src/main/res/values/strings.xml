@@ -103,6 +103,7 @@
     <string name="old_password">Old Password</string>
     <string name="edit">Edit</string>
     <string name="mark_as_unpaid">Mark as unpaid</string>
+    <string name="message">New transaction successfully added</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 <!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->

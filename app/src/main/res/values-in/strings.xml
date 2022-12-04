@@ -84,6 +84,7 @@
     <string name="old_password">Sandi lama</string>
     <string name="edit">Ubah</string>
     <string name="mark_as_unpaid">Tandai belum dibayar</string>
+    <string name="message">Transaksi baru berhasil terbuat</string>
 
     <string-array name="repeat_values">
         <item>Mercury</item>
