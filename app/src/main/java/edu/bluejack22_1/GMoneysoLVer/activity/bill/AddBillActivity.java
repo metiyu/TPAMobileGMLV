@@ -19,14 +19,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectWalletActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
-import com.example.tpamobile.databinding.ActivityAddBillBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityAddBillBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

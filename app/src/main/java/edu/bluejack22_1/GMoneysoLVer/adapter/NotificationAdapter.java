@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.model.Notification;
 import com.google.firebase.auth.FirebaseAuth;

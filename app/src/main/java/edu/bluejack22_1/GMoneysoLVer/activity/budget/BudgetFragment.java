@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillsFragment;
 import edu.bluejack22_1.GMoneysoLVer.adapter.BudgetAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
@@ -32,7 +32,7 @@ import edu.bluejack22_1.GMoneysoLVer.util.DateDisplayUtils;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialog;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialogFragment;
 
-import com.example.tpamobile.databinding.FragmentBudgetBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentBudgetBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -209,7 +209,6 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
                                                                         if (doc.getLong("transactionAmount") != null &&
                                                                                 doc.getString("transactionCategory") != null &&
                                                                                 doc.getDate("transactionDate") != null &&
-                                                                                doc.getString("transactionNote") != null &&
                                                                                 doc.getString("transactionWallet") != null) {
                                                                             Log.d(TAG, "onComplete: snapshot tran, " + doc.getId());
                                                                             db.collection("categories")
@@ -242,7 +241,6 @@ public class BudgetFragment extends Fragment implements SimpleDatePickerDialog.O
                                                                                                                 }
                                                                                                             }
                                                                                                             transaction.setTransactionID(doc.getId());
-                                                                                                            transaction.setTransactionNote(doc.getString("transactionNote"));
                                                                                                             transaction.setTransactionAmount(doc.getLong("transactionAmount").intValue());
                                                                                                             transaction.setTransactionDate(doc.getDate("transactionDate"));
 

@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.adapter.BillsAdapter;
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 import edu.bluejack22_1.GMoneysoLVer.util.DateDisplayUtils;
@@ -30,7 +30,7 @@ import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialog;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialogFragment;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 
-import com.example.tpamobile.databinding.FragmentBillsBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentBillsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import java.text.DateFormatSymbols;
 import java.util.Arrays;

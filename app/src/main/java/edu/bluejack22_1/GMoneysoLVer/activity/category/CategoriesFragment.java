@@ -24,11 +24,11 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.ProfileFragment;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.adapter.CategoryAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 
-import com.example.tpamobile.databinding.FragmentCategoriesBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentCategoriesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.EventListener;

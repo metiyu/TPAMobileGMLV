@@ -2,7 +2,7 @@ package edu.bluejack22_1.GMoneysoLVer.activity.transaction;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 
 import android.content.Intent;

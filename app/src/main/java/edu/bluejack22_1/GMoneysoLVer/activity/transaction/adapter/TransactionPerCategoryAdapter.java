@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.TransactionDetailActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 
@@ -38,7 +38,6 @@ public class TransactionPerCategoryAdapter extends RecyclerView.Adapter<Transact
     @Override
     public void onBindViewHolder(@NonNull TransactionPerCategoryViewHolder holder, int position) {
         holder.tv_category_name.setText(transactionList.get(position).getTransactionCategory().getName());
-        holder.tv_transaction_note.setText(transactionList.get(position).getTransactionNote());
         if (transactionList.get(position).getTransactionCategory().getType().equals("expense")){
             holder.tv_transaction_amount.setText(transactionList.get(position).formatRupiah());
             holder.tv_transaction_amount.setTextColor(ContextCompat.getColor(c, R.color.expenseColor));
@@ -62,12 +61,11 @@ public class TransactionPerCategoryAdapter extends RecyclerView.Adapter<Transact
 
     public class TransactionPerCategoryViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_category_name, tv_transaction_note, tv_transaction_amount;
+        TextView tv_category_name, tv_transaction_amount;
 
         public TransactionPerCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_category_name = itemView.findViewById(R.id.tv_category_name);
-            tv_transaction_note = itemView.findViewById(R.id.tv_transaction_note);
             tv_transaction_amount = itemView.findViewById(R.id.tv_transaction_amount);
         }
     }

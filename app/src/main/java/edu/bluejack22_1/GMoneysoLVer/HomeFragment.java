@@ -22,14 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.wallet.WalletsFragment;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
-import com.example.tpamobile.databinding.FragmentHomeBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -189,6 +189,35 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
+    public void testBug(){
+        db.collection("users")
+                .document(currUser.getUid())
+                .collection("transactions")
+                .document("2022")
+                .collection("monthList")
+                .document("12")
+                .collection("dateList")
+                .document("2")
+                .collection("transactionList")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Toast.makeText(HomeFragment.this.getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        for (QueryDocumentSnapshot snapshot : value) {
+                            if (snapshot.getLong("transactionAmount") != null &&
+                                    snapshot.getString("transactionCategory") != null &&
+                                    snapshot.getDate("transactionDate") != null &&
+                                    snapshot.getString("transactionWallet") != null) {
+                                Log.d(TAG, "onEvent: tran id, " + snapshot.getId());
+                            }
+                        }
+                    }
+                });
+    }
+
     public void getDataYear() {
         db.collection("users")
                 .document(currUser.getUid())
@@ -201,6 +230,7 @@ public class HomeFragment extends Fragment {
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotYear : valueYear) {
+                            Log.d(TAG, "onEvent: data year, " + snapshotYear.getId());
                             getDataMonth(snapshotYear.getId());
                         }
                     }
@@ -221,6 +251,7 @@ public class HomeFragment extends Fragment {
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotMonth : valueMonth) {
+                            Log.d(TAG, "onEvent: data month, " + snapshotMonth.getId());
                             getDataDay(year, snapshotMonth.getId());
                         }
                     }
@@ -243,6 +274,7 @@ public class HomeFragment extends Fragment {
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotDay : valueDay) {
+                            Log.d(TAG, "onEvent: data day, " + snapshotDay.getId());
                                 getData(year, month, snapshotDay.getId());
                         }
                     }
@@ -250,6 +282,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getData(String year, String month, String day) {
+        Log.d(TAG, "getData: year, " + year + "month ," + month + "day ," + day);
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("transactions")
@@ -259,7 +292,7 @@ public class HomeFragment extends Fragment {
                 .collection("dateList")
                 .document(day)
                 .collection("transactionList")
-                .orderBy("transactionDate")
+//                .orderBy("transactionDate")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -272,8 +305,10 @@ public class HomeFragment extends Fragment {
                             if (snapshot.getLong("transactionAmount") != null &&
                                     snapshot.getString("transactionCategory") != null &&
                                     snapshot.getDate("transactionDate") != null &&
-                                    snapshot.getString("transactionNote") != null &&
                                     snapshot.getString("transactionWallet") != null) {
+
+                                Log.d(TAG, "onEvent: tran id, " + snapshot.getId());
+                                Log.d(TAG, "onEvent: tanggal," + snapshot.getDate("transactionDate"));
 
                                 db.collection("categories")
                                         .document(snapshot.getString("transactionCategory"))
@@ -306,11 +341,15 @@ public class HomeFragment extends Fragment {
                                                                 }
 
                                                                 transaction.setTransactionID(snapshot.getId());
-                                                                transaction.setTransactionNote(snapshot.getString("transactionNote"));
+//                                                                transaction.setTransactionNote(snapshot.getString("transactionNote"));
                                                                 transaction.setTransactionAmount(snapshot.getLong("transactionAmount").intValue());
                                                                 transaction.setTransactionDate(snapshot.getDate("transactionDate"));
 
                                                                 Calendar calendar = Calendar.getInstance();
+
+//                                                                Log.d(TAG, "onComplete: month in calendar, " + calendar.get(Calendar.MONTH));
+//                                                                Log.d(TAG, "onComplete: month di transaction, " + transaction.getTransactionDate().getMonth());
+//                                                                Log.d(TAG, "onComplete: tran id, " + transaction.getTransactionID());
 
                                                                 if (calendar.get(Calendar.MONTH) == transaction.getTransactionDate().getMonth()){
                                                                     if (transaction.getTransactionCategory().getType().equals("expense")){
@@ -323,6 +362,8 @@ public class HomeFragment extends Fragment {
                                                                     }
                                                                 }
                                                                 calendar.add(Calendar.MONTH, -1);
+//                                                                Log.d(TAG, "onComplete: month in calendar 2, " + calendar.get(Calendar.MONTH));
+//                                                                Log.d(TAG, "onComplete: month di transaction 2,  " + transaction.getTransactionDate().getMonth());
                                                                 if (calendar.get(Calendar.MONTH) == transaction.getTransactionDate().getMonth()){
                                                                     if (transaction.getTransactionCategory().getType().equals("expense")){
                                                                         lastMonthSpend += transaction.getTransactionAmount();

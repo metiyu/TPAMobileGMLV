@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:62103400682:android:50dfb0d4831d87b038a793",
         "android_client_info": {
-          "package_name": "com.example.tpamobile"
+          "package_name": "edu.bluejack22_1.GMoneysoLVer"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "62103400682-mv1nkvjudfg6ok88bucuq5p029lt7daj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.tpamobile",
+            "package_name": "edu.bluejack22_1.GMoneysoLVer",
             "certificate_hash": "1f82c59374ddae8f24a0f5798e6653b3e3ef1c55"
           }
         },

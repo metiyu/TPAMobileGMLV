@@ -8,16 +8,15 @@ import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 public class Transaction implements Serializable {
-    private String TransactionID, TransactionNote;
+    private String TransactionID;
     private Integer TransactionAmount;
     private Category TransactionCategory;
     private Wallet TransactionWallet;
     private Date TransactionDate;
     private DateTime createdAt;
 
-    public Transaction(String transactionID, String transactionNote, Integer transactionAmount, Category transactionCategory, Wallet transactionWallet, Date transactionDate) {
+    public Transaction(String transactionID, Integer transactionAmount, Category transactionCategory, Wallet transactionWallet, Date transactionDate) {
         TransactionID = transactionID;
-        TransactionNote = transactionNote;
         TransactionAmount = transactionAmount;
         TransactionCategory = transactionCategory;
         TransactionWallet = transactionWallet;
@@ -41,14 +40,6 @@ public class Transaction implements Serializable {
 
     public void setTransactionID(String transactionID) {
         TransactionID = transactionID;
-    }
-
-    public String getTransactionNote() {
-        return TransactionNote;
-    }
-
-    public void setTransactionNote(String transactionNote) {
-        TransactionNote = transactionNote;
     }
 
     public Integer getTransactionAmount() {

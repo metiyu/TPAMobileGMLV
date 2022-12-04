@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.AddBillActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.AddTransactionActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectWalletActivity;
@@ -52,13 +52,13 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
         holder.tv_wallet_name.setText(walletList.get(position).getName());
         holder.tv_wallet_amount.setText(walletList.get(position).formatRupiah());
 //        holder.tv_wallet_amount.setText(formatRupiah(Double.parseDouble(walletList.get(position).getAmount().toString())));
-        if(c.getClass().getName().equals("HomeActivity")){
+        if(c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.HomeActivity")){
             holder.itemView.setOnClickListener(x -> {
                 Intent intent = new Intent(c, WalletDetailActivity.class);
                 intent.putExtra("currWallet", walletList.get(position));
                 c.startActivity(intent);
             });
-        } else if (c.getClass().getName().equals("SelectWalletActivity")){
+        } else if (c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectWalletActivity")){
 //            holder.itemView.setOnClickListener(x->{
 //                Intent intent = new Intent(c, AddTransactionActivity.class);
 //                intent.putExtra("selectedWallet", walletList.get(position));

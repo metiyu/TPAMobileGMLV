@@ -20,12 +20,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.adapter.WalletAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
-import com.example.tpamobile.databinding.FragmentWalletBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentWalletBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;

@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 /**
  * A simple dialog containing month and year picker and also provides callback on positive

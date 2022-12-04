@@ -12,7 +12,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.CategoryPagerAdapter;
 import edu.bluejack22_1.GMoneysoLVer.adapter.CategoryAdapter;

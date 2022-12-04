@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

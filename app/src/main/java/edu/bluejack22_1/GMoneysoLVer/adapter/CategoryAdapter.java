@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.bluejack22_1.GMoneysoLVer.EditBudgetActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.AddBillActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.budget.AddBudgetActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.category.CategoryDetailActivity;
@@ -56,13 +56,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
         Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
         holder.tv_category_name.setText(categoryList.get(position).getName());
-        if(c.getClass().getName().equals("HomeActivity")){
+        if(c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.HomeActivity")){
             holder.itemView.setOnClickListener(x->{
+                Log.d("CATEGORY ADAPTER", "onBindViewHolder: click dri home");
                 Intent intent = new Intent(c, CategoryDetailActivity.class);
                 intent.putExtra("currCategory", categoryList.get(position));
                 c.startActivity(intent);
             });
-        } else if (c.getClass().getName().equals("SelectCategoryActivity")){
+        } else if (c.getClass().getName().equals("edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity")){
             if(SelectCategoryActivity.bill_in_select_category!=null){
                 holder.itemView.setOnClickListener(x->{
                     Intent intent = new Intent(c, AddBillActivity.class);

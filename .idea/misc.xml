@@ -30,10 +30,13 @@
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_select_wallet.xml" value="0.1859375" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_sign_in.xml" value="0.3723958333333333" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_sign_up.xml" value="0.21614583333333334" />
+        <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_transaction_detail.xml" value="0.18070652173913043" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_validation_before_update.xml" value="0.4" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_wallet_detail.xml" value="0.2" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/activity_write_note.xml" value="0.203125" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/card_category.xml" value="0.4" />
+        <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/card_transaction.xml" value="0.18070652173913043" />
+        <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/card_transaction_per_category.xml" value="0.18070652173913043" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/card_view.xml" value="0.19739583333333333" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/card_wallet.xml" value="0.2" />
         <entry key="..\:/1matthew/TPAMobileGMLV/app/src/main/res/layout/fragment_bills.xml" value="0.21614583333333334" />

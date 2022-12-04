@@ -14,7 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

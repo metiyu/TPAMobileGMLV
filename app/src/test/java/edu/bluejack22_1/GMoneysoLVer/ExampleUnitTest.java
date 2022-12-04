@@ -1,4 +1,4 @@
-package com.example.tpamobile;
+package edu.bluejack22_1.GMoneysoLVer;
 
 import org.junit.Test;
 

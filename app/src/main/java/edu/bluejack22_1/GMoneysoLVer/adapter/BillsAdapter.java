@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillDetailActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;

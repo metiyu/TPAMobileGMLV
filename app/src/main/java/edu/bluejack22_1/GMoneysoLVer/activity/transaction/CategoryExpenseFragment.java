@@ -15,12 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.adapter.CategoryAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 
-import com.example.tpamobile.databinding.FragmentCategoryExpenseBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentCategoryExpenseBinding;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;

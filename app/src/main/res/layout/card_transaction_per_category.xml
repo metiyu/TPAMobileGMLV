@@ -18,13 +18,6 @@
                 android:text="CATEGORY"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/tv_transaction_note"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TransactionNote"
-                android:textSize="12dp"/>
-
         </LinearLayout>
 
         <TextView

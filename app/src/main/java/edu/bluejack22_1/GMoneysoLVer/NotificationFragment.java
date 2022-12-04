@@ -13,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.adapter.NotificationAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Notification;
 
-import com.example.tpamobile.databinding.FragmentNotificationBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentNotificationBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;

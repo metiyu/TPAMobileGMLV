@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.example.tpamobile.R;
-import com.example.tpamobile.databinding.FragmentPlanningBinding;
+import edu.bluejack22_1.GMoneysoLVer.R;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentPlanningBinding;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.bill.BillsFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetFragment;

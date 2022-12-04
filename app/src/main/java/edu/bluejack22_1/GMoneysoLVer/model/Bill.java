@@ -1,6 +1,6 @@
 package edu.bluejack22_1.GMoneysoLVer.model;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import java.io.Serializable;
 import java.text.NumberFormat;

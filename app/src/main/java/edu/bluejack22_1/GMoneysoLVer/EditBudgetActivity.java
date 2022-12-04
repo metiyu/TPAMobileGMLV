@@ -11,14 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.budget.BudgetDetailActivity;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 
-import com.example.tpamobile.databinding.ActivityEditBudgetBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityEditBudgetBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

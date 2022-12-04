@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.SelectCategoryActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
@@ -21,7 +21,7 @@ import edu.bluejack22_1.GMoneysoLVer.util.DateDisplayUtils;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialog;
 import edu.bluejack22_1.GMoneysoLVer.widgets.SimpleDatePickerDialogFragment;
 
-import com.example.tpamobile.databinding.ActivityAddBudgetBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityAddBudgetBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

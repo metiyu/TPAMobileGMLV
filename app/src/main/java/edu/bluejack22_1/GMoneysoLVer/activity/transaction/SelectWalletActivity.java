@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.adapter.WalletAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;

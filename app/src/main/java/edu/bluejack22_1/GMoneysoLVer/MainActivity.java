@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -51,10 +51,24 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_fcm_token;
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null){
+            startActivity(new Intent(this, HomeActivity.class));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

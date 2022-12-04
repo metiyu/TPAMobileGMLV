@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.category.CategoriesFragment;
 import edu.bluejack22_1.GMoneysoLVer.activity.wallet.WalletsFragment;
@@ -27,7 +27,7 @@ import edu.bluejack22_1.GMoneysoLVer.model.CategoryTotal;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 
-import com.example.tpamobile.databinding.FragmentProfileBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentProfileBinding;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -162,8 +162,9 @@ public class ProfileFragment extends Fragment {
 
         btn_sign_out.setOnClickListener(x->{
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getContext(), SignInActivity.class);
+            Intent intent = new Intent(getContext(), MainActivity.class);
             startActivity(intent);
+            getActivity().finish();
         });
 
         return binding.getRoot();
@@ -271,7 +272,6 @@ public class ProfileFragment extends Fragment {
                             if (snapshot.getLong("transactionAmount") != null &&
                                     snapshot.getString("transactionCategory") != null &&
                                     snapshot.getDate("transactionDate") != null &&
-                                    snapshot.getString("transactionNote") != null &&
                                     snapshot.getString("transactionWallet") != null) {
                                 Calendar snapshotCalendar = Calendar.getInstance();
                                 snapshotCalendar.setTime(snapshot.getDate("transactionDate"));

@@ -3,7 +3,7 @@ package edu.bluejack22_1.GMoneysoLVer.activity.transaction;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;

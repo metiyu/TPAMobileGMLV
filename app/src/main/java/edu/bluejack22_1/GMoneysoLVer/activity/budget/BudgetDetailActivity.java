@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.EditBudgetActivity;
 import edu.bluejack22_1.GMoneysoLVer.HomeActivity;
-import com.example.tpamobile.R;
-import com.example.tpamobile.databinding.ActivityBudgetDetailBinding;
+import edu.bluejack22_1.GMoneysoLVer.R;
+import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityBudgetDetailBinding;
 import edu.bluejack22_1.GMoneysoLVer.model.Budget;
 import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import com.google.android.gms.tasks.OnCompleteListener;

@@ -24,7 +24,7 @@ import edu.bluejack22_1.GMoneysoLVer.model.Transaction;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
-import com.example.tpamobile.databinding.FragmentTransactionPageBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentTransactionPageBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -148,6 +148,7 @@ public class TransactionPageFragment extends Fragment {
         String jsonWallet = sharedPreferences.getString("wallet", null);
         sharPrefWallet = gson.fromJson(jsonWallet, Wallet.class);
 
+        Log.d(TAG, "onCreateView: calendar, " + calendar.getTime());
         getDataYear(calendar);
 
         return binding.getRoot();
@@ -209,8 +210,11 @@ public class TransactionPageFragment extends Fragment {
                         }
                         for (QueryDocumentSnapshot snapshotDay : valueDay) {
                             List<Transaction> transactionList = new ArrayList<>();
+                            Log.d(TAG, "onEvent: calendar month, " + month.equals(String.valueOf(calendar.get(Calendar.MONTH) + 1)));
+                            Log.d(TAG, "onEvent: calendar year, " + year.equals(String.valueOf(calendar.get(Calendar.YEAR))));
                             if (month.equals(String.valueOf(calendar.get(Calendar.MONTH) + 1)) &&
                                     year.equals(String.valueOf(calendar.get(Calendar.YEAR)))) {
+                                Log.d(TAG, "onEvent: lewat validasi month year");
                                 Calendar c = Calendar.getInstance();
                                 c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(snapshotDay.getId()));
                                 c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
@@ -299,13 +303,15 @@ public class TransactionPageFragment extends Fragment {
 //                                }
 //                            }
 
+                            Log.d(TAG, "onEvent: tanggal1, " + snapshot.getDate("transactionDate"));
+
                             if (snapshot.getLong("transactionAmount") != null &&
                                     snapshot.getString("transactionCategory") != null &&
                                     snapshot.getDate("transactionDate") != null &&
-                                    snapshot.getString("transactionNote") != null &&
                                     snapshot.getString("transactionWallet") != null) {
                                 Calendar snapshotCalendar = Calendar.getInstance();
                                 snapshotCalendar.setTime(snapshot.getDate("transactionDate"));
+
 
                                 if (!sharPrefWallet.getId().equals(snapshot.getString("transactionWallet"))) {
                                     continue;
@@ -342,11 +348,11 @@ public class TransactionPageFragment extends Fragment {
                                                                 }
 
                                                                 transaction.setTransactionID(snapshot.getId());
-                                                                transaction.setTransactionNote(snapshot.getString("transactionNote"));
                                                                 transaction.setTransactionAmount(snapshot.getLong("transactionAmount").intValue());
                                                                 transaction.setTransactionDate(snapshot.getDate("transactionDate"));
 
                                                                 if (snapshotCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
+                                                                    Log.d(TAG, "onComplete: tran id, " + transaction.getTransactionID());
                                                                     transactionList.add(transaction);
                                                                 }
 
@@ -354,6 +360,8 @@ public class TransactionPageFragment extends Fragment {
 
                                                                 adapterPerCategory.notifyDataSetChanged();
                                                                 adapterPerDate.notifyDataSetChanged();
+
+                                                                Log.d(TAG, "onEvent: tran list size, " + transactionList.size());
                                                             }
                                                         });
                                             }

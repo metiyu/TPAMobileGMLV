@@ -20,13 +20,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.activity.transaction.adapter.TransactionPagerAdapter;
 import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
-import com.example.tpamobile.databinding.FragmentTransactionBinding;
+import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentTransactionBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -87,11 +87,9 @@ public class TransactionFragment extends Fragment {
      * @return A new instance of fragment TransactionFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TransactionFragment newInstance(String param1, String param2) {
+    public static TransactionFragment newInstance() {
         TransactionFragment fragment = new TransactionFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -201,18 +199,25 @@ public class TransactionFragment extends Fragment {
                         sp_wallet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
-                                Gson gson = new Gson();
-                                Log.d(TAG, "onItemSelected: wallet selected, " + sp_wallet.getItemAtPosition(i));
-                                for (Wallet w : walletList){
-                                    if (w.getName().equals(sp_wallet.getItemAtPosition(i))){
-                                        String walletJson = gson.toJson(w);
-                                        Log.d(TAG, "onItemSelected: json wallet, " + walletJson);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("wallet", walletJson);
-                                        editor.commit();
-                                        getBalance(w);
-
+                                Log.d(TAG, "onItemSelected: kegantiii");
+                                boolean first_trigger = true;
+                                if(first_trigger){
+                                    first_trigger = false;
+                                }else{
+                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+                                    Gson gson = new Gson();
+                                    Log.d(TAG, "onItemSelected: wallet selected, " + sp_wallet.getItemAtPosition(i));
+                                    for (Wallet w : walletList){
+                                        if (w.getName().equals(sp_wallet.getItemAtPosition(i))){
+                                            String walletJson = gson.toJson(w);
+                                            Log.d(TAG, "onItemSelected: json wallet, " + walletJson);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("wallet", walletJson);
+                                            editor.commit();
+                                            getBalance(w);
+                                            getActivity().getSupportFragmentManager().beginTransaction()
+                                                    .replace(R.id.transactionn, TransactionFragment.newInstance()).commit();
+                                        }
                                     }
                                 }
                             }
