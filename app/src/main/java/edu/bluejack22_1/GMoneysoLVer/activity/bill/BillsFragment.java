@@ -75,6 +75,7 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
     private Button mPickDateButton;
     private Integer totalOverDue, totalThisMonth, totalToday;
     public static int year,month;
+    private String due, was_due_on, due_today;
     String s1[]= {"asd", "asd1", "asd2"};
     String s2[]= {"asd", "asd1", "asd3"};
     String s3[]= {"asd", "asd1", "asd4"};
@@ -126,6 +127,9 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
         tv_overdue_amount = binding.tvOverdueAmount;
         tv_this_month_amount = binding.tvThisMonthAmount;
         tv_today_amount = binding.tvTodayAmount;
+        due =  BillsFragment.this.getResources().getString(R.string.due);
+        due_today = BillsFragment.this.getResources().getString(R.string.due_today);
+        was_due_on = BillsFragment.this.getResources().getString(R.string.was_due_on);
 //        MonthYearPickerDialog pd = new MonthYearPickerDialog();
 //        pd.setListener(this);
 //        pd.show(this.getFragmentManager(), "MonthYearPickerDialog");
@@ -199,7 +203,7 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                                 tv_this_month_amount.setText("Rp"+totalThisMonth+",00");
                                 tv_overdue_amount.setText("Rp"+totalOverDue+",00");
                                 if(current_cal.get(Calendar.YEAR)==year && current_cal.get(Calendar.MONTH)==month){
-                                    Bill bill  = new Bill(snapshot.getId(), snapshot.getString("billDescription"), snapshot.getString("repeatValue"), snapshot.getString("paidStatus"), snapshot.getLong("billAmount").intValue(), current_cal.get(Calendar.YEAR), current_cal.get(Calendar.MONTH), current_cal.get(Calendar.DAY_OF_MONTH), snapshot.getDate("billDate"));
+                                    Bill bill  = new Bill(snapshot.getId(), snapshot.getString("billDescription"), snapshot.getString("repeatValue"), snapshot.getString("paidStatus"), snapshot.getLong("billAmount").intValue(), current_cal.get(Calendar.YEAR), current_cal.get(Calendar.MONTH), current_cal.get(Calendar.DAY_OF_MONTH), snapshot.getDate("billDate"),due, due_today, was_due_on);
                                     if(snapshot.getString("billWallet")!=null){
                                         bill.setWallet(new Wallet());
                                         bill.getWallet().setId(snapshot.getString("billWallet"));
@@ -264,7 +268,8 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                                     bill.setCategory(category);
                                     progressDialog.dismiss();
                                 }
-                                billsAdapter.notifyDataSetChanged();
+                                billsAdapter = new BillsAdapter(BillsFragment.this.getContext(), billList);
+                                rv_bills.setAdapter(billsAdapter);
                             }
                         }
                 );
@@ -287,7 +292,8 @@ public class BillsFragment extends Fragment implements SimpleDatePickerDialog.On
                                         bill.setWallet(wallet);
                                         progressDialog.dismiss();
                                     }
-                                    billsAdapter.notifyDataSetChanged();
+                                    billsAdapter = new BillsAdapter(BillsFragment.this.getContext(), billList);
+                                    rv_bills.setAdapter(billsAdapter);
                                 }
                             }
                         }

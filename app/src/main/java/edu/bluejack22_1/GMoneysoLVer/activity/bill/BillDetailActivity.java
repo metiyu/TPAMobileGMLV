@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +59,7 @@ public class BillDetailActivity extends AppCompatActivity {
 
         et_bill_description.setText(bill.getDescription());
         et_bill_amount.setText(bill.formatRupiah());
+        Log.d("BILL DETAIL", "onCreate: "+bill.getBillDate().toString());
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String strDate = formatter.format(bill.getBillDate());
         et_bill_date.setText(strDate);

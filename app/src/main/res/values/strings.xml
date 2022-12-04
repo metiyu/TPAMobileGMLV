@@ -94,6 +94,13 @@
     <string name="was_due_on">Was due on </string>
     <string name="total_spend_this_month">Total spend this month</string>
     <string name="notification">Notification</string>
+
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
+    <string-array name="repeat_values">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
 </resources>

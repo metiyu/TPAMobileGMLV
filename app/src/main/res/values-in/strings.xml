@@ -42,7 +42,7 @@
     <string name="transaction_date">Tanggal Transaksi</string>
     <string name="transaction_wallet">Dompet Transaksi</string>
     <string name="total_overdue">Total Terlambat</string>
-    <string name="this_month">Bulan Ini</string>
+    <string name="this_month">Bulan ini</string>
     <string name="add">Tambah</string>
     <string name="select_month">Pilih Bulan:</string>
     <string name="balance">Saldo</string>
@@ -62,7 +62,7 @@
     <string name="transaction">Transaksi</string>
     <string name="profile">Profil</string>
     <string name="home">Beranda</string>
-    <string name="last_month">Bulan Lalu</string>
+    <string name="last_month">Bulan lalu</string>
     <string name="note">Catatan</string>
     <string name="edit_profile">Edit Profil</string>
     <string name="validation_before_edit">validasi sebelum edit</string>
@@ -75,4 +75,11 @@
     <string name="was_due_on">Jatuh tempo </string>
     <string name="total_spend_this_month">Total pengeluaran bulan ini</string>
     <string name="notification">Notifikasi</string>
+
+    <string-array name="repeat_values">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
 </resources>

@@ -14,15 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.bluejack22_1.GMoneysoLVer.R;
 
 import edu.bluejack22_1.GMoneysoLVer.model.Notification;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHolder> {
     private Context c;
-    private List<Notification> notificationList;
+    List<Notification> notificationList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -35,44 +38,79 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.card_notification, parent, false);
-        return new NotificationViewHolder(view);
+        return new NotificationViewHolder(view).linkAdapter(this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotificationAdapter.NotificationViewHolder holder, int position) {
-        Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
-        Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
+    public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
+      /*  Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
+        Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);*/
         holder.tv_notif.setText(notificationList.get(position).getMessage());
         holder.delete_notif.setOnClickListener(x->{
             db.collection("users")
                     .document(currUser.getUid())
                     .collection("notifications")
                     .document(notificationList.get(position).getId())
-                    .delete();
+                    .delete().addOnCompleteListener(
+                    new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            holder.delete_notif(position);
+                        }
+                    }
+            );
         });
     }
+
+//    @Override
+//    public void onBindViewHolder(@NonNull NotificationAdapter.NotificationViewHolder holder, int position) {
+//        Log.d("onBindViewHolder", "onBindViewHolder: " + c.getClass().getName());
+//        Log.d("CategoryAdapter", "onBindViewHolder: pos: " + position);
+//        holder.tv_notif.setText(notificationList.get(position).getMessage());
+//        holder.delete_notif.setOnClickListener(x->{
+//            db.collection("users")
+//                    .document(currUser.getUid())
+//                    .collection("notifications")
+//                    .document(notificationList.get(position).getId())
+//                    .delete();
+//        });
+//    }
 
     @Override
     public int getItemCount() {
         return notificationList.size();
     }
 
-    public class NotificationViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_notif;
-        Button delete_notif;
+}
+class NotificationViewHolder extends RecyclerView.ViewHolder {
+    TextView tv_notif;
+    Button delete_notif;
+    NotificationAdapter adapter;
 
-        public NotificationViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tv_notif = itemView.findViewById(R.id.tv_notification_message);
-            delete_notif = itemView.findViewById(R.id.delete_notif);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    if (dialog != null){
-//                        dialog.onClick(getLayoutPosition());
-//                    }
-                }
-            });
-        }
+    public NotificationViewHolder(@NonNull View itemView) {
+        super(itemView);
+        tv_notif = itemView.findViewById(R.id.tv_notification_message);
+        delete_notif = itemView.findViewById(R.id.delete_notif);
+        itemView.findViewById(R.id.delete_notif).setOnClickListener(view->{
+//            notificationList.clear();
+            adapter.notificationList.remove(getAdapterPosition());
+            adapter.notifyItemRemoved(getAdapterPosition());
+        });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+////                    if (dialog != null){
+////                        dialog.onClick(getLayoutPosition());
+////                    }
+//                }
+//            });
+    }
+    public NotificationViewHolder linkAdapter(NotificationAdapter adapter){
+        this.adapter= adapter;
+        return this;
+    }
+    public void delete_notif(int position){
+        adapter.notificationList.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 }
