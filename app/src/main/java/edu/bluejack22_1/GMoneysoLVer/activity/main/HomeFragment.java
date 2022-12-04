@@ -185,8 +185,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        xAxisLabel.add("Last Month");
-        xAxisLabel.add("This Month");
+        xAxisLabel.add(getString(R.string.last_month));
+        xAxisLabel.add(getString(R.string.this_month));
 
         getDataYear();
 
@@ -194,6 +194,12 @@ public class HomeFragment extends Fragment {
     }
 
     public void getDataYear() {
+//        ArrayList<BarEntry> defaultbarData = new ArrayList<>();
+//        defaultbarData.add(new BarEntry(0, lastMonthSpend));
+//        defaultbarData.add(new BarEntry(1, thisMonthSpend));
+//        BarDataSet defaultBarDataSet = new BarDataSet(defaultbarData, "data");
+//        BarData defBarData = new BarData(defaultBarDataSet);
+//        bc_spend_report.setData(defBarData);
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("transactions")
@@ -203,6 +209,9 @@ public class HomeFragment extends Fragment {
                         if (error != null) {
                             Toast.makeText(HomeFragment.this.getContext(), getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
                             return;
+                        }
+                        if(valueYear.isEmpty()){
+                            bc_spend_report.setVisibility(View.INVISIBLE);
                         }
                         for (QueryDocumentSnapshot snapshotYear : valueYear) {
                             Log.d(TAG, "onEvent: data year, " + snapshotYear.getId());
@@ -258,6 +267,13 @@ public class HomeFragment extends Fragment {
 
     private void getData(String year, String month, String day) {
         Log.d(TAG, "getData: year, " + year + "month ," + month + "day ," + day);
+//        ArrayList<BarEntry> defaultbarData = new ArrayList<>();
+//        defaultbarData.add(new BarEntry(0, lastMonthSpend));
+//        defaultbarData.add(new BarEntry(1, thisMonthSpend));
+//        BarDataSet defaultBarDataSet = new BarDataSet(defaultbarData, "data");
+//        BarData defBarData = new BarData(defaultBarDataSet);
+//        bc_spend_report.setData(defBarData);
+        Log.d(TAG, "getData: masuk di sini");
         db.collection("users")
                 .document(currUser.getUid())
                 .collection("transactions")
@@ -369,39 +385,48 @@ public class HomeFragment extends Fragment {
                                                                 barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
                                                                 barDataSet.setValueTextColor(Color.BLACK);
                                                                 barDataSet.setValueTextSize(16f);
+                                                                BarData barData=null;
+                                                                Log.d(TAG, "onComplete: "+transactionListLastMonth.size());
+                                                                Log.d(TAG, "onComplete: "+transactionListThisMonth.size());
+                                                                if(transactionListLastMonth.size()==0 && transactionListThisMonth.size()==0){
+                                                                    bc_spend_report.setMinimumWidth(0);
+                                                                }
+                                                                else{
+                                                                    barData = new BarData(barDataSet);
+                                                                }
+                                                                if(barData!=null) {
+                                                                    bc_spend_report.setData(barData);
 
-                                                                BarData barData = new BarData(barDataSet);
 
-                                                                bc_spend_report.setData(barData);
+                                                                    bc_spend_report.setDrawGridBackground(false);
+                                                                    bc_spend_report.setDrawBarShadow(false);
+                                                                    bc_spend_report.setDrawBorders(false);
 
-                                                                bc_spend_report.setDrawGridBackground(false);
-                                                                bc_spend_report.setDrawBarShadow(false);
-                                                                bc_spend_report.setDrawBorders(false);
+                                                                    Description description = new Description();
+                                                                    description.setEnabled(false);
+                                                                    bc_spend_report.setDescription(description);
 
-                                                                Description description = new Description();
-                                                                description.setEnabled(false);
-                                                                bc_spend_report.setDescription(description);
+                                                                    bc_spend_report.animateY(1000);
+                                                                    bc_spend_report.animateX(1000);
 
-                                                                bc_spend_report.animateY(1000);
-                                                                bc_spend_report.animateX(1000);
+                                                                    XAxis xAxis = bc_spend_report.getXAxis();
+                                                                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                                                                    xAxis.setGranularity(1f);
+                                                                    xAxis.setDrawAxisLine(false);
+                                                                    xAxis.setDrawGridLines(false);
+                                                                    xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
 
-                                                                XAxis xAxis = bc_spend_report.getXAxis();
-                                                                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                                                                xAxis.setGranularity(1f);
-                                                                xAxis.setDrawAxisLine(false);
-                                                                xAxis.setDrawGridLines(false);
-                                                                xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-
-                                                                YAxis leftAxis = bc_spend_report.getAxisLeft();
-                                                                leftAxis.setAxisMinimum(0);
+                                                                    YAxis leftAxis = bc_spend_report.getAxisLeft();
+                                                                    leftAxis.setAxisMinimum(0);
 //                                                                leftAxis.setAxisMaximum(Float.intBitsToFloat(Integer.max(thisMonthSpend, lastMonthSpend)));
-                                                                leftAxis.setDrawAxisLine(false);
+                                                                    leftAxis.setDrawAxisLine(false);
 
-                                                                YAxis rightAxis = bc_spend_report.getAxisRight();
-                                                                rightAxis.setDrawAxisLine(false);
+                                                                    YAxis rightAxis = bc_spend_report.getAxisRight();
+                                                                    rightAxis.setDrawAxisLine(false);
 
-                                                                Legend legend = bc_spend_report.getLegend();
-                                                                legend.setEnabled(false);
+                                                                    Legend legend = bc_spend_report.getLegend();
+                                                                    legend.setEnabled(false);
+                                                                }
                                                                 ////////////////////////////////////////////
 
                                                                 //Recent Transactions

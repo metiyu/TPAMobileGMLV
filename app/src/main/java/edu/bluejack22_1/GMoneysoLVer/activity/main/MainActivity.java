@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
@@ -99,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         btnSignInGoogle = findViewById(R.id.btn_sign_in_google);
+        TextView textView = (TextView) btnSignInGoogle.getChildAt(0);
+        textView.setText(getString(R.string.sign_in));
         btnSignInGoogle.setOnClickListener(x -> {
             Log.d(TAG, "onClick: begin Google Sign in");
             Intent intent = googleSignInClient.getSignInIntent();

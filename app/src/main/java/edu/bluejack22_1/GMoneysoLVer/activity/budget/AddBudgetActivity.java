@@ -1,5 +1,6 @@
 package edu.bluejack22_1.GMoneysoLVer.activity.budget;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -147,5 +149,11 @@ public class AddBudgetActivity extends AppCompatActivity implements SimpleDatePi
     @Override
     public void onDateSet(int year, int monthOfYear) {
         et_month.setText(DateDisplayUtils.formatMonthYear(year, monthOfYear));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        this.finish();
+        return true;
     }
 }
