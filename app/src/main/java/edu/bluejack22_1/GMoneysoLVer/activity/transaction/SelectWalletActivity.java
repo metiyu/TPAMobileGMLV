@@ -1,5 +1,6 @@
 package edu.bluejack22_1.GMoneysoLVer.activity.transaction;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import edu.bluejack22_1.GMoneysoLVer.R;
@@ -47,7 +49,6 @@ public class SelectWalletActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_wallet);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(getString(R.string.select_wallet));
 
         Transaction transaction = (Transaction) getIntent().getSerializableExtra("currTransaction");
@@ -103,4 +104,5 @@ public class SelectWalletActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }
