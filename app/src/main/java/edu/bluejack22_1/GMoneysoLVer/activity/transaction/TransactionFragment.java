@@ -2,6 +2,7 @@ package edu.bluejack22_1.GMoneysoLVer.activity.transaction;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import edu.bluejack22_1.GMoneysoLVer.R;
 
@@ -68,6 +70,7 @@ public class TransactionFragment extends Fragment {
     private Wallet wallet;
     private List<Wallet> walletList= new ArrayList<>();
     private List<String> walletNameList = new ArrayList<>();
+    boolean first_trigger = true;
 
     private String TAG = "TransactionFragment";
 
@@ -196,14 +199,20 @@ public class TransactionFragment extends Fragment {
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, walletNameList);
 //                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         sp_wallet.setAdapter(arrayAdapter);
+
                         sp_wallet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                 Log.d(TAG, "onItemSelected: kegantiii");
-                                boolean first_trigger = true;
+//                                Intent intent  = new Intent(getContext(), HomeActivity.class);
+//                                intent.putExtra("fragmentTogo", "transaction");
+//                                startActivity(intent);
+
                                 if(first_trigger){
+                                    Log.d(TAG, "onItemSelected: IN HERE");
                                     first_trigger = false;
                                 }else{
+
                                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
                                     Gson gson = new Gson();
                                     Log.d(TAG, "onItemSelected: wallet selected, " + sp_wallet.getItemAtPosition(i));
@@ -216,11 +225,16 @@ public class TransactionFragment extends Fragment {
                                             editor.commit();
                                             getBalance(w);
                                             getActivity().getSupportFragmentManager().beginTransaction()
-                                                    .replace(R.id.transactionn, TransactionFragment.newInstance()).commit();
-                                        }
+                                                    .replace(R.id.frame_layout, TransactionFragment.newInstance()).commit();
+//                                            Intent intent  = new Intent(getContext(), EditProfileActivity.class);
+//                                            intent.putExtra("fragmentTogo", "transaction");
+//                                            startActivity(intent);
+                                            }
                                     }
+
                                 }
                             }
+
 
                             @Override
                             public void onNothingSelected(AdapterView<?> adapterView) {

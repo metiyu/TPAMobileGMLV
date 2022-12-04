@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 import edu.bluejack22_1.GMoneysoLVer.model.Category;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
+
+import edu.bluejack22_1.GMoneysoLVer.R;
 import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityAddBillBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +53,12 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
     ProgressDialog progressDialog;
     ActivityAddBillBinding binding;
     Spinner spin_repeat;
-    String[] repeatValues={getString(R.string.every_week),getString(R.string.every_month),getString(R.string.every_year),getString(R.string.once_only)};
+//    Context ctx = AddBillActivity.this;
+
+//            AddBillActivity.this.getString(R.string.every_week).toString();
+//    String[] repeatValues = getResources().getStringArray(R.array.planets_array);
+//    String[] repeatValues={getResources().getString(R.string.every_week),getResources().getString(R.string.every_month),getResources().getString(R.string.every_year),getResources().getString(R.string.once_only)};
+   String[] repeatValues;
     EditText date;
     DatePickerDialog datePickerDialog;
     int iCurrentSelection;
@@ -68,6 +76,11 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(getString(R.string.bills));
+        String every_week =  AddBillActivity.this.getResources().getString(R.string.every_week);
+        String every_month =  AddBillActivity.this.getResources().getString(R.string.every_month);
+        String every_year =  AddBillActivity.this.getResources().getString(R.string.every_year);
+        String once_only =  AddBillActivity.this.getResources().getString(R.string.once_only);
+        repeatValues = new String[]{every_week,every_month, every_year, once_only};
         spin_repeat = (Spinner) binding.spinnerRepeatValue;
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,repeatValues);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -258,7 +271,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
@@ -268,7 +281,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
@@ -290,7 +303,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
@@ -300,7 +313,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
@@ -322,7 +335,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");
@@ -332,7 +345,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 Intent intent  = new Intent(AddBillActivity.this, HomeActivity.class);
                                 intent.putExtra("fragmentToGo","bill");

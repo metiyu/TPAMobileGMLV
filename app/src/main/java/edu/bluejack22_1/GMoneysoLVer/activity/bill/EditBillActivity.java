@@ -18,8 +18,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+
 import edu.bluejack22_1.GMoneysoLVer.R;
 
+import edu.bluejack22_1.GMoneysoLVer.activity.main.HomeActivity;
 import edu.bluejack22_1.GMoneysoLVer.model.Bill;
 
 import edu.bluejack22_1.GMoneysoLVer.databinding.ActivityEditBillBinding;
@@ -50,6 +52,7 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
     int iCurrentSelection;
     Date beforeUpdate;
     DatePickerDialog datePickerDialog;
+    private String due, was_due_on, due_today;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,10 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
         progressDialog = new ProgressDialog(EditBillActivity.this);
         progressDialog.setTitle(getString(R.string.loading));
         progressDialog.setMessage(getString(R.string.saving));
+
+        due =  EditBillActivity.this.getResources().getString(R.string.due);
+        due_today = EditBillActivity.this.getResources().getString(R.string.due_today);
+        was_due_on = EditBillActivity.this.getResources().getString(R.string.was_due_on);
 
         et_bill_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,10 +127,21 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
     private void saveData(String billDescription, Integer billAmount, Date billDate){
         Map<String, Object> new_bill = new HashMap<>();
         new_bill.put("billDescription", billDescription);
+        if(billDescription==null){
+            new_bill.put("billDescription", this.bill.getDescription());
+        }
         new_bill.put("billAmount", billAmount);
+        if(billAmount==null){
+            new_bill.put("billAmount", this.bill.getBillAmount());
+        }
         new_bill.put("billDate", billDate);
+        if(billDate==null){
+            new_bill.put("billDate", this.bill.getBillDate());
+        }
         new_bill.put("paidStatus", this.bill.getPaidStatus());
         new_bill.put("repeatValue", this.bill.getRepeatValue());
+        new_bill.put("billCategory", this.bill.getCategory().getId());
+        new_bill.put("billWallet", this.bill.getWallet().getId());
 //        bill.put("", billDate);
 
 
@@ -160,14 +178,15 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
 
-                            Intent intent  = new Intent(EditBillActivity.this, BillDetailActivity.class);
+                            Intent intent  = new Intent(EditBillActivity.this, HomeActivity.class);
                             DocumentSnapshot document = task.getResult();
                             Calendar current_cal = dateToCalendar(document.getDate("billDate"));
                             if (document.exists()) {
                                 Log.d("document", "DocumentSnapshot data: " + document.getData());
-                                Bill new_bill = new Bill(document.getId(), document.getString("billDescription"), document.getString("repeatValue"), document.getString("paidStatus"), document.getLong("billAmount").intValue(),current_cal.get(Calendar.YEAR), current_cal.get(Calendar.MONTH),current_cal.get(Calendar.DAY_OF_MONTH)  ,document.getDate("billDate"));
-                                intent.putExtra("currBill", (Serializable) new_bill);
+                                Bill new_bill = new Bill(document.getId(), document.getString("billDescription"), document.getString("billCategory"),document.getString("repeatValue"), document.getString("paidStatus"), document.getLong("billAmount").intValue(),current_cal.get(Calendar.YEAR), current_cal.get(Calendar.MONTH),current_cal.get(Calendar.DAY_OF_MONTH)  ,document.getDate("billDate"), due, due_today, was_due_on);
+                                intent.putExtra("fragmentToGo", "bill");
                                 startActivity(intent);
+                                finish();
                             }
                             progressDialog.dismiss();
                         }
@@ -195,9 +214,11 @@ public class EditBillActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent  = new Intent(EditBillActivity.this, BillDetailActivity.class);
-        intent.putExtra("currBill", bill);
-        startActivity(intent);
-        return super.onOptionsItemSelected(item);
+//        Intent intent  = new Intent(EditBillActivity.this, BillDetailActivity.class);
+//        intent.putExtra("currBill", bill);
+//        startActivity(intent);
+//        return super.onOptionsItemSelected(item);
+        this.finish();
+        return true;
     }
 }

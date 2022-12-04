@@ -30,7 +30,7 @@ public class Bill implements Serializable {
 
     private Date billDate;
 
-    public Bill(String id, String description, String repeatValue, String paidStatus, Integer billAmount, Integer year, Integer month, Integer day, Date date){
+    public Bill(String id, String description, String repeatValue, String paidStatus, Integer billAmount, Integer year, Integer month, Integer day, Date date, String due, String due_today, String was_due_on){
         this.id = id;
         this.description = description;
         this.repeatValue = repeatValue;
@@ -42,13 +42,37 @@ public class Bill implements Serializable {
         month++;
         curr_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         if(year > curr_year || (year == curr_year && month > curr_month) ||(year == curr_year && month == curr_month && day > curr_day)){
-            this.dueDate = R.string.due+day+"/"+month+"/"+year;
+            this.dueDate =  due+" "+day+"/"+month+"/"+year;
         }
         else if (year==curr_year && month==curr_month && curr_day == day){
-            this.dueDate = R.string.due_today+"";
+            this.dueDate = due_today+"";
         }
         else{
-            this.dueDate = R.string.was_due_on+day+"/"+month+"/"+year;
+            this.dueDate = was_due_on+" "+day+"/"+month+"/"+year;
+        }
+    }
+    public Bill(String id, String catId, String description, String repeatValue, String paidStatus, Integer billAmount, Integer year, Integer month, Integer day, Date date, String due, String due_today, String was_due_on){
+        this.id = id;
+        this.description = description;
+        this.repeatValue = repeatValue;
+        this.paidStatus = paidStatus;
+        this.billAmount = billAmount;
+        int curr_year,curr_month,curr_day;
+        Category billCat= new Category();
+        billCat.setId(catId);
+        this.category = billCat;
+        curr_year = Calendar.getInstance().get(Calendar.YEAR);
+        curr_month = Calendar.getInstance().get(Calendar.MONTH)+1;
+        month++;
+        curr_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        if(year > curr_year || (year == curr_year && month > curr_month) ||(year == curr_year && month == curr_month && day > curr_day)){
+            this.dueDate =  due+" "+day+"/"+month+"/"+year;
+        }
+        else if (year==curr_year && month==curr_month && curr_day == day){
+            this.dueDate = due_today+"";
+        }
+        else{
+            this.dueDate = was_due_on+" "+day+"/"+month+"/"+year;
         }
     }
 

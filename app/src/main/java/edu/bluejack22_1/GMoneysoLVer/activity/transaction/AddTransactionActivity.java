@@ -280,14 +280,21 @@ public class AddTransactionActivity extends AppCompatActivity {
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     if (task.isSuccessful()) {
                                                                                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                                                                                        startActivity(new Intent(AddTransactionActivity.this, HomeActivity.class));
+                                                                                        finish();
                                                                                     } else {
                                                                                         Toast.makeText(getApplicationContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
                                                                                     }
+                                                                                    startActivity(new Intent(AddTransactionActivity.this, HomeActivity.class));
+                                                                                    finish();
+
                                                                                 }
                                                                             });
                                                                 }
                                                             }
                                                         }
+//                                                        startActivity(new Intent(AddTransactionActivity.this, HomeActivity.class));
+//                                                        finish();
                                                     }
                                                 });
                                     }
@@ -408,9 +415,11 @@ public class AddTransactionActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
-        Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
-        startActivity(intent);
-        return super.onOptionsItemSelected(item);
+//        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+//        Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
+//        startActivity(intent);
+//        return super.onOptionsItemSelected(item);
+        this.finish();
+        return true;
     }
 }
