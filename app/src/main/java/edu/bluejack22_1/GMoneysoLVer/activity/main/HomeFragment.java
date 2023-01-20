@@ -175,6 +175,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String jsonWallet = sharedPreferences.getString("wallet", null);
+        Log.d(TAG, "onCreateView: jsonWallet, " + jsonWallet);
         wallet = gson.fromJson(jsonWallet, Wallet.class);
         getBalance(wallet);
 

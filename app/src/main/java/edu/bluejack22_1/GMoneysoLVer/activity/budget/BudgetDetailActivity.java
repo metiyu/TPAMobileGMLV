@@ -130,81 +130,84 @@ public class BudgetDetailActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                ArrayList<DocumentReference> tranPaths = (ArrayList<DocumentReference>) document.get("transactionList");
-                                Calendar calendar = Calendar.getInstance();
-                                Log.d(TAG, "onComplete: budget month, " + budget.getMonth());
-                                Log.d(TAG, "onComplete: budget year, " + budget.getYear());
-                                calendar.set(Calendar.MONTH, budget.getMonth()-1);
-                                calendar.set(Calendar.YEAR, budget.getYear());
-                                Log.d(TAG, "onComplete: calendar time, " + calendar.getTime());
-                                TransactionGroupByDate transactionGroupByDate = new TransactionGroupByDate(calendar.getTime(), transactionList);
-                                transactionGroupByDateList.add(transactionGroupByDate);
-                                adapterPerCategory = new TransactionPerCategoryAdapter(BudgetDetailActivity.this, transactionList);
-                                for (DocumentReference s : tranPaths) {
-                                    db.document(s.getPath())
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot document = task.getResult();
-                                                        if (document.exists()) {
-                                                            db.collection("categories")
-                                                                    .document(document.getString("transactionCategory"))
-                                                                    .get()
-                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                            if (task.isSuccessful()) {
-                                                                                DocumentSnapshot document = task.getResult();
-                                                                                if (document.exists()) {
-                                                                                    currCategory = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
-                                                                                    transaction.setTransactionCategory(currCategory);
+                                ArrayList<DocumentReference> tranPaths = new ArrayList<>();
+                                if(document.get("transactionList") != null){
+                                    tranPaths = (ArrayList<DocumentReference>) document.get("transactionList");
+                                    Calendar calendar = Calendar.getInstance();
+                                    Log.d(TAG, "onComplete: budget month, " + budget.getMonth());
+                                    Log.d(TAG, "onComplete: budget year, " + budget.getYear());
+                                    calendar.set(Calendar.MONTH, budget.getMonth()-1);
+                                    calendar.set(Calendar.YEAR, budget.getYear());
+                                    Log.d(TAG, "onComplete: calendar time, " + calendar.getTime());
+                                    TransactionGroupByDate transactionGroupByDate = new TransactionGroupByDate(calendar.getTime(), transactionList);
+                                    transactionGroupByDateList.add(transactionGroupByDate);
+                                    adapterPerCategory = new TransactionPerCategoryAdapter(BudgetDetailActivity.this, transactionList);
+                                    for (DocumentReference s : tranPaths) {
+                                        db.document(s.getPath())
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot document = task.getResult();
+                                                            if (document.exists()) {
+                                                                db.collection("categories")
+                                                                        .document(document.getString("transactionCategory"))
+                                                                        .get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    DocumentSnapshot document = task.getResult();
+                                                                                    if (document.exists()) {
+                                                                                        currCategory = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
+                                                                                        transaction.setTransactionCategory(currCategory);
+                                                                                    }
                                                                                 }
-                                                                            }
 
-                                                                            db.collection("users")
-                                                                                    .document(currUser.getUid())
-                                                                                    .collection("wallets")
-                                                                                    .document(document.getString("transactionWallet"))
-                                                                                    .get()
-                                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                                        @Override
-                                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                                            if (task.isSuccessful()) {
-                                                                                                DocumentSnapshot document = task.getResult();
-                                                                                                if (document.exists()) {
-                                                                                                    currWallet = new Wallet(document.getId(), document.getString("walletName"), document.getLong("walletAmount").intValue());
-                                                                                                    transaction.setTransactionWallet(currWallet);
+                                                                                db.collection("users")
+                                                                                        .document(currUser.getUid())
+                                                                                        .collection("wallets")
+                                                                                        .document(document.getString("transactionWallet"))
+                                                                                        .get()
+                                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                                if (task.isSuccessful()) {
+                                                                                                    DocumentSnapshot document = task.getResult();
+                                                                                                    if (document.exists()) {
+                                                                                                        currWallet = new Wallet(document.getId(), document.getString("walletName"), document.getLong("walletAmount").intValue());
+                                                                                                        transaction.setTransactionWallet(currWallet);
+                                                                                                    }
                                                                                                 }
+                                                                                                transaction.setTransactionID(document.getId());
+                                                                                                transaction.setTransactionAmount(document.getLong("transactionAmount").intValue());
+                                                                                                transaction.setTransactionDate(document.getDate("transactionDate"));
+                                                                                                transactionList.add(transaction);
+
+                                                                                                adapterPerCategory.notifyDataSetChanged();
+                                                                                                adapterPerDate.notifyDataSetChanged();
+
+                                                                                                Log.d(TAG, "onComplete: tran group, " + transactionGroupByDate.getDate());
+                                                                                                Log.d(TAG, "onComplete: tran, " + transaction.getTransactionID());
                                                                                             }
-                                                                                            transaction.setTransactionID(document.getId());
-                                                                                            transaction.setTransactionAmount(document.getLong("transactionAmount").intValue());
-                                                                                            transaction.setTransactionDate(document.getDate("transactionDate"));
-                                                                                            transactionList.add(transaction);
-
-                                                                                            adapterPerCategory.notifyDataSetChanged();
-                                                                                            adapterPerDate.notifyDataSetChanged();
-
-                                                                                            Log.d(TAG, "onComplete: tran group, " + transactionGroupByDate.getDate());
-                                                                                            Log.d(TAG, "onComplete: tran, " + transaction.getTransactionID());
-                                                                                        }
-                                                                                    });
-                                                                        }
-                                                                    });
+                                                                                        });
+                                                                            }
+                                                                        });
+                                                            }
                                                         }
                                                     }
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(BudgetDetailActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
-                                                    return;
-                                                }
-                                            });
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(BudgetDetailActivity.this, getString(R.string.failed_to_fetch), Toast.LENGTH_SHORT).show();
+                                                        return;
+                                                    }
+                                                });
+                                    }
+                                    adapterPerDate.notifyDataSetChanged();
                                 }
-                                adapterPerDate.notifyDataSetChanged();
                             }
                         }
                     }

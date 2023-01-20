@@ -26,6 +26,7 @@ import edu.bluejack22_1.GMoneysoLVer.model.TransactionGroupByDate;
 import edu.bluejack22_1.GMoneysoLVer.model.Wallet;
 
 import edu.bluejack22_1.GMoneysoLVer.databinding.FragmentTransactionPageBinding;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -213,7 +214,7 @@ public class TransactionPageFragment extends Fragment {
                             List<Transaction> transactionList = new ArrayList<>();
                             Log.d(TAG, "onEvent: calendar month, " + month.equals(String.valueOf(calendar.get(Calendar.MONTH) + 1)));
                             Log.d(TAG, "onEvent: calendar year, " + year.equals(String.valueOf(calendar.get(Calendar.YEAR))));
-                            if (month.equals(String.valueOf(calendar.get(Calendar.MONTH) + 1)) &&
+                            if ((Integer.parseInt(month) == calendar.get(Calendar.MONTH) + 1) &&
                                     year.equals(String.valueOf(calendar.get(Calendar.YEAR)))) {
                                 Log.d(TAG, "onEvent: lewat validasi month year");
                                 Calendar c = Calendar.getInstance();
@@ -315,58 +316,59 @@ public class TransactionPageFragment extends Fragment {
 
 
                                 if (!sharPrefWallet.getId().equals(snapshot.getString("transactionWallet"))) {
+
                                     continue;
-                                }
-
-                                db.collection("categories")
-                                        .document(snapshot.getString("transactionCategory"))
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    DocumentSnapshot document = task.getResult();
-                                                    if (document.exists()) {
-                                                        currCategory = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
-                                                        transaction.setTransactionCategory(currCategory);
+                                } else {
+                                    db.collection("categories")
+                                            .document(snapshot.getString("transactionCategory"))
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document.exists()) {
+                                                            currCategory = new Category(document.getId(), document.getString("categoryName"), document.getString("categoryType"));
+                                                            transaction.setTransactionCategory(currCategory);
+                                                        }
                                                     }
-                                                }
 
-                                                db.collection("users")
-                                                        .document(currUser.getUid())
-                                                        .collection("wallets")
-                                                        .document(snapshot.getString("transactionWallet"))
-                                                        .get()
-                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    DocumentSnapshot document = task.getResult();
-                                                                    if (document.exists()) {
-                                                                        currWallet = new Wallet(document.getId(), document.getString("walletName"), document.getLong("walletAmount").intValue());
-                                                                        transaction.setTransactionWallet(currWallet);
+                                                    db.collection("users")
+                                                            .document(currUser.getUid())
+                                                            .collection("wallets")
+                                                            .document(snapshot.getString("transactionWallet"))
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        DocumentSnapshot document = task.getResult();
+                                                                        if (document.exists()) {
+                                                                            currWallet = new Wallet(document.getId(), document.getString("walletName"), document.getLong("walletAmount").intValue());
+                                                                            transaction.setTransactionWallet(currWallet);
+                                                                        }
                                                                     }
+
+                                                                    transaction.setTransactionID(snapshot.getId());
+                                                                    transaction.setTransactionAmount(snapshot.getLong("transactionAmount").intValue());
+                                                                    transaction.setTransactionDate(snapshot.getDate("transactionDate"));
+
+                                                                    if (snapshotCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
+                                                                        Log.d(TAG, "onComplete: tran id, " + transaction.getTransactionID());
+                                                                        transactionList.add(transaction);
+                                                                    }
+
+                                                                    Log.d(TAG, "onComplete: tran list is empty, " + transactionList.isEmpty());
+
+                                                                    adapterPerCategory.notifyDataSetChanged();
+                                                                    adapterPerDate.notifyDataSetChanged();
+
+                                                                    Log.d(TAG, "onEvent: tran list size, " + transactionList.size());
                                                                 }
-
-                                                                transaction.setTransactionID(snapshot.getId());
-                                                                transaction.setTransactionAmount(snapshot.getLong("transactionAmount").intValue());
-                                                                transaction.setTransactionDate(snapshot.getDate("transactionDate"));
-
-                                                                if (snapshotCalendar.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
-                                                                    Log.d(TAG, "onComplete: tran id, " + transaction.getTransactionID());
-                                                                    transactionList.add(transaction);
-                                                                }
-
-                                                                Log.d(TAG, "onComplete: tran list is empty, " + transactionList.isEmpty());
-
-                                                                adapterPerCategory.notifyDataSetChanged();
-                                                                adapterPerDate.notifyDataSetChanged();
-
-                                                                Log.d(TAG, "onEvent: tran list size, " + transactionList.size());
-                                                            }
-                                                        });
-                                            }
-                                        });
+                                                            });
+                                                }
+                                            });
+                                }
                             }
                         }
                         Log.d(TAG, "onEvent: tran list in end of loop, " + transactionList.size());

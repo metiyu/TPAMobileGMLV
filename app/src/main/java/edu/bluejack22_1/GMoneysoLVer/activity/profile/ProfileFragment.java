@@ -67,6 +67,7 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String TAG = "ProfileFragment";
     private FirebaseUser user;
     private String email;
     private LinearLayout btn_categories, btn_edit_profile, btn_my_wallets, btn_sign_out, btn_notification;
@@ -205,6 +206,7 @@ public class ProfileFragment extends Fragment {
                             return;
                         }
                         for (QueryDocumentSnapshot snapshotYear : valueYear) {
+                            Log.d(TAG, "onEvent: year " + snapshotYear.getId());
                             getDataMonth(calendar, snapshotYear.getId());
                         }
                     }
@@ -226,6 +228,7 @@ public class ProfileFragment extends Fragment {
                         }
                         for (QueryDocumentSnapshot snapshotMonth : valueMonth) {
                             transactionGroupByDateList.clear();
+                            Log.d(TAG, "onEvent: month " + snapshotMonth.getId());
                             getDataDay(calendar, year, snapshotMonth.getId());
                         }
                     }
@@ -249,13 +252,20 @@ public class ProfileFragment extends Fragment {
                         }
                         for (QueryDocumentSnapshot snapshotDay : valueDay) {
                             List<Transaction> transactionList = new ArrayList<>();
-                            if (month.equals(String.valueOf(calendar.get(Calendar.MONTH) + 1)) &&
+                            Log.d(TAG, "onEvent: month " + month);
+                            Log.d(TAG, "onEvent: calendar month " + String.valueOf(calendar.get(Calendar.MONTH) + 1));
+                            Log.d(TAG, "onEvent: year " + year);
+                            Log.d(TAG, "onEvent: calendar year " + calendar.get(Calendar.YEAR));
+                            Log.d(TAG, "onEvent: if value " + String.valueOf((Integer.parseInt(month) == calendar.get(Calendar.MONTH) + 1) &&
+                                    year.equals(String.valueOf(calendar.get(Calendar.YEAR)))));
+                            if ((Integer.parseInt(month) == calendar.get(Calendar.MONTH) + 1) &&
                                     year.equals(String.valueOf(calendar.get(Calendar.YEAR)))) {
                                 Calendar c = Calendar.getInstance();
                                 c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(snapshotDay.getId()));
                                 c.set(Calendar.MONTH, Integer.parseInt(month) - 1);
                                 c.set(Calendar.YEAR, Integer.parseInt(year));
 
+                                Log.d(TAG, "onEvent: day " + snapshotDay.getId());
                                 getData(c, year, month, snapshotDay.getId(), transactionList);
 
                             }
@@ -288,6 +298,7 @@ public class ProfileFragment extends Fragment {
                                     snapshot.getString("transactionCategory") != null &&
                                     snapshot.getDate("transactionDate") != null &&
                                     snapshot.getString("transactionWallet") != null) {
+                                Log.d(TAG, "onEvent: tran " + snapshot.getId());
                                 Calendar snapshotCalendar = Calendar.getInstance();
                                 snapshotCalendar.setTime(snapshot.getDate("transactionDate"));
                                 int lastAmount = snapshot.getLong("transactionAmount").intValue();
