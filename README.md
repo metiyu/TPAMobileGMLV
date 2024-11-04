@@ -12,4 +12,4 @@ This is a financial management application I developed using **Android Studio** 
 - Focused on creating a smooth, user-friendly design.
 - Tested extensively to ensure stability and efficiency.
 
-The app is now live on the **Google Play Store** [Here](#https://play.google.com/store/apps/details?id=edu.bluejack22_1.GMoneysoLVer) to download and use!
+The app is now live on the **Google Play Store** <a href="https://play.google.com/store/apps/details?id=edu.bluejack22_1.GMoneysoLVer">Here</a> to download and use!
