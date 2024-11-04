@@ -5,6 +5,7 @@ Features
 - Expense & Income Tracking: Log daily transactions to keep track of finances.
 - Budget Management: Set budget goals and monitor spending against limits.
 - User-Friendly Design: Intuitive interface for a seamless experience.
+
 Development Highlights
 - Built with Java and Android Studio.
 - Focused on creating a smooth, user-friendly design.
